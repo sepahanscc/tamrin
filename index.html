@@ -246,6 +246,7 @@
         }
 
         .slot {
+            position: relative;
             min-height: 82px;
             display: flex;
             flex-direction: column;
@@ -254,6 +255,41 @@
             padding: 3px 2px;
             line-height: 1.2;
             gap: 2px;
+        }
+
+        /* ============================================================
+           دکمه ضربدر - گوشه سمت راست بالا (همونجایی که دایره قرمز کشیدی)
+        ============================================================ */
+        .cell-clear-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;   /* ← اینجا رو right گذاشتم تا گوشه راست بالا باشه */
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            border-radius: 50%;
+            background: #d32f2f;
+            color: #fff;
+            border: 1px solid #7a0000;
+            font-size: 11px;
+            font-weight: 900;
+            line-height: 14px;
+            text-align: center;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            z-index: 10;
+            opacity: 0.85;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .cell-clear-btn:hover {
+            opacity: 1;
+            transform: scale(1.15);
+            background: #b71c1c;
         }
 
         .slot select,
@@ -1568,7 +1604,8 @@
             .floating-session-btn,
             .session-hover-card,
             .report-modal-overlay,
-            .venue-modal-overlay {
+            .venue-modal-overlay,
+            .cell-clear-btn {
                 display: none !important;
             }
         }
@@ -4297,6 +4334,9 @@
             var opponentDisplay =
                 slotDiv.querySelector('.opponent-display');
 
+            var clearBtn =
+                slotDiv.querySelector('.cell-clear-btn');
+
             var row =
                 parseInt(
                     slotDiv.dataset.row,
@@ -4349,6 +4389,11 @@
                 lockCheckbox ?
                 lockCheckbox.checked :
                 false;
+
+            if (clearBtn) {
+                clearBtn.style.display =
+                    isLocked ? 'none' : 'flex';
+            }
 
             if (td && !isLocked) {
                 td.classList.remove('match-official', 'match-friendly');
@@ -4703,6 +4748,24 @@
 
             var activityType =
                 cellData.activityType || '';
+
+
+            /* =====================================================
+               دکمه پاک کردن سلول (ضربدر قرمز)
+            ===================================================== */
+
+            var clearBtn =
+                document.createElement('button');
+
+            clearBtn.type = 'button';
+
+            clearBtn.className =
+                'cell-clear-btn no-print';
+
+            clearBtn.textContent = '×';
+
+            clearBtn.title =
+                'پاک کردن این سلول';
 
 
             /* =====================================================
@@ -5140,6 +5203,7 @@
                افزودن عناصر
             ===================================================== */
 
+            slotDiv.appendChild(clearBtn);
             slotDiv.appendChild(venueSelect);
             slotDiv.appendChild(typeSelect);
             slotDiv.appendChild(opponentBox);
@@ -5157,13 +5221,57 @@
 
 
             /* =====================================================
+               کلیک روی ضربدر قرمز - بازنشانی این سلول به پیش‌فرض
+            ===================================================== */
+            clearBtn.addEventListener(
+                'click',
+                function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var lockCheckbox = document.getElementById('lockCheckbox');
+                    if (lockCheckbox && lockCheckbox.checked) {
+                        return;
+                    }
+
+                    var cell = tableData[rowIdx][colIdx];
+                    if (!cell) return;
+
+                    cell.venue = '';
+                    cell.time = '';
+                    cell.manual = false;
+                    cell.manualEditing = false;
+                    cell.startTime = '';
+                    cell.endTime = '';
+                    cell.activityType = '';
+                    cell.opponent = '';
+
+                    venueSelect.value = '';
+                    typeSelect.value = '';
+                    timeSelect.value = '';
+                    opponentInput.value = '';
+                    startInput.value = '';
+                    endInput.value = '';
+
+                    manualBox.classList.remove('active');
+                    manualBox.style.display = 'none';
+                    timeSelect.classList.remove('hidden');
+
+                    applyColorByVenue(td, '');
+                    updateSlotDisplay(slotDiv);
+                    saveData(tableData);
+                }
+            );
+
+
+            /* =====================================================
                دابل‌کلیک روی خود سلول - برای مواقعی که timeDisplay قابل مشاهده نیست
             ===================================================== */
             slotDiv.addEventListener(
                 'dblclick',
                 function(e) {
                     // اگر رویداد از روی timeDisplay یا عناصر دیگر آمده باشد، نادیده بگیر
-                    if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select')) {
+                    if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn')) {
                         return;
                     }
 
@@ -6364,6 +6472,11 @@
                     '.slot input'
                 );
 
+            var clearBtnsCapture =
+                element.querySelectorAll(
+                    '.cell-clear-btn'
+                );
+
             var manualBoxes =
                 element.querySelectorAll(
                     '.manual-time-box'
@@ -6401,6 +6514,7 @@
 
             var oldSelectDisplay = [];
             var oldInputDisplay = [];
+            var oldClearBtnDisplay = [];
             var oldManualDisplay = [];
             var oldOpponentBoxDisplay = [];
             var oldTimeDisplay = [];
@@ -6419,6 +6533,12 @@
             for (var i = 0; i < inputs.length; i++) {
                 var el = inputs[i];
                 oldInputDisplay[i] = el.style.display;
+                el.style.display = 'none';
+            }
+
+            for (var i = 0; i < clearBtnsCapture.length; i++) {
+                var el = clearBtnsCapture[i];
+                oldClearBtnDisplay[i] = el.style.display;
                 el.style.display = 'none';
             }
 
@@ -6536,6 +6656,11 @@
                         el.style.display = oldInputDisplay[i] || '';
                     }
 
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
+                    }
+
                     for (var i = 0; i < manualBoxes.length; i++) {
                         var el = manualBoxes[i];
                         el.style.display = oldManualDisplay[i] || '';
@@ -6599,6 +6724,11 @@
                     for (var i = 0; i < inputs.length; i++) {
                         var el = inputs[i];
                         el.style.display = oldInputDisplay[i] || '';
+                    }
+
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
                     }
 
                     for (var i = 0; i < manualBoxes.length; i++) {
@@ -6704,6 +6834,11 @@
                     '.slot input'
                 );
 
+            var clearBtnsCapture =
+                element.querySelectorAll(
+                    '.cell-clear-btn'
+                );
+
             var manualBoxes =
                 element.querySelectorAll(
                     '.manual-time-box'
@@ -6741,6 +6876,7 @@
 
             var oldSelectDisplay = [];
             var oldInputDisplay = [];
+            var oldClearBtnDisplay = [];
             var oldManualDisplay = [];
             var oldOpponentBoxDisplay = [];
             var oldTimeDisplay = [];
@@ -6759,6 +6895,12 @@
             for (var i = 0; i < inputs.length; i++) {
                 var el = inputs[i];
                 oldInputDisplay[i] = el.style.display;
+                el.style.display = 'none';
+            }
+
+            for (var i = 0; i < clearBtnsCapture.length; i++) {
+                var el = clearBtnsCapture[i];
+                oldClearBtnDisplay[i] = el.style.display;
                 el.style.display = 'none';
             }
 
@@ -6876,6 +7018,11 @@
                         el.style.display = oldInputDisplay[i] || '';
                     }
 
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
+                    }
+
                     for (var i = 0; i < manualBoxes.length; i++) {
                         var el = manualBoxes[i];
                         el.style.display = oldManualDisplay[i] || '';
@@ -6991,6 +7138,11 @@
                     for (var i = 0; i < inputs.length; i++) {
                         var el = inputs[i];
                         el.style.display = oldInputDisplay[i] || '';
+                    }
+
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
                     }
 
                     for (var i = 0; i < manualBoxes.length; i++) {
