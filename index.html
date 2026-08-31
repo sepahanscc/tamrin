@@ -10,6 +10,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
 
@@ -257,39 +258,52 @@
             gap: 2px;
         }
 
-        /* ============================================================
-           دکمه ضربدر - گوشه سمت راست بالا (همونجایی که دایره قرمز کشیدی)
-        ============================================================ */
-        .cell-clear-btn {
+        /* ضربدر قرمز برای بازنشانی سریع هر سلول */
+        .slot-reset-btn {
             position: absolute;
             top: 2px;
-            right: 2px;   /* ← اینجا رو right گذاشتم تا گوشه راست بالا باشه */
-            width: 16px;
-            height: 16px;
-            min-width: 16px;
-            border-radius: 50%;
-            background: #d32f2f;
-            color: #fff;
-            border: 1px solid #7a0000;
-            font-size: 11px;
-            font-weight: 900;
-            line-height: 14px;
-            text-align: center;
-            cursor: pointer;
+            right: 3px;
+            width: 17px;
+            height: 17px;
             padding: 0;
             margin: 0;
-            z-index: 10;
-            opacity: 0.85;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: Tahoma, Arial, sans-serif;
+            border: none;
+            background: transparent;
+            color: #d00000;
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 16px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 20;
+            opacity: 0.9;
+            transition: transform .15s ease, color .15s ease, opacity .15s ease;
         }
 
-        .cell-clear-btn:hover {
+        .slot-reset-btn:hover {
+            color: #ff0000;
+            transform: scale(1.18);
             opacity: 1;
-            transform: scale(1.15);
-            background: #b71c1c;
+        }
+
+        .slot-reset-btn:active {
+            transform: scale(.95);
+        }
+
+        .slot.locked-view .slot-reset-btn {
+            display: none !important;
+        }
+
+        @media screen and (max-width: 600px) {
+            .slot-reset-btn {
+                top: 1px;
+                right: 2px;
+                width: 15px;
+                height: 15px;
+                font-size: 15px;
+                line-height: 14px;
+            }
         }
 
         .slot select,
@@ -1604,8 +1618,7 @@
             .floating-session-btn,
             .session-hover-card,
             .report-modal-overlay,
-            .venue-modal-overlay,
-            .cell-clear-btn {
+            .venue-modal-overlay {
                 display: none !important;
             }
         }
@@ -2426,6 +2439,411 @@
     <script>
 
         /* =========================================================
+           اتصال به Supabase
+           ذخیره محلی حفظ شده و Supabase به عنوان دیتابیس آنلاین
+           برنامه استفاده می‌شود.
+        ========================================================= */
+        const SUPABASE_URL = 'https://iibuhlvviifbwalbkbaj.supabase.co';
+        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_S4lvM602l-XMOMKPDxQFGg_6dsaVy2b';
+        const supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+        var supabaseReady = false;
+        var supabaseLoading = true;
+        var supabaseCurrentPeriodId = null;
+        var supabaseSaveTimer = null;
+        var supabaseSessionSaveTimer = null;
+        var supabaseLastErrorShown = false;
+
+        function showSupabaseError(message) {
+            console.error('[Supabase] ' + message);
+            if (!supabaseLastErrorShown) {
+                supabaseLastErrorShown = true;
+                setTimeout(function () {
+                    console.warn('اتصال Supabase برقرار نشد. برنامه با ذخیره محلی ادامه می‌دهد.');
+                }, 0);
+            }
+        }
+
+        function getCurrentDateInfoForSupabase() {
+            var el = document.getElementById('dateDisplay');
+            var parsed = el ? parseDateString(el.textContent) : null;
+            if (!parsed) return null;
+
+            return {
+                start_day: parsed.startDay,
+                start_month: parsed.startMonth,
+                end_day: parsed.endDay,
+                end_month: parsed.endMonth,
+                year: parsed.year,
+                date_display: el.textContent
+            };
+        }
+
+        async function ensureSupabasePeriod() {
+            var info = getCurrentDateInfoForSupabase();
+            if (!info) return null;
+
+            var result = await supabaseClient
+                .from('schedule_periods')
+                .select('id')
+                .eq('start_day', info.start_day)
+                .eq('start_month', info.start_month)
+                .eq('end_day', info.end_day)
+                .eq('end_month', info.end_month)
+                .eq('year', info.year)
+                .order('id', { ascending: false })
+                .limit(1);
+
+            if (result.error) throw result.error;
+
+            if (result.data && result.data.length) {
+                supabaseCurrentPeriodId = result.data[0].id;
+
+                await supabaseClient
+                    .from('schedule_periods')
+                    .update({ active: true, date_display: info.date_display })
+                    .eq('id', supabaseCurrentPeriodId);
+
+                return supabaseCurrentPeriodId;
+            }
+
+            var inserted = await supabaseClient
+                .from('schedule_periods')
+                .insert({
+                    start_day: info.start_day,
+                    start_month: info.start_month,
+                    end_day: info.end_day,
+                    end_month: info.end_month,
+                    year: info.year,
+                    date_display: info.date_display,
+                    active: true
+                })
+                .select('id')
+                .single();
+
+            if (inserted.error) throw inserted.error;
+            supabaseCurrentPeriodId = inserted.data.id;
+            return supabaseCurrentPeriodId;
+        }
+
+        async function syncVenuesToSupabase(venueList) {
+            if (!Array.isArray(venueList)) return;
+
+            for (var i = 0; i < venueList.length; i++) {
+                var name = String(venueList[i] || '').trim();
+                if (!name) continue;
+
+                var existing = await supabaseClient
+                    .from('venues')
+                    .select('id')
+                    .eq('name', name)
+                    .limit(1);
+
+                if (existing.error) throw existing.error;
+
+                if (!existing.data || !existing.data.length) {
+                    var inserted = await supabaseClient
+                        .from('venues')
+                        .insert({
+                            name: name,
+                            sort_order: i + 1,
+                            is_default: DEFAULT_VENUES.indexOf(name) !== -1,
+                            active: true
+                        });
+                    if (inserted.error) throw inserted.error;
+                }
+            }
+        }
+
+        async function loadSupabaseLists() {
+            var teamsResult = await supabaseClient
+                .from('teams')
+                .select('id,name,sort_order,active')
+                .eq('active', true)
+                .order('sort_order', { ascending: true });
+            if (teamsResult.error) throw teamsResult.error;
+
+            var venuesResult = await supabaseClient
+                .from('venues')
+                .select('id,name,sort_order,active')
+                .eq('active', true)
+                .order('sort_order', { ascending: true });
+            if (venuesResult.error) throw venuesResult.error;
+
+            var activitiesResult = await supabaseClient
+                .from('activity_types')
+                .select('id,name,sort_order,active')
+                .eq('active', true)
+                .order('sort_order', { ascending: true });
+            if (activitiesResult.error) throw activitiesResult.error;
+
+            return {
+                teams: teamsResult.data || [],
+                venues: venuesResult.data || [],
+                activities: activitiesResult.data || []
+            };
+        }
+
+        function rebuildSessionConfigFromRows(rows, venueRows) {
+            var config = [];
+            var byVenueId = {};
+
+            for (var i = 0; i < (rows || []).length; i++) {
+                byVenueId[String(rows[i].venue_id)] = rows[i];
+            }
+
+            for (var v = 0; v < venueRows.length; v++) {
+                var row = [];
+                for (var d = 0; d < 7; d++) row.push(null);
+
+                for (var j = 0; j < (rows || []).length; j++) {
+                    if (String(rows[j].venue_id) === String(venueRows[v].id)) {
+                        var day = parseInt(rows[j].weekday, 10);
+                        if (day >= 0 && day <= 6) {
+                            row[day] = rows[j].session_count === null || rows[j].session_count === undefined
+                                ? null
+                                : parseInt(rows[j].session_count, 10);
+                        }
+                    }
+                }
+                config.push(row);
+            }
+
+            return config;
+        }
+
+        function convertSupabaseSchedulesToTable(rows, teamRows, venueRows, activityRows) {
+            var data = getEmptyData();
+            var teamIndex = {};
+            var venueNameById = {};
+            var activityNameById = {};
+
+            for (var i = 0; i < teamRows.length; i++) {
+                teamIndex[String(teamRows[i].id)] = teamNames.indexOf(teamRows[i].name);
+            }
+            for (var v = 0; v < venueRows.length; v++) {
+                venueNameById[String(venueRows[v].id)] = venueRows[v].name;
+            }
+            for (var a = 0; a < activityRows.length; a++) {
+                activityNameById[String(activityRows[a].id)] = activityRows[a].name;
+            }
+
+            for (var r = 0; r < rows.length; r++) {
+                var item = rows[r];
+                var rowIndex = teamIndex[String(item.team_id)];
+                var colIndex = parseInt(item.day_index, 10);
+
+                if (rowIndex === undefined || rowIndex < 0 || colIndex < 0 || colIndex > 6) continue;
+                if (!data[rowIndex]) data[rowIndex] = [];
+                if (!data[rowIndex][colIndex]) {
+                    data[rowIndex][colIndex] = {
+                        venue: '', time: '', manual: false, manualEditing: false,
+                        startTime: '', endTime: '', activityType: '', opponent: ''
+                    };
+                }
+
+                data[rowIndex][colIndex].venue = venueNameById[String(item.venue_id)] || '';
+                data[rowIndex][colIndex].activityType = activityNameById[String(item.activity_type_id)] || '';
+                data[rowIndex][colIndex].time = item.time || '';
+                data[rowIndex][colIndex].startTime = item.start_time || '';
+                data[rowIndex][colIndex].endTime = item.end_time || '';
+                data[rowIndex][colIndex].opponent = item.opponent || '';
+                data[rowIndex][colIndex].manual = !!item.manual;
+                data[rowIndex][colIndex].manualEditing = false;
+            }
+
+            return data;
+        }
+
+        async function loadScheduleFromSupabase() {
+            var periodId = await ensureSupabasePeriod();
+            if (!periodId) return false;
+
+            var lists = await loadSupabaseLists();
+
+            /* زمین‌هایی که قبلاً فقط روی همین مرورگر وجود داشته‌اند،
+               ابتدا وارد دیتابیس می‌شوند تا اطلاعات قبلی از بین نرود. */
+            await syncVenuesToSupabase(venues);
+            lists = await loadSupabaseLists();
+
+            var scheduleResult = await supabaseClient
+                .from('schedules')
+                .select('id,period_id,team_id,day_index,venue_id,activity_type_id,time,start_time,end_time,opponent,manual')
+                .eq('period_id', periodId);
+            if (scheduleResult.error) throw scheduleResult.error;
+
+            var hasRemoteSchedules = (scheduleResult.data || []).length > 0;
+
+            /* زمین‌های دیتابیس را در برنامه قرار می‌دهیم */
+            if (lists.venues.length) {
+                venues = lists.venues.map(function (v) { return v.name; });
+                saveVenues(venues, true);
+            }
+
+            if (hasRemoteSchedules) {
+                tableData = convertSupabaseSchedulesToTable(
+                    scheduleResult.data,
+                    lists.teams,
+                    lists.venues,
+                    lists.activities
+                );
+                localStorage.setItem('scheduleData', JSON.stringify(tableData));
+            } else {
+                /* مهاجرت خودکار اطلاعات موجود در localStorage به Supabase */
+                await syncScheduleDataToSupabase(tableData, true);
+            }
+
+            var sessionResult = await supabaseClient
+                .from('venue_session_config')
+                .select('venue_id,weekday,session_count');
+            if (sessionResult.error) throw sessionResult.error;
+
+            if (sessionResult.data && sessionResult.data.length) {
+                sessionConfig = rebuildSessionConfigFromRows(
+                    sessionResult.data,
+                    lists.venues
+                );
+                saveSessionConfigToStorage(true);
+            } else {
+                await syncSessionConfigToSupabase(true);
+            }
+
+            supabaseReady = true;
+            supabaseLoading = false;
+            buildTable();
+            renderVenueList();
+            updateFloatingBadge();
+            return true;
+        }
+
+        async function syncScheduleDataToSupabase(data, immediate) {
+            if (!data || !supabaseClient) return;
+            if (!immediate) {
+                clearTimeout(supabaseSaveTimer);
+                supabaseSaveTimer = setTimeout(function () {
+                    syncScheduleDataToSupabase(data, true);
+                }, 500);
+                return;
+            }
+
+            try {
+                var periodId = await ensureSupabasePeriod();
+                if (!periodId) return;
+
+                var lists = await loadSupabaseLists();
+                var teamMap = {};
+                var venueMap = {};
+                var activityMap = {};
+
+                for (var i = 0; i < lists.teams.length; i++) teamMap[lists.teams[i].name] = lists.teams[i].id;
+                for (var v = 0; v < lists.venues.length; v++) venueMap[lists.venues[v].name] = lists.venues[v].id;
+                for (var a = 0; a < lists.activities.length; a++) activityMap[lists.activities[a].name] = lists.activities[a].id;
+
+                var records = [];
+                for (var r = 0; r < teamNames.length; r++) {
+                    var teamId = teamMap[teamNames[r]];
+                    if (!teamId) continue;
+
+                    for (var c = 0; c < 7; c++) {
+                        var cell = data[r] && data[r][c] ? data[r][c] : null;
+                        if (!cell) continue;
+
+                        var venueId = cell.venue ? venueMap[cell.venue] || null : null;
+                        var activityId = cell.activityType ? activityMap[cell.activityType] || null : null;
+                        var hasContent = !!(
+                            cell.venue || cell.time || cell.startTime || cell.endTime ||
+                            cell.activityType || cell.opponent || cell.manual
+                        );
+
+                        if (!hasContent) continue;
+
+                        records.push({
+                            period_id: periodId,
+                            team_id: teamId,
+                            day_index: c,
+                            venue_id: venueId,
+                            activity_type_id: activityId,
+                            time: cell.time || null,
+                            start_time: cell.startTime || null,
+                            end_time: cell.endTime || null,
+                            opponent: cell.opponent || null,
+                            manual: !!cell.manual
+                        });
+                    }
+                }
+
+                /* رکوردهای قبلی این بازه حذف و وضعیت فعلی جدول دوباره ثبت می‌شود.
+                   چون برای هر تیم/روز یک رکورد داریم، این روش با ساختار فعلی برنامه
+                   مطمئن و ساده است. */
+                var deleted = await supabaseClient
+                    .from('schedules')
+                    .delete()
+                    .eq('period_id', periodId);
+                if (deleted.error) throw deleted.error;
+
+                if (records.length) {
+                    var inserted = await supabaseClient
+                        .from('schedules')
+                        .insert(records);
+                    if (inserted.error) throw inserted.error;
+                }
+            } catch (e) {
+                showSupabaseError('خطا در ذخیره برنامه‌ها: ' + (e.message || e));
+            }
+        }
+
+        async function syncSessionConfigToSupabase(immediate) {
+            if (!immediate) {
+                clearTimeout(supabaseSessionSaveTimer);
+                supabaseSessionSaveTimer = setTimeout(function () {
+                    syncSessionConfigToSupabase(true);
+                }, 500);
+                return;
+            }
+
+            try {
+                var lists = await loadSupabaseLists();
+                var venueMap = {};
+                for (var i = 0; i < lists.venues.length; i++) venueMap[lists.venues[i].name] = lists.venues[i].id;
+
+                var records = [];
+                for (var vi = 0; vi < venues.length; vi++) {
+                    var venueId = venueMap[venues[vi]];
+                    if (!venueId) continue;
+                    for (var di = 0; di < 7; di++) {
+                        records.push({
+                            venue_id: venueId,
+                            weekday: di,
+                            session_count: sessionConfig[vi] && sessionConfig[vi][di] !== undefined
+                                ? sessionConfig[vi][di]
+                                : null
+                        });
+                    }
+                }
+
+                if (records.length) {
+                    var upserted = await supabaseClient
+                        .from('venue_session_config')
+                        .upsert(records, { onConflict: 'venue_id,weekday' });
+                    if (upserted.error) throw upserted.error;
+                }
+            } catch (e) {
+                showSupabaseError('خطا در ذخیره تنظیمات سانس: ' + (e.message || e));
+            }
+        }
+
+        async function syncDateToSupabase() {
+            try {
+                await ensureSupabasePeriod();
+            } catch (e) {
+                showSupabaseError('خطا در ذخیره بازه تاریخ: ' + (e.message || e));
+            }
+        }
+
+        /* =========================================================
            تنظیمات تاریخ - پیشفرض فروردین
         ========================================================= */
 
@@ -2945,6 +3363,10 @@
                 fullDate
             );
 
+            if (!supabaseLoading) {
+                syncDateToSupabase();
+            }
+
             updateDayDates();
             rebuildAllSlots();
 
@@ -3434,9 +3856,14 @@
             return DEFAULT_VENUES.slice();
         }
 
-        function saveVenues(venues) {
+        function saveVenues(venues, skipRemote) {
             try {
                 localStorage.setItem(VENUES_KEY, JSON.stringify(venues));
+                if (!skipRemote && !supabaseLoading) {
+                    syncVenuesToSupabase(venues).catch(function (e) {
+                        showSupabaseError('خطا در ذخیره زمین‌ها: ' + (e.message || e));
+                    });
+                }
             } catch (e) {
                 console.log('خطا در ذخیره لیست زمین‌ها:', e);
             }
@@ -3567,6 +3994,9 @@
                     }
                 }
                 localStorage.setItem('scheduleData', JSON.stringify(data));
+                if (!supabaseLoading) {
+                    syncScheduleDataToSupabase(data, false);
+                }
                 updateFloatingBadge();
             } catch (e) {
                 console.log('خطا در ذخیره داده:', e);
@@ -3625,9 +4055,12 @@
 
         var sessionConfig = loadSessionConfig();
 
-        function saveSessionConfigToStorage() {
+        function saveSessionConfigToStorage(skipRemote) {
             try {
                 localStorage.setItem(SESSION_CONFIG_KEY, JSON.stringify(sessionConfig));
+                if (!skipRemote && !supabaseLoading) {
+                    syncSessionConfigToSupabase(false);
+                }
             } catch (e) {
                 console.log('خطا در ذخیره تنظیمات سانس:', e);
             }
@@ -4334,9 +4767,6 @@
             var opponentDisplay =
                 slotDiv.querySelector('.opponent-display');
 
-            var clearBtn =
-                slotDiv.querySelector('.cell-clear-btn');
-
             var row =
                 parseInt(
                     slotDiv.dataset.row,
@@ -4389,11 +4819,6 @@
                 lockCheckbox ?
                 lockCheckbox.checked :
                 false;
-
-            if (clearBtn) {
-                clearBtn.style.display =
-                    isLocked ? 'none' : 'flex';
-            }
 
             if (td && !isLocked) {
                 td.classList.remove('match-official', 'match-friendly');
@@ -4717,6 +5142,59 @@
         }
 
         /* =========================================================
+           بازنشانی سریع یک سلول
+           زمین، نوع برنامه، ساعت و اطلاعات حریف به حالت پیش‌فرض برمی‌گردد
+        ========================================================= */
+
+        function resetSlotToDefault(rowIdx, colIdx) {
+
+            if (
+                !tableData[rowIdx] ||
+                !tableData[rowIdx][colIdx]
+            ) {
+                return;
+            }
+
+            tableData[rowIdx][colIdx] = {
+                venue: '',
+                time: '',
+                manual: false,
+                manualEditing: false,
+                startTime: '',
+                endTime: '',
+                activityType: '',
+                opponent: ''
+            };
+
+            saveData(tableData);
+
+            /* بازسازی همان سلول تا همه کنترل‌ها دقیقاً از نو ساخته شوند */
+            var slots = document.querySelectorAll('.slot');
+
+            for (var i = 0; i < slots.length; i++) {
+                var slot = slots[i];
+
+                if (
+                    parseInt(slot.dataset.row, 10) === rowIdx &&
+                    parseInt(slot.dataset.col, 10) === colIdx
+                ) {
+                    var td = slot.closest('td');
+
+                    if (td) {
+                        var newSlot = createSlotCell(rowIdx, colIdx);
+                        td.innerHTML = '';
+                        td.appendChild(newSlot);
+                        addTooltipToSlot(newSlot, colIdx);
+                    }
+
+                    break;
+                }
+            }
+
+            updateFloatingBadge();
+        }
+
+        /* =========================================================
            ساخت سلول - نسخه اصلاح‌شده با دابل‌کلیک روی کل سلول
         ========================================================= */
 
@@ -4737,6 +5215,33 @@
             slotDiv.dataset.col =
                 colIdx;
 
+            /* =====================================================
+               ضربدر قرمز: بازنشانی اطلاعات همین سلول به حالت پیش‌فرض
+            ===================================================== */
+            var resetButton =
+                document.createElement('button');
+
+            resetButton.type = 'button';
+            resetButton.className = 'slot-reset-btn no-print';
+            resetButton.textContent = '×';
+            resetButton.title = 'بازنشانی این سلول';
+            resetButton.setAttribute('aria-label', 'بازنشانی این سلول');
+
+            resetButton.addEventListener(
+                'click',
+                function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    resetSlotToDefault(
+                        rowIdx,
+                        colIdx
+                    );
+                }
+            );
+
+            slotDiv.appendChild(resetButton);
+
             var cellData =
                 tableData[rowIdx][colIdx];
 
@@ -4748,24 +5253,6 @@
 
             var activityType =
                 cellData.activityType || '';
-
-
-            /* =====================================================
-               دکمه پاک کردن سلول (ضربدر قرمز)
-            ===================================================== */
-
-            var clearBtn =
-                document.createElement('button');
-
-            clearBtn.type = 'button';
-
-            clearBtn.className =
-                'cell-clear-btn no-print';
-
-            clearBtn.textContent = '×';
-
-            clearBtn.title =
-                'پاک کردن این سلول';
 
 
             /* =====================================================
@@ -5203,7 +5690,6 @@
                افزودن عناصر
             ===================================================== */
 
-            slotDiv.appendChild(clearBtn);
             slotDiv.appendChild(venueSelect);
             slotDiv.appendChild(typeSelect);
             slotDiv.appendChild(opponentBox);
@@ -5221,57 +5707,13 @@
 
 
             /* =====================================================
-               کلیک روی ضربدر قرمز - بازنشانی این سلول به پیش‌فرض
-            ===================================================== */
-            clearBtn.addEventListener(
-                'click',
-                function(e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    var lockCheckbox = document.getElementById('lockCheckbox');
-                    if (lockCheckbox && lockCheckbox.checked) {
-                        return;
-                    }
-
-                    var cell = tableData[rowIdx][colIdx];
-                    if (!cell) return;
-
-                    cell.venue = '';
-                    cell.time = '';
-                    cell.manual = false;
-                    cell.manualEditing = false;
-                    cell.startTime = '';
-                    cell.endTime = '';
-                    cell.activityType = '';
-                    cell.opponent = '';
-
-                    venueSelect.value = '';
-                    typeSelect.value = '';
-                    timeSelect.value = '';
-                    opponentInput.value = '';
-                    startInput.value = '';
-                    endInput.value = '';
-
-                    manualBox.classList.remove('active');
-                    manualBox.style.display = 'none';
-                    timeSelect.classList.remove('hidden');
-
-                    applyColorByVenue(td, '');
-                    updateSlotDisplay(slotDiv);
-                    saveData(tableData);
-                }
-            );
-
-
-            /* =====================================================
                دابل‌کلیک روی خود سلول - برای مواقعی که timeDisplay قابل مشاهده نیست
             ===================================================== */
             slotDiv.addEventListener(
                 'dblclick',
                 function(e) {
                     // اگر رویداد از روی timeDisplay یا عناصر دیگر آمده باشد، نادیده بگیر
-                    if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn')) {
+                    if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select')) {
                         return;
                     }
 
@@ -6472,11 +6914,6 @@
                     '.slot input'
                 );
 
-            var clearBtnsCapture =
-                element.querySelectorAll(
-                    '.cell-clear-btn'
-                );
-
             var manualBoxes =
                 element.querySelectorAll(
                     '.manual-time-box'
@@ -6514,7 +6951,6 @@
 
             var oldSelectDisplay = [];
             var oldInputDisplay = [];
-            var oldClearBtnDisplay = [];
             var oldManualDisplay = [];
             var oldOpponentBoxDisplay = [];
             var oldTimeDisplay = [];
@@ -6533,12 +6969,6 @@
             for (var i = 0; i < inputs.length; i++) {
                 var el = inputs[i];
                 oldInputDisplay[i] = el.style.display;
-                el.style.display = 'none';
-            }
-
-            for (var i = 0; i < clearBtnsCapture.length; i++) {
-                var el = clearBtnsCapture[i];
-                oldClearBtnDisplay[i] = el.style.display;
                 el.style.display = 'none';
             }
 
@@ -6656,11 +7086,6 @@
                         el.style.display = oldInputDisplay[i] || '';
                     }
 
-                    for (var i = 0; i < clearBtnsCapture.length; i++) {
-                        var el = clearBtnsCapture[i];
-                        el.style.display = oldClearBtnDisplay[i] || '';
-                    }
-
                     for (var i = 0; i < manualBoxes.length; i++) {
                         var el = manualBoxes[i];
                         el.style.display = oldManualDisplay[i] || '';
@@ -6724,11 +7149,6 @@
                     for (var i = 0; i < inputs.length; i++) {
                         var el = inputs[i];
                         el.style.display = oldInputDisplay[i] || '';
-                    }
-
-                    for (var i = 0; i < clearBtnsCapture.length; i++) {
-                        var el = clearBtnsCapture[i];
-                        el.style.display = oldClearBtnDisplay[i] || '';
                     }
 
                     for (var i = 0; i < manualBoxes.length; i++) {
@@ -6834,11 +7254,6 @@
                     '.slot input'
                 );
 
-            var clearBtnsCapture =
-                element.querySelectorAll(
-                    '.cell-clear-btn'
-                );
-
             var manualBoxes =
                 element.querySelectorAll(
                     '.manual-time-box'
@@ -6876,7 +7291,6 @@
 
             var oldSelectDisplay = [];
             var oldInputDisplay = [];
-            var oldClearBtnDisplay = [];
             var oldManualDisplay = [];
             var oldOpponentBoxDisplay = [];
             var oldTimeDisplay = [];
@@ -6895,12 +7309,6 @@
             for (var i = 0; i < inputs.length; i++) {
                 var el = inputs[i];
                 oldInputDisplay[i] = el.style.display;
-                el.style.display = 'none';
-            }
-
-            for (var i = 0; i < clearBtnsCapture.length; i++) {
-                var el = clearBtnsCapture[i];
-                oldClearBtnDisplay[i] = el.style.display;
                 el.style.display = 'none';
             }
 
@@ -7016,11 +7424,6 @@
                     for (var i = 0; i < inputs.length; i++) {
                         var el = inputs[i];
                         el.style.display = oldInputDisplay[i] || '';
-                    }
-
-                    for (var i = 0; i < clearBtnsCapture.length; i++) {
-                        var el = clearBtnsCapture[i];
-                        el.style.display = oldClearBtnDisplay[i] || '';
                     }
 
                     for (var i = 0; i < manualBoxes.length; i++) {
@@ -7140,11 +7543,6 @@
                         el.style.display = oldInputDisplay[i] || '';
                     }
 
-                    for (var i = 0; i < clearBtnsCapture.length; i++) {
-                        var el = clearBtnsCapture[i];
-                        el.style.display = oldClearBtnDisplay[i] || '';
-                    }
-
                     for (var i = 0; i < manualBoxes.length; i++) {
                         var el = manualBoxes[i];
                         el.style.display = oldManualDisplay[i] || '';
@@ -7231,6 +7629,20 @@
         setupPersianNumberInputs();
 
         updateFloatingBadge();
+
+        /* =========================================================
+           بارگذاری اولیه از Supabase
+           ابتدا نسخه محلی نمایش داده می‌شود تا صفحه معطل نماند،
+           سپس اطلاعات آنلاین جایگزین می‌شود.
+        ========================================================= */
+        (async function () {
+            try {
+                await loadScheduleFromSupabase();
+            } catch (e) {
+                supabaseLoading = false;
+                showSupabaseError('خطا در بارگذاری اطلاعات آنلاین: ' + (e.message || e));
+            }
+        })();
 
     </script>
 
