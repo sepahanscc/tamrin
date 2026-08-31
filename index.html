@@ -239,11 +239,45 @@
             line-height: 1.4;
             padding: 4px 3px;
             border: 1px solid #111;
+            text-align: right;
+            white-space: nowrap;
         }
 
         tr.team-row td,
         tr.team-row th {
             border-bottom: 1px solid #111;
+        }
+
+        td.team.team-draggable {
+            position: relative;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+
+        td.team.team-draggable::before {
+            content: '☷';
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 16px;
+            opacity: .75;
+            vertical-align: middle;
+        }
+
+        td.team.team-dragging {
+            opacity: .45;
+            cursor: grabbing;
+        }
+
+        tr.team-row.team-drag-over td {
+            box-shadow: inset 0 3px 0 #fff900, inset 0 -3px 0 #fff900;
+        }
+
+        .team-drag-hint {
+            font-size: 11px;
+            color: #666;
+            font-weight: 700;
+            margin-top: 4px;
         }
 
         .slot {
@@ -258,52 +292,41 @@
             gap: 2px;
         }
 
-        /* ضربدر قرمز برای بازنشانی سریع هر سلول */
-        .slot-reset-btn {
-            position: absolute;
-            top: 2px;
-            right: 3px;
-            width: 17px;
-            height: 17px;
-            padding: 0;
-            margin: 0;
-            border: none;
-            background: transparent;
-            color: #d00000;
-            font-family: Arial, sans-serif;
-            font-size: 17px;
+        td.schedule-slot-cell {
+            position: relative !important;
+        }
+
+        .cell-clear-btn {
+            position: absolute !important;
+            top: 2px !important;
+            right: 2px !important;
+            left: auto !important;
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            border-radius: 50%;
+            background: #d32f2f;
+            color: #fff;
+            border: 1px solid #7a0000;
+            font-size: 11px;
             font-weight: 900;
-            line-height: 16px;
+            line-height: 14px;
             text-align: center;
             cursor: pointer;
-            z-index: 20;
-            opacity: 0.9;
-            transition: transform .15s ease, color .15s ease, opacity .15s ease;
+            padding: 0;
+            margin: 0;
+            z-index: 10;
+            opacity: 0.85;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Tahoma, Arial, sans-serif;
         }
 
-        .slot-reset-btn:hover {
-            color: #ff0000;
-            transform: scale(1.18);
+        .cell-clear-btn:hover {
             opacity: 1;
-        }
-
-        .slot-reset-btn:active {
-            transform: scale(.95);
-        }
-
-        .slot.locked-view .slot-reset-btn {
-            display: none !important;
-        }
-
-        @media screen and (max-width: 600px) {
-            .slot-reset-btn {
-                top: 1px;
-                right: 2px;
-                width: 15px;
-                height: 15px;
-                font-size: 15px;
-                line-height: 14px;
-            }
+            transform: scale(1.15);
+            background: #b71c1c;
         }
 
         .slot select,
@@ -736,12 +759,8 @@
             animation: sessionFadeIn .18s ease-out
         }
         @keyframes sessionFadeIn {
-            from {
-                opacity: 0
-            }
-            to {
-                opacity: 1
-            }
+            from { opacity: 0 }
+            to { opacity: 1 }
         }
         .session-modal {
             width: min(900px, 98%);
@@ -756,12 +775,8 @@
             animation: sessionModalIn .2s ease-out;
         }
         @keyframes sessionModalIn {
-            from {
-                transform: translateY(10px) scale(.97)
-            }
-            to {
-                transform: translateY(0) scale(1)
-            }
+            from { transform: translateY(10px) scale(.97) }
+            to { transform: translateY(0) scale(1) }
         }
         .session-modal-header {
             display: flex;
@@ -959,9 +974,6 @@
             background: #e6e9ee
         }
 
-        /* ============================================================
-           مودال مدیریت زمین‌ها (ورزشگاه‌ها)
-        ============================================================ */
         .venue-modal-overlay {
             position: fixed;
             inset: 0;
@@ -1353,14 +1365,8 @@
             animation: fadeInUp 0.2s ease-out;
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .session-hover-card .card-title {
             font-weight: 900;
@@ -1506,7 +1512,6 @@
             padding: 12px 16px;
         }
 
-        /* استایل‌های جدید برای گزارش تیم‌ها */
         .report-team-card {
             border: 2px solid #e0e4eb;
             border-radius: 8px;
@@ -1618,413 +1623,107 @@
             .floating-session-btn,
             .session-hover-card,
             .report-modal-overlay,
-            .venue-modal-overlay {
+            .venue-modal-overlay,
+            .cell-clear-btn {
                 display: none !important;
             }
         }
 
         @media screen and (max-width: 1000px) {
-
-            .page {
-                padding: 6px 8px;
-            }
-
-            .header-title .title {
-                font-size: 14px;
-            }
-
-            .header-title .date-display {
-                font-size: 13px;
-                min-width: 150px;
-            }
-
-            .date-editor input {
-                font-size: 12px;
-                width: 42px;
-            }
-
-            .date-editor .year-input {
-                font-size: 12px;
-                width: 55px !important;
-            }
-
-            .date-editor .month-select {
-                font-size: 12px;
-            }
-
-            .date-editor .static-text {
-                font-size: 12px;
-            }
-
-            .header-logo {
-                width: 45px;
-            }
-
-            thead th {
-                font-size: 12px;
-            }
-
-            thead th .day-name {
-                font-size: 12px;
-            }
-
-            thead th .day-date {
-                font-size: 10px;
-            }
-
-            td.team,
-            th.team {
-                font-size: 12px;
-            }
-
-            .slot select,
-            .slot input {
-                font-size: 10px;
-                max-width: 85px;
-            }
-
-            .slot {
-                min-height: 75px;
-            }
-
-            .manual-time-box {
-                max-width: 85px;
-            }
-
-            .manual-time-input {
-                width: 60px !important;
-                max-width: 60px !important;
-            }
-
-            .btn-group button {
-                font-size: 12px;
-                padding: 4px 14px;
-            }
-
-            .bottom-note {
-                font-size: 12px;
-                gap: 10px;
-            }
-
-            .lock-toggle {
-                font-size: 12px;
-            }
-
-            .slot.locked-view .print-text .venue-text {
-                font-size: 13px !important;
-            }
-            .slot.locked-view .print-text .type-text {
-                font-size: 11px !important;
-            }
-            .slot.locked-view .print-text .opponent-text {
-                font-size: 10px !important;
-                white-space: pre-wrap;
-                word-break: break-word;
-            }
-            .slot.locked-view .print-text .time-text {
-                font-size: 11px !important;
-            }
-            .slot.locked-view {
-                min-height: 48px !important;
-            }
-
-            .floating-session-btn {
-                width: 55px;
-                height: 55px;
-                font-size: 24px;
-                bottom: 25px;
-                left: 25px;
-            }
-            .floating-session-btn .badge {
-                width: 22px;
-                height: 22px;
-                font-size: 10px;
-                top: -5px;
-                right: -5px;
-            }
-            .session-hover-card {
-                bottom: 90px;
-                left: 25px;
-                min-width: 250px;
-                max-width: 380px;
-            }
-            .report-modal {
-                width: 98%;
-            }
-            .report-item {
-                font-size: 12px;
-            }
-            .report-item .r-day {
-                min-width: 45px;
-            }
-            .report-item .r-date {
-                font-size: 11px;
-                min-width: 70px;
-            }
-            .report-item .r-time {
-                font-size: 12px;
-                min-width: 80px;
-            }
-            .report-team-header .team-jpg-btn {
-                font-size: 10px;
-                padding: 1px 8px;
-            }
+            .page { padding: 6px 8px; }
+            .header-title .title { font-size: 14px; }
+            .header-title .date-display { font-size: 13px; min-width: 150px; }
+            .date-editor input { font-size: 12px; width: 42px; }
+            .date-editor .year-input { font-size: 12px; width: 55px !important; }
+            .date-editor .month-select { font-size: 12px; }
+            .date-editor .static-text { font-size: 12px; }
+            .header-logo { width: 45px; }
+            thead th { font-size: 12px; }
+            thead th .day-name { font-size: 12px; }
+            thead th .day-date { font-size: 10px; }
+            td.team, th.team { font-size: 12px; }
+            .slot select, .slot input { font-size: 10px; max-width: 85px; }
+            .slot { min-height: 75px; }
+            .manual-time-box { max-width: 85px; }
+            .manual-time-input { width: 60px !important; max-width: 60px !important; }
+            .btn-group button { font-size: 12px; padding: 4px 14px; }
+            .bottom-note { font-size: 12px; gap: 10px; }
+            .lock-toggle { font-size: 12px; }
+            .slot.locked-view .print-text .venue-text { font-size: 13px !important; }
+            .slot.locked-view .print-text .type-text { font-size: 11px !important; }
+            .slot.locked-view .print-text .opponent-text { font-size: 10px !important; white-space: pre-wrap; word-break: break-word; }
+            .slot.locked-view .print-text .time-text { font-size: 11px !important; }
+            .slot.locked-view { min-height: 48px !important; }
+            .floating-session-btn { width: 55px; height: 55px; font-size: 24px; bottom: 25px; left: 25px; }
+            .floating-session-btn .badge { width: 22px; height: 22px; font-size: 10px; top: -5px; right: -5px; }
+            .session-hover-card { bottom: 90px; left: 25px; min-width: 250px; max-width: 380px; }
+            .report-modal { width: 98%; }
+            .report-item { font-size: 12px; }
+            .report-item .r-day { min-width: 45px; }
+            .report-item .r-date { font-size: 11px; min-width: 70px; }
+            .report-item .r-time { font-size: 12px; min-width: 80px; }
+            .report-team-header .team-jpg-btn { font-size: 10px; padding: 1px 8px; }
         }
 
         @media screen and (max-width: 600px) {
-
-            .header {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .header-logo {
-                width: 35px;
-            }
-
-            .header-title .title {
-                font-size: 12px;
-            }
-
-            .header-title .date-display {
-                font-size: 12px;
-                min-width: 120px;
-            }
-
-            .date-editor input {
-                font-size: 11px;
-                width: 35px;
-            }
-
-            .date-editor .year-input {
-                font-size: 11px;
-                width: 45px !important;
-            }
-
-            .date-editor .month-select {
-                font-size: 11px;
-                padding: 2px 6px;
-            }
-
-            .date-editor .static-text {
-                font-size: 11px;
-            }
-
-            .date-editor button {
-                font-size: 11px;
-                padding: 3px 12px;
-            }
-
-            .slot select,
-            .slot input {
-                font-size: 9px;
-                max-width: 65px;
-            }
-
-            .slot {
-                min-height: 70px;
-            }
-
-            .manual-time-box {
-                max-width: 70px;
-            }
-
-            .manual-time-input {
-                width: 48px !important;
-                max-width: 48px !important;
-                font-size: 8px !important;
-            }
-
-            .manual-time-label {
-                font-size: 8px;
-                min-width: 20px;
-            }
-
-            .manual-time-actions button {
-                font-size: 8px;
-                padding: 1px 4px;
-            }
-
-            .opponent-box {
-                max-width: 70px;
-            }
-
-            .opponent-input {
-                max-width: 70px !important;
-                font-size: 8px !important;
-            }
-
-            .opponent-label {
-                font-size: 8px;
-            }
-
-            .type-display,
-            .opponent-display {
-                font-size: 8px;
-            }
-
-            .btn-group button {
-                font-size: 10px;
-                padding: 3px 10px;
-            }
-
-            .lock-toggle {
-                font-size: 10px;
-            }
-
-            .slot.locked-view .print-text .venue-text {
-                font-size: 12px !important;
-            }
-            .slot.locked-view .print-text .type-text {
-                font-size: 10px !important;
-            }
-            .slot.locked-view .print-text .opponent-text {
-                font-size: 9px !important;
-                white-space: pre-wrap;
-                word-break: break-word;
-            }
-            .slot.locked-view .print-text .time-text {
-                font-size: 10px !important;
-            }
-            .slot.locked-view {
-                min-height: 44px !important;
-            }
-
-            thead th {
-                font-size: 10px !important;
-                height: 30px !important;
-            }
-            thead th .day-name {
-                font-size: 11px !important;
-            }
-            td.team,
-            th.team {
-                font-size: 10px !important;
-            }
-
-            .session-table th,
-            .session-table td {
-                padding: 3px 2px !important;
-                font-size: 10px !important;
-            }
-            .session-count-input {
-                width: 38px !important;
-                font-size: 12px !important;
-                padding: 3px 1px !important;
-            }
-            .session-modal-header {
-                padding: 8px 10px !important;
-            }
-            .session-modal-title {
-                font-size: 13px !important;
-            }
-            .session-modal-content {
-                padding: 8px 8px 2px !important;
-            }
-            .session-modal-footer {
-                padding: 8px 10px 12px !important;
-            }
-            .session-modal-footer button {
-                font-size: 10px !important;
-                padding: 5px 12px !important;
-            }
-            .session-modal-help {
-                font-size: 10px !important;
-                padding: 4px 10px !important;
-            }
-            .session-legend span {
-                font-size: 9px !important;
-                padding: 2px 6px !important;
-            }
-
-            .floating-session-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 22px;
-                bottom: 20px;
-                left: 20px;
-            }
-            .floating-session-btn .badge {
-                width: 20px;
-                height: 20px;
-                font-size: 9px;
-                top: -4px;
-                right: -4px;
-            }
-            .session-hover-card {
-                bottom: 80px;
-                left: 16px;
-                right: 16px;
-                min-width: auto;
-                max-width: none;
-                padding: 12px 14px;
-                max-height: 60vh;
-            }
-            .session-hover-card .card-item {
-                font-size: 11px;
-            }
-            .session-hover-card .card-item .v-name {
-                min-width: 55px;
-            }
-            .session-hover-card .card-item .day-status .d-badge {
-                font-size: 10px;
-                min-width: 18px;
-                line-height: 18px;
-            }
-
-            .report-modal {
-                width: 98%;
-                max-height: 95vh;
-            }
-            .report-modal-header {
-                padding: 8px 12px;
-            }
-            .report-modal-title {
-                font-size: 14px;
-            }
-            .report-modal-content {
-                padding: 8px 10px;
-            }
-            .report-team-header {
-                font-size: 13px;
-                padding: 6px 10px;
-            }
-            .report-item {
-                font-size: 11px;
-                padding: 3px 4px;
-                gap: 4px;
-            }
-            .report-item .r-day {
-                min-width: 38px;
-                font-size: 11px;
-            }
-            .report-item .r-date {
-                font-size: 10px;
-                min-width: 60px;
-            }
-            .report-item .r-time {
-                font-size: 11px;
-                min-width: 70px;
-            }
-            .report-item .r-venue {
-                font-size: 11px;
-                min-width: 55px;
-            }
-            .report-item .r-type {
-                font-size: 11px;
-                min-width: 60px;
-            }
-            .report-item .r-opponent {
-                font-size: 10px;
-            }
-            .report-team-header .team-jpg-btn {
-                font-size: 9px;
-                padding: 1px 6px;
-            }
-            .report-team-header .count-badge {
-                font-size: 10px;
-                padding: 0 8px;
-            }
+            .header { flex-wrap: wrap; justify-content: center; }
+            .header-logo { width: 35px; }
+            .header-title .title { font-size: 12px; }
+            .header-title .date-display { font-size: 12px; min-width: 120px; }
+            .date-editor input { font-size: 11px; width: 35px; }
+            .date-editor .year-input { font-size: 11px; width: 45px !important; }
+            .date-editor .month-select { font-size: 11px; padding: 2px 6px; }
+            .date-editor .static-text { font-size: 11px; }
+            .date-editor button { font-size: 11px; padding: 3px 12px; }
+            .slot select, .slot input { font-size: 9px; max-width: 65px; }
+            .slot { min-height: 70px; }
+            .manual-time-box { max-width: 70px; }
+            .manual-time-input { width: 48px !important; max-width: 48px !important; font-size: 8px !important; }
+            .manual-time-label { font-size: 8px; min-width: 20px; }
+            .manual-time-actions button { font-size: 8px; padding: 1px 4px; }
+            .opponent-box { max-width: 70px; }
+            .opponent-input { max-width: 70px !important; font-size: 8px !important; }
+            .opponent-label { font-size: 8px; }
+            .type-display, .opponent-display { font-size: 8px; }
+            .btn-group button { font-size: 10px; padding: 3px 10px; }
+            .lock-toggle { font-size: 10px; }
+            .slot.locked-view .print-text .venue-text { font-size: 12px !important; }
+            .slot.locked-view .print-text .type-text { font-size: 10px !important; }
+            .slot.locked-view .print-text .opponent-text { font-size: 9px !important; white-space: pre-wrap; word-break: break-word; }
+            .slot.locked-view .print-text .time-text { font-size: 10px !important; }
+            .slot.locked-view { min-height: 44px !important; }
+            thead th { font-size: 10px !important; height: 30px !important; }
+            thead th .day-name { font-size: 11px !important; }
+            td.team, th.team { font-size: 10px !important; }
+            .session-table th, .session-table td { padding: 3px 2px !important; font-size: 10px !important; }
+            .session-count-input { width: 38px !important; font-size: 12px !important; padding: 3px 1px !important; }
+            .session-modal-header { padding: 8px 10px !important; }
+            .session-modal-title { font-size: 13px !important; }
+            .session-modal-content { padding: 8px 8px 2px !important; }
+            .session-modal-footer { padding: 8px 10px 12px !important; }
+            .session-modal-footer button { font-size: 10px !important; padding: 5px 12px !important; }
+            .session-modal-help { font-size: 10px !important; padding: 4px 10px !important; }
+            .session-legend span { font-size: 9px !important; padding: 2px 6px !important; }
+            .floating-session-btn { width: 50px; height: 50px; font-size: 22px; bottom: 20px; left: 20px; }
+            .floating-session-btn .badge { width: 20px; height: 20px; font-size: 9px; top: -4px; right: -4px; }
+            .session-hover-card { bottom: 80px; left: 16px; right: 16px; min-width: auto; max-width: none; padding: 12px 14px; max-height: 60vh; }
+            .session-hover-card .card-item { font-size: 11px; }
+            .session-hover-card .card-item .v-name { min-width: 55px; }
+            .session-hover-card .card-item .day-status .d-badge { font-size: 10px; min-width: 18px; line-height: 18px; }
+            .report-modal { width: 98%; max-height: 95vh; }
+            .report-modal-header { padding: 8px 12px; }
+            .report-modal-title { font-size: 14px; }
+            .report-modal-content { padding: 8px 10px; }
+            .report-team-header { font-size: 13px; padding: 6px 10px; }
+            .report-item { font-size: 11px; padding: 3px 4px; gap: 4px; }
+            .report-item .r-day { min-width: 38px; font-size: 11px; }
+            .report-item .r-date { font-size: 10px; min-width: 60px; }
+            .report-item .r-time { font-size: 11px; min-width: 70px; }
+            .report-item .r-venue { font-size: 11px; min-width: 55px; }
+            .report-item .r-type { font-size: 11px; min-width: 60px; }
+            .report-item .r-opponent { font-size: 10px; }
+            .report-team-header .team-jpg-btn { font-size: 9px; padding: 1px 6px; }
+            .report-team-header .count-badge { font-size: 10px; padding: 0 8px; }
         }
 
         .session-day-label {
@@ -2039,7 +1738,6 @@
             background: rgba(64, 64, 64, 0.15);
         }
 
-        /* استایل برای بسته‌بندی گزارش تیم برای خروجی JPG */
         .report-team-export {
             background: #fff;
             padding: 12px 16px;
@@ -2139,14 +1837,10 @@
 
     <div class="page" id="capture-area">
 
-        <!-- ================= HEADER ================= -->
-
         <div class="header">
 
             <div class="header-logo">
-
                 <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Sepahan_New_Logo.svg/960px-Sepahan_New_Logo.svg.png" alt="لوگوی باشگاه فولاد مبارکه سپاهان">
-
             </div>
 
             <div class="header-title">
@@ -2156,11 +1850,9 @@
                 </h1>
 
                 <div class="date-wrapper">
-
                     <div class="date-display" id="dateDisplay">
                         ۱ فروردین تا ۷ فروردین ماه ۱۴۰۵
                     </div>
-
                 </div>
 
                 <div class="date-editor no-print">
@@ -2214,14 +1906,10 @@
             </div>
 
             <div class="header-logo" style="opacity:0;">
-
                 <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Sepahan_New_Logo.svg/960px-Sepahan_New_Logo.svg.png" alt="">
-
             </div>
 
         </div>
-
-        <!-- ================= TABLE ================= -->
 
         <table id="schedule-table">
 
@@ -2277,6 +1965,8 @@
         </table>
 
         <div class="bottom-note">
+
+            <span class="team-drag-hint">☷ برای جابه‌جایی ترتیب تیم‌ها، نام تیم را با ماوس بکشید و روی تیم مقصد رها کنید.</span>
 
             <span>
                 <span class="gray-word">■</span>
@@ -2334,7 +2024,6 @@
 
         </div>
 
-        <!-- ================= مودال ویرایش سانس ================= -->
         <div class="session-modal-overlay no-print" id="sessionModalOverlay" onclick="handleSessionOverlayClick(event)">
             <div class="session-modal" role="dialog" aria-modal="true">
                 <div class="session-modal-header">
@@ -2379,7 +2068,6 @@
             </div>
         </div>
 
-        <!-- ================= مودال مدیریت زمین‌ها ================= -->
         <div class="venue-modal-overlay no-print" id="venueModalOverlay" onclick="handleVenueOverlayClick(event)">
             <div class="venue-modal" role="dialog" aria-modal="true">
                 <div class="venue-modal-header">
@@ -2389,9 +2077,7 @@
                 <div class="venue-modal-content">
                     <p style="font-weight:700;color:#555;font-size:13px;margin:0 0 6px;">لیست زمین‌های موجود:</p>
                     <div class="venue-note">🔒 زمین‌های پیش‌فرض قابل حذف نیستند. فقط «آبفا» و زمین‌های جدید قابل حذف هستند.</div>
-                    <div class="venue-list" id="venueListContainer">
-                        <!-- توسط جاوااسکریپت پر می‌شود -->
-                    </div>
+                    <div class="venue-list" id="venueListContainer"></div>
                     <div class="venue-add-row">
                         <input type="text" id="newVenueInput" placeholder="نام زمین جدید..." maxlength="30">
                         <button onclick="addNewVenue()">➕ افزودن</button>
@@ -2404,44 +2090,35 @@
             </div>
         </div>
 
-        <!-- ================= مودال گزارش تیم‌ها ================= -->
         <div class="report-modal-overlay no-print" id="reportModalOverlay" onclick="handleReportOverlayClick(event)">
             <div class="report-modal" role="dialog" aria-modal="true">
                 <div class="report-modal-header">
                     <span class="report-modal-title">📋 گزارش برنامه هفتگی تیم‌ها</span>
                     <button type="button" class="report-modal-close" onclick="closeTeamReport()">×</button>
                 </div>
-                <div class="report-modal-content" id="reportContent">
-                    <!-- محتوا توسط جاوااسکریپت پر می‌شود -->
-                </div>
+                <div class="report-modal-content" id="reportContent"></div>
             </div>
         </div>
 
     </div>
 
-    <!-- ================= دکمه شناور وضعیت سانس‌ها ================= -->
     <div class="floating-session-btn no-print" id="floatingBtn" onmouseenter="showSessionCard()" onmouseleave="hideSessionCard()" onclick="openSessionEditor()">
         📊
         <span class="badge" id="floatingBadge">0</span>
     </div>
 
-    <!-- ================= کارت وضعیت سانس‌ها (هاور) ================= -->
     <div class="session-hover-card no-print" id="sessionHoverCard" onmouseenter="showSessionCard()" onmouseleave="hideSessionCard()">
         <div class="card-title">
             📊 وضعیت سانس‌ها
             <span id="cardDateLabel">امروز</span>
         </div>
-        <div id="hoverCardContent">
-            <!-- محتوا توسط جاوااسکریپت پر می‌شود -->
-        </div>
+        <div id="hoverCardContent"></div>
     </div>
 
     <script>
 
         /* =========================================================
            اتصال به Supabase
-           ذخیره محلی حفظ شده و Supabase به عنوان دیتابیس آنلاین
-           برنامه استفاده می‌شود.
         ========================================================= */
         const SUPABASE_URL = 'https://iibuhlvviifbwalbkbaj.supabase.co';
         const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_S4lvM602l-XMOMKPDxQFGg_6dsaVy2b';
@@ -2664,8 +2341,6 @@
 
             var lists = await loadSupabaseLists();
 
-            /* زمین‌هایی که قبلاً فقط روی همین مرورگر وجود داشته‌اند،
-               ابتدا وارد دیتابیس می‌شوند تا اطلاعات قبلی از بین نرود. */
             await syncVenuesToSupabase(venues);
             lists = await loadSupabaseLists();
 
@@ -2677,7 +2352,6 @@
 
             var hasRemoteSchedules = (scheduleResult.data || []).length > 0;
 
-            /* زمین‌های دیتابیس را در برنامه قرار می‌دهیم */
             if (lists.venues.length) {
                 venues = lists.venues.map(function (v) { return v.name; });
                 saveVenues(venues, true);
@@ -2692,7 +2366,6 @@
                 );
                 localStorage.setItem('scheduleData', JSON.stringify(tableData));
             } else {
-                /* مهاجرت خودکار اطلاعات موجود در localStorage به Supabase */
                 await syncScheduleDataToSupabase(tableData, true);
             }
 
@@ -2775,9 +2448,6 @@
                     }
                 }
 
-                /* رکوردهای قبلی این بازه حذف و وضعیت فعلی جدول دوباره ثبت می‌شود.
-                   چون برای هر تیم/روز یک رکورد داریم، این روش با ساختار فعلی برنامه
-                   مطمئن و ساده است. */
                 var deleted = await supabaseClient
                     .from('schedules')
                     .delete()
@@ -2868,10 +2538,6 @@
             'اسفند'
         ];
 
-        /* =========================================================
-           سال کبیسه
-        ========================================================= */
-
         function isPersianLeapYear(year) {
 
             const breaks = [
@@ -2929,10 +2595,6 @@
             return leap === 0;
         }
 
-        /* =========================================================
-           تعداد روز ماه
-        ========================================================= */
-
         function getMonthDays(monthIndex, year) {
 
             if (monthIndex <= 5) {
@@ -2945,10 +2607,6 @@
 
             return isPersianLeapYear(year) ? 30 : 29;
         }
-
-        /* =========================================================
-           تبدیل اعداد
-        ========================================================= */
 
         function toPersianDigits(str) {
 
@@ -2987,10 +2645,6 @@
                 toEnglishDigits(input.value)
             );
         }
-
-        /* =========================================================
-           تبدیل خودکار اعداد تاریخ
-        ========================================================= */
 
         function setupPersianNumberInputs() {
 
@@ -3035,10 +2689,6 @@
             });
         }
 
-        /* =========================================================
-           تبدیل تاریخ به عدد ترتیبی
-        ========================================================= */
-
         function persianDateToSerial(day, monthIndex, year) {
 
             var serial = 0;
@@ -3059,10 +2709,6 @@
 
             return serial;
         }
-
-        /* =========================================================
-           روز بعد
-        ========================================================= */
 
         function getNextDate(day, monthIndex, year) {
 
@@ -3086,10 +2732,6 @@
                 year: year
             };
         }
-
-        /* =========================================================
-           نام روز هفته
-        ========================================================= */
 
         function getPersianWeekday(day, monthIndex, year) {
 
@@ -3142,10 +2784,6 @@
 
             return weekdays[index];
         }
-
-        /* =========================================================
-           خواندن تاریخ
-        ========================================================= */
 
         function parseDateString(dateStr) {
 
@@ -3213,10 +2851,6 @@
 
             return null;
         }
-
-        /* =========================================================
-           ثبت تاریخ - فقط با کلیک روی دکمه ثبت
-        ========================================================= */
 
         function updateDateFromEditor() {
 
@@ -3373,10 +3007,6 @@
             alert('تاریخ با موفقیت ذخیره شد!');
         }
 
-        /* =========================================================
-           بارگذاری تاریخ - پیشفرض فروردین
-        ========================================================= */
-
         function loadDate() {
 
             var saved =
@@ -3467,10 +3097,6 @@
             );
         }
 
-        /* =========================================================
-           بروزرسانی تاریخ روزها
-        ========================================================= */
-
         function updateDayDates() {
 
             var dateStr =
@@ -3560,10 +3186,6 @@
                 weekdayYear = next.year;
             }
         }
-
-        /* =========================================================
-           زمان
-        ========================================================= */
 
         function persianTimeToMinutes(timeStr) {
 
@@ -3704,10 +3326,6 @@
             );
         }
 
-        /* =========================================================
-           نمایش بازه زمانی
-        ========================================================= */
-
         function getTimeDisplay(cell) {
 
             if (!cell) return '';
@@ -3722,10 +3340,6 @@
 
             return '';
         }
-
-        /* =========================================================
-           فرمت‌سازی ساعت - تبدیل ورودی‌های مختلف به فرمت استاندارد
-        ========================================================= */
 
         function formatManualTime(input) {
             var cleaned = String(input)
@@ -3790,10 +3404,6 @@
             return formatTimePersian(hour, minute);
         }
 
-        /* =========================================================
-           انواع برنامه
-        ========================================================= */
-
         var ACTIVITY_TYPES = [
             '',
             'تمرین',
@@ -3801,13 +3411,11 @@
             'مسابقه رسمی'
         ];
 
-        /* =========================================================
-           تیم‌ها
-        ========================================================= */
+        var TEAM_ORDER_KEY = 'teamNamesOrder';
 
-        var teamNames = [
+        var DEFAULT_TEAM_NAMES = [
 
-            'پیشکسوتان سلامت و رقابت',
+            'سلامت و رقابت',
             'بزرگسالان ب',
             'امید',
             'جوانان',
@@ -3823,9 +3431,42 @@
             'مدرسه فوتبال'
         ];
 
-        /* =========================================================
-           زمین‌ها - لیست پیشفرض
-        ========================================================= */
+        function loadTeamNames() {
+            var saved = localStorage.getItem(TEAM_ORDER_KEY);
+
+            if (saved) {
+                try {
+                    var parsed = JSON.parse(saved);
+
+                    if (
+                        Array.isArray(parsed) &&
+                        parsed.length === DEFAULT_TEAM_NAMES.length &&
+                        parsed.every(function(name) {
+                            return typeof name === 'string' && name.trim() !== '';
+                        }) &&
+                        DEFAULT_TEAM_NAMES.every(function(name) {
+                            return parsed.indexOf(name) !== -1;
+                        })
+                    ) {
+                        return parsed;
+                    }
+                } catch (e) {
+                    console.log('خطا در بارگذاری ترتیب تیم‌ها:', e);
+                }
+            }
+
+            return DEFAULT_TEAM_NAMES.slice();
+        }
+
+        var teamNames = loadTeamNames();
+
+        function saveTeamNames() {
+            try {
+                localStorage.setItem(TEAM_ORDER_KEY, JSON.stringify(teamNames));
+            } catch (e) {
+                console.log('خطا در ذخیره ترتیب تیم‌ها:', e);
+            }
+        }
 
         var DEFAULT_VENUES = [
             'باغ فردوس',
@@ -3871,10 +3512,6 @@
 
         var venues = loadVenues();
 
-        /* =========================================================
-           ساعت‌های کشویی - هر ۳۰ دقیقه یکبار از ۷ صبح تا ۲۰:۳۰
-        ========================================================= */
-
         function generateTimeOptions() {
 
             var times = [''];
@@ -3904,10 +3541,6 @@
 
         var timeOptions =
             generateTimeOptions();
-
-        /* =========================================================
-           داده خالی
-        ========================================================= */
 
         function getEmptyData() {
 
@@ -4006,9 +3639,6 @@
         var tableData =
             loadData();
 
-        /* =========================================================
-           تنظیم تعداد سانس زمین‌ها
-        ========================================================= */
         try {
             localStorage.setItem('scheduleData', JSON.stringify(tableData));
         } catch (e) {
@@ -4119,10 +3749,6 @@
             }
             return { allowed: used < limit, limit: limit, used: used };
         }
-
-        /* =========================================================
-           توابع مدیریت سانس
-        ========================================================= */
 
         function openSessionEditor() {
             renderSessionEditor();
@@ -4252,11 +3878,6 @@
             alert('تعداد سانس‌های زمین‌ها با موفقیت ذخیره شد.');
         }
 
-        /* =========================================================
-           توابع مدیریت زمین‌ها (ورزشگاه‌ها)
-           فقط زمین «آبفا» و زمین‌های جدید قابل حذف هستند
-        ========================================================= */
-
         function openVenueManager() {
             renderVenueList();
             var overlay = document.getElementById('venueModalOverlay');
@@ -4293,11 +3914,8 @@
                 nameSpan.className = 'v-name';
                 nameSpan.textContent = venues[i];
 
-                // تشخیص زمین‌های پیش‌فرض (به جز آبفا)
                 var isDefault = DEFAULT_VENUES.indexOf(venues[i]) !== -1;
                 var isAbfa = venues[i] === 'آبفا';
-                
-                // فقط آبفا یا زمین‌های جدید (غیرپیش‌فرض) قابل حذف هستند
                 var isRemovable = isAbfa || !isDefault;
 
                 if (isRemovable) {
@@ -4312,7 +3930,6 @@
                     item.appendChild(nameSpan);
                     item.appendChild(removeBtn);
                 } else {
-                    // زمین‌های پیش‌فرض محافظت‌شده
                     item.appendChild(nameSpan);
                     var protectedLabel = document.createElement('span');
                     protectedLabel.className = 'v-protected';
@@ -4328,7 +3945,6 @@
             var venueName = venues[index];
             if (!venueName) return;
 
-            // بررسی اینکه زمین در برنامه‌های ثبت‌شده استفاده شده است
             var inUse = false;
             for (var r = 0; r < tableData.length; r++) {
                 for (var c = 0; c < tableData[r].length; c++) {
@@ -4352,15 +3968,12 @@
                 }
             }
 
-            // حذف از لیست زمین‌ها
             venues.splice(index, 1);
             saveVenues(venues);
 
-            // حذف از تنظیمات سانس
             sessionConfig.splice(index, 1);
             saveSessionConfigToStorage();
 
-            // حذف از داده‌های جدول
             for (var r2 = 0; r2 < tableData.length; r2++) {
                 for (var c2 = 0; c2 < tableData[r2].length; c2++) {
                     if (tableData[r2][c2] && tableData[r2][c2].venue === venueName) {
@@ -4377,7 +3990,6 @@
             }
             saveData(tableData);
 
-            // بازسازی جدول و لیست
             buildTable();
             renderVenueList();
             updateFloatingBadge();
@@ -4394,25 +4006,21 @@
                 return;
             }
 
-            // بررسی تکراری نبودن
             if (venues.indexOf(name) !== -1) {
                 alert('زمین «' + name + '» قبلاً در لیست وجود دارد.');
                 input.value = '';
                 return;
             }
 
-            // افزودن به لیست
             venues.push(name);
             saveVenues(venues);
 
-            // افزودن به تنظیمات سانس (با مقادیر خالی)
             sessionConfig.push([null, null, null, null, null, null, null]);
             saveSessionConfigToStorage();
 
             input.value = '';
             document.getElementById('venueWarning').classList.remove('show');
 
-            // بازسازی جدول و لیست
             buildTable();
             renderVenueList();
             updateFloatingBadge();
@@ -4420,7 +4028,6 @@
             alert('زمین «' + name + '» با موفقیت اضافه شد.');
         }
 
-        // اجازه افزودن با Enter
         document.addEventListener('DOMContentLoaded', function() {
             var input = document.getElementById('newVenueInput');
             if (input) {
@@ -4432,10 +4039,6 @@
                 });
             }
         });
-
-        /* =========================================================
-           دریافت بازه زمانی واقعی سلول
-        ========================================================= */
 
         function getCellTimeRange(cell) {
 
@@ -4465,10 +4068,6 @@
                 end: end
             };
         }
-
-        /* =========================================================
-           بررسی تداخل
-        ========================================================= */
 
         function hasTimeConflict(
             rowIdx,
@@ -4580,10 +4179,6 @@
             };
         }
 
-        /* =========================================================
-           دریافت روز و تاریخ برای یک ستون
-        ========================================================= */
-
         function getDayAndDateForColumn(colIdx) {
             var dateStr = document.getElementById('dateDisplay').textContent;
             var parsed = parseDateString(dateStr);
@@ -4635,10 +4230,6 @@
             wrapper.appendChild(tooltip);
         }
 
-        /* =========================================================
-           ساخت جدول
-        ========================================================= */
-
         function buildTable() {
 
             var tbody =
@@ -4664,10 +4255,93 @@
                     document.createElement('td');
 
                 tdTeam.className =
-                    'team';
+                    'team team-draggable';
 
                 tdTeam.textContent =
                     teamNames[rowIdx];
+
+                tdTeam.draggable = true;
+                tdTeam.dataset.teamRow = rowIdx;
+                tdTeam.title = 'برای جابه‌جایی تیم، نام تیم را بکشید و روی تیم دیگر رها کنید';
+
+                tdTeam.addEventListener('dragstart', function(e) {
+                    var fromRow = parseInt(this.dataset.teamRow, 10);
+                    window.draggedTeamRow = fromRow;
+                    this.classList.add('team-dragging');
+
+                    if (e.dataTransfer) {
+                        e.dataTransfer.effectAllowed = 'move';
+                        try {
+                            e.dataTransfer.setData('text/plain', String(fromRow));
+                        } catch (err) {}
+                    }
+                });
+
+                tdTeam.addEventListener('dragend', function() {
+                    this.classList.remove('team-dragging');
+                    document.querySelectorAll('#table-body tr.team-row').forEach(function(row) {
+                        row.classList.remove('team-drag-over');
+                    });
+                    window.draggedTeamRow = null;
+                });
+
+                tdTeam.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+
+                    var targetRow = parseInt(this.dataset.teamRow, 10);
+                    var fromRow = window.draggedTeamRow;
+
+                    if (
+                        Number.isInteger(fromRow) &&
+                        Number.isInteger(targetRow) &&
+                        fromRow !== targetRow
+                    ) {
+                        this.closest('tr').classList.add('team-drag-over');
+                    }
+                });
+
+                tdTeam.addEventListener('dragleave', function() {
+                    var row = this.closest('tr');
+                    if (row) row.classList.remove('team-drag-over');
+                });
+
+                tdTeam.addEventListener('drop', function(e) {
+                    e.preventDefault();
+
+                    var targetRow = parseInt(this.dataset.teamRow, 10);
+                    var fromRow = window.draggedTeamRow;
+
+                    var row = this.closest('tr');
+                    if (row) row.classList.remove('team-drag-over');
+
+                    if (!Number.isInteger(fromRow) && e.dataTransfer) {
+                        fromRow = parseInt(e.dataTransfer.getData('text/plain'), 10);
+                    }
+
+                    if (
+                        !Number.isInteger(fromRow) ||
+                        !Number.isInteger(targetRow) ||
+                        fromRow === targetRow ||
+                        fromRow < 0 ||
+                        targetRow < 0 ||
+                        fromRow >= teamNames.length ||
+                        targetRow >= teamNames.length
+                    ) {
+                        return;
+                    }
+
+                    var movedTeam = teamNames.splice(fromRow, 1)[0];
+                    var movedData = tableData.splice(fromRow, 1)[0];
+
+                    teamNames.splice(targetRow, 0, movedTeam);
+                    tableData.splice(targetRow, 0, movedData);
+
+                    saveTeamNames();
+                    saveData(tableData);
+                    buildTable();
+                    updateFloatingBadge();
+                });
 
                 tr.appendChild(tdTeam);
 
@@ -4723,10 +4397,6 @@
             }
         }
 
-        /* =========================================================
-           نمایش سلول
-        ========================================================= */
-
         function updateSlotDisplay(slotDiv) {
 
             if (!slotDiv) return;
@@ -4766,6 +4436,10 @@
 
             var opponentDisplay =
                 slotDiv.querySelector('.opponent-display');
+
+            var clearBtn =
+                slotDiv.querySelector('.cell-clear-btn') ||
+                (slotDiv.closest('td') ? slotDiv.closest('td').querySelector('.cell-clear-btn') : null);
 
             var row =
                 parseInt(
@@ -4819,6 +4493,11 @@
                 lockCheckbox ?
                 lockCheckbox.checked :
                 false;
+
+            if (clearBtn) {
+                clearBtn.style.display =
+                    isLocked ? 'none' : 'flex';
+            }
 
             if (td && !isLocked) {
                 td.classList.remove('match-official', 'match-friendly');
@@ -4977,7 +4656,6 @@
             slotDiv.classList.remove('locked-view');
             slotDiv.classList.remove('is-empty');
 
-            // به‌روزرسانی لیست زمین‌ها در منوی کشویی
             if (venueSelect) {
                 var currentVal = venueSelect.value;
                 venueSelect.innerHTML = '';
@@ -5141,63 +4819,6 @@
             }
         }
 
-        /* =========================================================
-           بازنشانی سریع یک سلول
-           زمین، نوع برنامه، ساعت و اطلاعات حریف به حالت پیش‌فرض برمی‌گردد
-        ========================================================= */
-
-        function resetSlotToDefault(rowIdx, colIdx) {
-
-            if (
-                !tableData[rowIdx] ||
-                !tableData[rowIdx][colIdx]
-            ) {
-                return;
-            }
-
-            tableData[rowIdx][colIdx] = {
-                venue: '',
-                time: '',
-                manual: false,
-                manualEditing: false,
-                startTime: '',
-                endTime: '',
-                activityType: '',
-                opponent: ''
-            };
-
-            saveData(tableData);
-
-            /* بازسازی همان سلول تا همه کنترل‌ها دقیقاً از نو ساخته شوند */
-            var slots = document.querySelectorAll('.slot');
-
-            for (var i = 0; i < slots.length; i++) {
-                var slot = slots[i];
-
-                if (
-                    parseInt(slot.dataset.row, 10) === rowIdx &&
-                    parseInt(slot.dataset.col, 10) === colIdx
-                ) {
-                    var td = slot.closest('td');
-
-                    if (td) {
-                        var newSlot = createSlotCell(rowIdx, colIdx);
-                        td.innerHTML = '';
-                        td.appendChild(newSlot);
-                        addTooltipToSlot(newSlot, colIdx);
-                    }
-
-                    break;
-                }
-            }
-
-            updateFloatingBadge();
-        }
-
-        /* =========================================================
-           ساخت سلول - نسخه اصلاح‌شده با دابل‌کلیک روی کل سلول
-        ========================================================= */
-
         function createSlotCell(rowIdx, colIdx) {
 
             var td =
@@ -5215,33 +4836,6 @@
             slotDiv.dataset.col =
                 colIdx;
 
-            /* =====================================================
-               ضربدر قرمز: بازنشانی اطلاعات همین سلول به حالت پیش‌فرض
-            ===================================================== */
-            var resetButton =
-                document.createElement('button');
-
-            resetButton.type = 'button';
-            resetButton.className = 'slot-reset-btn no-print';
-            resetButton.textContent = '×';
-            resetButton.title = 'بازنشانی این سلول';
-            resetButton.setAttribute('aria-label', 'بازنشانی این سلول');
-
-            resetButton.addEventListener(
-                'click',
-                function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    resetSlotToDefault(
-                        rowIdx,
-                        colIdx
-                    );
-                }
-            );
-
-            slotDiv.appendChild(resetButton);
-
             var cellData =
                 tableData[rowIdx][colIdx];
 
@@ -5255,9 +4849,19 @@
                 cellData.activityType || '';
 
 
-            /* =====================================================
-               زمین
-            ===================================================== */
+            var clearBtn =
+                document.createElement('button');
+
+            clearBtn.type = 'button';
+
+            clearBtn.className =
+                'cell-clear-btn no-print';
+
+            clearBtn.textContent = '×';
+
+            clearBtn.title =
+                'پاک کردن این سلول';
+
 
             var venueSelect =
                 document.createElement('select');
@@ -5297,10 +4901,6 @@
             }
 
 
-            /* =====================================================
-               نوع برنامه
-            ===================================================== */
-
             var typeSelect =
                 document.createElement('select');
 
@@ -5332,10 +4932,6 @@
                 typeSelect.appendChild(opt2);
             }
 
-
-            /* =====================================================
-               حریف
-            ===================================================== */
 
             var opponentBox =
                 document.createElement('div');
@@ -5386,10 +4982,6 @@
             );
 
 
-            /* =====================================================
-               ساعت کشویی
-            ===================================================== */
-
             var timeSelect =
                 document.createElement('select');
 
@@ -5420,10 +5012,6 @@
                 timeSelect.appendChild(opt3);
             }
 
-
-            /* =====================================================
-               باکس ورود دستی
-            ===================================================== */
 
             var manualBox =
                 document.createElement('div');
@@ -5543,19 +5131,12 @@
             manualBox.appendChild(actions);
 
 
-            /* =====================================================
-               نمایش ساعت - با دابل‌کلیک
-            ===================================================== */
-
             var timeDisplay =
                 document.createElement('div');
 
             timeDisplay.className =
                 'time-display';
 
-            // =====================================================
-            // دابل‌کلیک روی timeDisplay - برای همه سلول‌ها کار می‌کند
-            // =====================================================
             timeDisplay.addEventListener(
                 'dblclick',
                 function(e) {
@@ -5569,12 +5150,10 @@
                     var current = tableData[rowIdx][colIdx];
                     if (!current) return;
 
-                    // اگر سلول کاملاً خالی است، کاری نکن
                     if (!current.venue && !current.time && !current.activityType) {
                         return;
                     }
 
-                    // اگر زمان دستی نیست، مقداردهی اولیه کن
                     if (!current.manual) {
                         current.startTime = current.time || '';
                         current.endTime = current.time ? getEndTime(current.time) : '';
@@ -5596,10 +5175,6 @@
             );
 
 
-            /* =====================================================
-               نمایش نوع
-            ===================================================== */
-
             var typeDisplay =
                 document.createElement('div');
 
@@ -5607,20 +5182,12 @@
                 'type-display';
 
 
-            /* =====================================================
-               نمایش حریف
-            ===================================================== */
-
             var opponentDisplay =
                 document.createElement('div');
 
             opponentDisplay.className =
                 'opponent-display';
 
-
-            /* =====================================================
-               برچسب خالی
-            ===================================================== */
 
             var emptyLabel =
                 document.createElement('div');
@@ -5631,10 +5198,6 @@
             emptyLabel.textContent =
                 '***';
 
-
-            /* =====================================================
-               متن چاپ / حالت قفل
-            ===================================================== */
 
             var printDiv =
                 document.createElement('div');
@@ -5686,9 +5249,8 @@
             printDiv.appendChild(timeSpan);
 
 
-            /* =====================================================
-               افزودن عناصر
-            ===================================================== */
+            td.classList.add('schedule-slot-cell');
+            td.appendChild(clearBtn);
 
             slotDiv.appendChild(venueSelect);
             slotDiv.appendChild(typeSelect);
@@ -5706,14 +5268,51 @@
             applyColorByVenue(td, venue);
 
 
-            /* =====================================================
-               دابل‌کلیک روی خود سلول - برای مواقعی که timeDisplay قابل مشاهده نیست
-            ===================================================== */
+            clearBtn.addEventListener(
+                'click',
+                function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var lockCheckbox = document.getElementById('lockCheckbox');
+                    if (lockCheckbox && lockCheckbox.checked) {
+                        return;
+                    }
+
+                    var cell = tableData[rowIdx][colIdx];
+                    if (!cell) return;
+
+                    cell.venue = '';
+                    cell.time = '';
+                    cell.manual = false;
+                    cell.manualEditing = false;
+                    cell.startTime = '';
+                    cell.endTime = '';
+                    cell.activityType = '';
+                    cell.opponent = '';
+
+                    venueSelect.value = '';
+                    typeSelect.value = '';
+                    timeSelect.value = '';
+                    opponentInput.value = '';
+                    startInput.value = '';
+                    endInput.value = '';
+
+                    manualBox.classList.remove('active');
+                    manualBox.style.display = 'none';
+                    timeSelect.classList.remove('hidden');
+
+                    applyColorByVenue(td, '');
+                    updateSlotDisplay(slotDiv);
+                    saveData(tableData);
+                }
+            );
+
+
             slotDiv.addEventListener(
                 'dblclick',
                 function(e) {
-                    // اگر رویداد از روی timeDisplay یا عناصر دیگر آمده باشد، نادیده بگیر
-                    if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select')) {
+                    if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn')) {
                         return;
                     }
 
@@ -5725,12 +5324,10 @@
                     var current = tableData[rowIdx][colIdx];
                     if (!current) return;
 
-                    // اگر سلول کاملاً خالی است، کاری نکن
                     if (!current.venue && !current.time && !current.activityType) {
                         return;
                     }
 
-                    // اگر زمان دستی نیست، مقداردهی اولیه کن
                     if (!current.manual) {
                         current.startTime = current.time || '';
                         current.endTime = current.time ? getEndTime(current.time) : '';
@@ -5752,22 +5349,14 @@
             );
 
 
-            /* =====================================================
-               دابل‌کلیک روی timeSelect - برای سازگاری
-            ===================================================== */
             timeSelect.addEventListener(
                 'dblclick',
                 function(e) {
                     e.stopPropagation();
-                    // شبیه‌سازی دابل‌کلیک روی timeDisplay
                     timeDisplay.dispatchEvent(new Event('dblclick', { bubbles: true }));
                 }
             );
 
-
-            /* =====================================================
-               تبدیل اعداد دستی به فارسی
-            ===================================================== */
 
             function convertManualInput(input) {
 
@@ -5793,10 +5382,6 @@
                 }
             );
 
-
-            /* =====================================================
-               تغییر نوع برنامه
-            ===================================================== */
 
             typeSelect.addEventListener(
                 'change',
@@ -5830,10 +5415,6 @@
             );
 
 
-            /* =====================================================
-               ورود حریف
-            ===================================================== */
-
             opponentInput.addEventListener(
                 'input',
                 function() {
@@ -5865,10 +5446,6 @@
                 }
             );
 
-
-            /* =====================================================
-               ثبت ساعت دستی
-            ===================================================== */
 
             saveButton.addEventListener(
                 'click',
@@ -6018,10 +5595,6 @@
             );
 
 
-            /* =====================================================
-               انصراف از حالت دستی
-            ===================================================== */
-
             cancelButton.addEventListener(
                 'click',
                 function() {
@@ -6047,10 +5620,6 @@
                 }
             );
 
-
-            /* =====================================================
-               Enter در کادرها
-            ===================================================== */
 
             startInput.addEventListener(
                 'keydown',
@@ -6089,10 +5658,6 @@
                 }
             );
 
-
-            /* =====================================================
-               تغییر زمین
-            ===================================================== */
 
             venueSelect.addEventListener(
                 'change',
@@ -6211,10 +5776,6 @@
             );
 
 
-            /* =====================================================
-               تغییر ساعت کشویی
-            ===================================================== */
-
             timeSelect.addEventListener(
                 'change',
                 function() {
@@ -6306,10 +5867,6 @@
             return td;
         }
 
-        /* =========================================================
-           رنگ سلول
-        ========================================================= */
-
         function applyColorByVenue(td, venue) {
 
             td.classList.remove(
@@ -6374,14 +5931,9 @@
                     break;
 
                 default:
-                    // برای زمین‌های جدید اضافه‌شده، رنگ سبز پیش‌فرض
                     td.classList.add('green');
             }
         }
-
-        /* =========================================================
-           دکمه شناور و کارت وضعیت سانس‌ها
-        ========================================================= */
 
         var hoverTimeout = null;
 
@@ -6508,10 +6060,6 @@
             updateHoverCardContent();
         }
 
-        /* =========================================================
-           گزارش تیم‌ها - با اعداد فارسی و دکمه JPG جداگانه
-        ========================================================= */
-
         function openTeamReport() {
             var overlay = document.getElementById('reportModalOverlay');
             if (!overlay) return;
@@ -6550,7 +6098,6 @@
                 
                 totalPrograms += items.length;
                 
-                // شماره برنامه به فارسی
                 var countPersian = toPersianDigits(String(items.length));
                 
                 html += '<div class="report-team-card">';
@@ -6584,7 +6131,6 @@
                 html += '</div></div>';
             }
             
-            // تعداد کل برنامه‌ها به فارسی
             var totalPersian = toPersianDigits(String(totalPrograms));
             var headerTitle = document.querySelector('.report-modal-title');
             if (headerTitle) {
@@ -6599,10 +6145,6 @@
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
-        /* =========================================================
-           خروجی JPG برای یک تیم خاص
-        ========================================================= */
 
         function exportTeamJPG(rowIndex) {
             var teamName = teamNames[rowIndex];
@@ -6630,12 +6172,10 @@
                 });
             }
             
-            // ایجاد عنصر برای خروجی
             var exportDiv = document.createElement('div');
             exportDiv.className = 'report-team-export';
             exportDiv.style.cssText = 'background:#fff;padding:16px 20px;direction:rtl;font-family:"Vazirmatn",Tahoma,sans-serif;max-width:800px;margin:0 auto;';
             
-            // هدر
             var header = document.createElement('div');
             header.className = 'export-header';
             header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #404040;padding-bottom:8px;margin-bottom:10px;';
@@ -6654,7 +6194,6 @@
             header.appendChild(countSpan);
             exportDiv.appendChild(header);
             
-            // بدنه
             if (items.length === 0) {
                 var empty = document.createElement('div');
                 empty.className = 'export-empty';
@@ -6711,7 +6250,6 @@
                 }
             }
             
-            // فوتر
             var footer = document.createElement('div');
             footer.className = 'export-footer';
             footer.style.cssText = 'border-top:2px solid #eee;margin-top:10px;padding-top:8px;text-align:center;font-size:11px;color:#888;';
@@ -6719,10 +6257,8 @@
             footer.textContent = '📅 ' + (dateDisplay ? dateDisplay.textContent : '');
             exportDiv.appendChild(footer);
             
-            // اضافه کردن به صفحه و گرفتن عکس
             document.body.appendChild(exportDiv);
             
-            // اعمال استایل برای خروجی
             exportDiv.style.position = 'absolute';
             exportDiv.style.left = '-9999px';
             exportDiv.style.top = '0';
@@ -6731,7 +6267,6 @@
             exportDiv.style.padding = '20px';
             exportDiv.style.direction = 'rtl';
             
-            // گرفتن عکس
             html2canvas(exportDiv, {
                 scale: 2.5,
                 useCORS: true,
@@ -6762,10 +6297,6 @@
             if (e.target && e.target.id === 'reportModalOverlay') closeTeamReport();
         }
 
-        /* =========================================================
-           پاک کردن همه
-        ========================================================= */
-
         function clearAllSlots() {
 
             if (
@@ -6782,10 +6313,6 @@
                 saveData(tableData);
             }
         }
-
-        /* =========================================================
-           قفل
-        ========================================================= */
 
         function toggleLock() {
 
@@ -6853,10 +6380,6 @@
             }
         }
 
-        /* =========================================================
-           خروجی JPG کل صفحه
-        ========================================================= */
-
         function captureAsJPG() {
 
             var element =
@@ -6914,6 +6437,11 @@
                     '.slot input'
                 );
 
+            var clearBtnsCapture =
+                element.querySelectorAll(
+                    '.cell-clear-btn'
+                );
+
             var manualBoxes =
                 element.querySelectorAll(
                     '.manual-time-box'
@@ -6951,6 +6479,7 @@
 
             var oldSelectDisplay = [];
             var oldInputDisplay = [];
+            var oldClearBtnDisplay = [];
             var oldManualDisplay = [];
             var oldOpponentBoxDisplay = [];
             var oldTimeDisplay = [];
@@ -6969,6 +6498,12 @@
             for (var i = 0; i < inputs.length; i++) {
                 var el = inputs[i];
                 oldInputDisplay[i] = el.style.display;
+                el.style.display = 'none';
+            }
+
+            for (var i = 0; i < clearBtnsCapture.length; i++) {
+                var el = clearBtnsCapture[i];
+                oldClearBtnDisplay[i] = el.style.display;
                 el.style.display = 'none';
             }
 
@@ -7086,6 +6621,11 @@
                         el.style.display = oldInputDisplay[i] || '';
                     }
 
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
+                    }
+
                     for (var i = 0; i < manualBoxes.length; i++) {
                         var el = manualBoxes[i];
                         el.style.display = oldManualDisplay[i] || '';
@@ -7151,6 +6691,11 @@
                         el.style.display = oldInputDisplay[i] || '';
                     }
 
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
+                    }
+
                     for (var i = 0; i < manualBoxes.length; i++) {
                         var el = manualBoxes[i];
                         el.style.display = oldManualDisplay[i] || '';
@@ -7192,10 +6737,6 @@
                     alert('خطا در ساخت تصویر. لطفاً دوباره تلاش کنید.');
                 });
         }
-
-        /* =========================================================
-           خروجی PDF
-        ========================================================= */
 
         function captureAsPDF() {
 
@@ -7254,6 +6795,11 @@
                     '.slot input'
                 );
 
+            var clearBtnsCapture =
+                element.querySelectorAll(
+                    '.cell-clear-btn'
+                );
+
             var manualBoxes =
                 element.querySelectorAll(
                     '.manual-time-box'
@@ -7291,6 +6837,7 @@
 
             var oldSelectDisplay = [];
             var oldInputDisplay = [];
+            var oldClearBtnDisplay = [];
             var oldManualDisplay = [];
             var oldOpponentBoxDisplay = [];
             var oldTimeDisplay = [];
@@ -7309,6 +6856,12 @@
             for (var i = 0; i < inputs.length; i++) {
                 var el = inputs[i];
                 oldInputDisplay[i] = el.style.display;
+                el.style.display = 'none';
+            }
+
+            for (var i = 0; i < clearBtnsCapture.length; i++) {
+                var el = clearBtnsCapture[i];
+                oldClearBtnDisplay[i] = el.style.display;
                 el.style.display = 'none';
             }
 
@@ -7424,6 +6977,11 @@
                     for (var i = 0; i < inputs.length; i++) {
                         var el = inputs[i];
                         el.style.display = oldInputDisplay[i] || '';
+                    }
+
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
                     }
 
                     for (var i = 0; i < manualBoxes.length; i++) {
@@ -7543,6 +7101,11 @@
                         el.style.display = oldInputDisplay[i] || '';
                     }
 
+                    for (var i = 0; i < clearBtnsCapture.length; i++) {
+                        var el = clearBtnsCapture[i];
+                        el.style.display = oldClearBtnDisplay[i] || '';
+                    }
+
                     for (var i = 0; i < manualBoxes.length; i++) {
                         var el = manualBoxes[i];
                         el.style.display = oldManualDisplay[i] || '';
@@ -7587,10 +7150,6 @@
                 });
         }
 
-        /* =========================================================
-           بازنشانی
-        ========================================================= */
-
         function resetToDefault() {
 
             if (
@@ -7618,10 +7177,6 @@
             }
         }
 
-        /* =========================================================
-           شروع
-        ========================================================= */
-
         loadDate();
 
         buildTable();
@@ -7630,11 +7185,6 @@
 
         updateFloatingBadge();
 
-        /* =========================================================
-           بارگذاری اولیه از Supabase
-           ابتدا نسخه محلی نمایش داده می‌شود تا صفحه معطل نماند،
-           سپس اطلاعات آنلاین جایگزین می‌شود.
-        ========================================================= */
         (async function () {
             try {
                 await loadScheduleFromSupabase();
