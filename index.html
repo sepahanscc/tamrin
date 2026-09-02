@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -2845,21 +2846,20 @@
             }
             var fullDate = toPersianDigits(startDay) + ' ' + startMonth + ' تا ' + toPersianDigits(endDay) + ' ' + endMonth + ' ماه ' + toPersianDigits(year);
             document.getElementById('dateDisplay').textContent = fullDate;
-            localStorage.setItem('scheduleDate', fullDate);
             updateDayDates();
             rebuildAllSlots();
+            scheduleCloudSave();
             alert('تاریخ با موفقیت ذخیره شد!');
         }
 
-        function loadDate() {
-            var saved = localStorage.getItem('scheduleDate');
+        function applyDateString(dateStr) {
             var startDay = DEFAULT_START;
             var endDay = DEFAULT_END;
             var startMonth = DEFAULT_START_MONTH;
             var endMonth = DEFAULT_END_MONTH;
             var year = DEFAULT_YEAR;
-            if (saved) {
-                var parsed = parseDateString(saved);
+            if (dateStr) {
+                var parsed = parseDateString(dateStr);
                 if (parsed) {
                     startDay = parsed.startDay;
                     endDay = parsed.endDay;
@@ -2868,12 +2868,13 @@
                     year = parsed.year;
                     var normalized = toPersianDigits(startDay) + ' ' + startMonth + ' تا ' + toPersianDigits(endDay) + ' ' + endMonth + ' ماه ' + toPersianDigits(year);
                     document.getElementById('dateDisplay').textContent = normalized;
-                    localStorage.setItem('scheduleDate', normalized);
                 } else {
                     setDefaultDate();
+                    return;
                 }
             } else {
                 setDefaultDate();
+                return;
             }
             document.getElementById('startDayInput').value = toPersianDigits(startDay);
             document.getElementById('endDayInput').value = toPersianDigits(endDay);
@@ -2883,10 +2884,14 @@
             updateDayDates();
         }
 
+        function loadDate() {
+            // تاریخ از کلود در initFromCloud اعمال می‌شه
+            applyDateString(null);
+        }
+
         function setDefaultDate() {
             var defaultDate = toPersianDigits(DEFAULT_START) + ' ' + DEFAULT_START_MONTH + ' تا ' + toPersianDigits(DEFAULT_END) + ' ' + DEFAULT_END_MONTH + ' ماه ' + toPersianDigits(DEFAULT_YEAR);
             document.getElementById('dateDisplay').textContent = defaultDate;
-            localStorage.setItem('scheduleDate', defaultDate);
         }
 
         function updateDayDates() {
@@ -3014,47 +3019,77 @@
             return formatTimePersian(hour, minute);
         }
 
+        // ============================================================
+        // تنظیمات Google Sheets به عنوان دیتابیس
+        // ============================================================
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz23FaSc84XVJkWw9mXPsWomxi8ERTIUPeHXDKXHJwmp0Z2bzL16VafYpqj3T_FNUeHuQ/exec';
+        const SECRET_KEY = 'sepahan1405';
+
+        var isCloudReady = false;
+        var saveTimeout = null;
+
+        async function loadFromCloud() {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL);
+                const result = await response.json();
+                if (result.success && result.data) {
+                    return result.data;
+                }
+                console.error('خطا در بارگذاری از کلود:', result.error);
+                return null;
+            } catch (err) {
+                console.error('خطا در ارتباط با Google Sheets:', err);
+                return null;
+            }
+        }
+
+        async function saveToCloud(partialData) {
+            try {
+                const payload = Object.assign({ secret: SECRET_KEY }, partialData);
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload),
+                    mode: 'no-cors'
+                });
+                // با no-cors نمی‌تونیم پاسخ رو بخونیم، اما درخواست ارسال می‌شه
+                return true;
+            } catch (err) {
+                console.error('خطا در ذخیره در Google Sheets:', err);
+                showNotification('⛔ خطا در ذخیره آنلاین. داده موقتاً ذخیره نشد.', true);
+                return false;
+            }
+        }
+
+        function scheduleCloudSave() {
+            if (saveTimeout) clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(function() {
+                saveToCloud({
+                    teams: teamNames,
+                    venues: venues,
+                    sessionConfig: sessionConfig,
+                    scheduleData: tableData,
+                    date: document.getElementById('dateDisplay') ? document.getElementById('dateDisplay').textContent : ''
+                });
+            }, 800); // debounce 800ms
+        }
+
         var ACTIVITY_TYPES = ['', 'تمرین', 'مسابقه دوستانه', 'مسابقه رسمی'];
 
-        var TEAM_ORDER_KEY = 'teamNamesOrder';
+        var DEFAULT_TEAMS = ['سلامت و رقابت', 'بزرگسالان ب', 'امید', 'جوانان', 'زیر ۱۸ سال A', 'زیر ۱۸ سال B', 'نوجوانان', 'زیر ۱۵ سال', 'زیر ۱۴ سال', 'زیر ۱۳ سال', 'زیر ۱۲ سال', 'آکادمی ۸ الی ۱۱ سال', 'پایگاه رشد', 'مدرسه فوتبال'];
+        var DEFAULT_VENUES = ['باغ فردوس', 'نیروگاه', 'قدس', 'آب منطقه ای', 'زمین بهارستان', 'کردآباد', 'نقش جهان', '۲۵ آبان', 'آبفا'];
 
-        function loadTeamNames() {
-            var saved = localStorage.getItem(TEAM_ORDER_KEY);
-            if (saved) {
-                try {
-                    var parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed) && parsed.length > 0 && parsed.every(function(name) { return typeof name === 'string' && name.trim() !== ''; })) {
-                        return parsed;
-                    }
-                } catch (e) { console.log('خطا در بارگذاری ترتیب تیم‌ها:', e); }
-            }
-            return ['سلامت و رقابت', 'بزرگسالان ب', 'امید', 'جوانان', 'زیر ۱۸ سال A', 'زیر ۱۸ سال B', 'نوجوانان', 'زیر ۱۵ سال', 'زیر ۱۴ سال', 'زیر ۱۳ سال', 'زیر ۱۲ سال', 'آکادمی ۸ الی ۱۱ سال', 'پایگاه رشد', 'مدرسه فوتبال'];
-        }
-
-        var teamNames = loadTeamNames();
+        var teamNames = DEFAULT_TEAMS.slice();
+        var venues = DEFAULT_VENUES.slice();
 
         function saveTeamNames() {
-            try { localStorage.setItem(TEAM_ORDER_KEY, JSON.stringify(teamNames)); } catch (e) { console.log('خطا در ذخیره ترتیب تیم‌ها:', e); }
+            scheduleCloudSave();
         }
 
-        var VENUES_KEY = 'venuesList';
-
-        function loadVenues() {
-            var saved = localStorage.getItem(VENUES_KEY);
-            if (saved) {
-                try {
-                    var parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-                } catch (e) { console.log('خطا در بارگذاری لیست زمین‌ها:', e); }
-            }
-            return ['باغ فردوس', 'نیروگاه', 'قدس', 'آب منطقه ای', 'زمین بهارستان', 'کردآباد', 'نقش جهان', '۲۵ آبان', 'آبفا'];
+        function saveVenues(venuesList) {
+            if (venuesList) venues = venuesList;
+            scheduleCloudSave();
         }
-
-        function saveVenues(venues) {
-            try { localStorage.setItem(VENUES_KEY, JSON.stringify(venues)); } catch (e) { console.log('خطا در ذخیره لیست زمین‌ها:', e); }
-        }
-
-        var venues = loadVenues();
 
         function generateTimeOptions() {
             var times = [''];
@@ -3080,33 +3115,33 @@
             return data;
         }
 
-        function loadData() {
-            var saved = localStorage.getItem('scheduleData');
-            if (saved) {
-                try {
-                    var parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed) && parsed.length === teamNames.length) {
-                        for (var r = 0; r < parsed.length; r++) {
-                            for (var c = 0; c < parsed[r].length; c++) {
-                                if (parsed[r][c]) {
-                                    parsed[r][c].manualEditing = false;
-                                    if (parsed[r][c].venue === undefined) parsed[r][c].venue = '';
-                                    if (parsed[r][c].time === undefined) parsed[r][c].time = '';
-                                    if (parsed[r][c].startTime === undefined) parsed[r][c].startTime = '';
-                                    if (parsed[r][c].endTime === undefined) parsed[r][c].endTime = '';
-                                    if (parsed[r][c].activityType === undefined) parsed[r][c].activityType = '';
-                                    if (parsed[r][c].opponent === undefined) parsed[r][c].opponent = '';
-                                }
-                            }
-                        }
-                        return parsed;
+        function normalizeScheduleData(parsed, expectedLength) {
+            if (!Array.isArray(parsed)) return getEmptyData();
+            // اگر طول فرق داشت، تطبیق می‌دیم
+            var result = [];
+            for (var r = 0; r < expectedLength; r++) {
+                var row = [];
+                for (var c = 0; c < 7; c++) {
+                    var cell = (parsed[r] && parsed[r][c]) ? parsed[r][c] : null;
+                    if (cell) {
+                        cell.manualEditing = false;
+                        if (cell.venue === undefined) cell.venue = '';
+                        if (cell.time === undefined) cell.time = '';
+                        if (cell.startTime === undefined) cell.startTime = '';
+                        if (cell.endTime === undefined) cell.endTime = '';
+                        if (cell.activityType === undefined) cell.activityType = '';
+                        if (cell.opponent === undefined) cell.opponent = '';
+                        row.push(cell);
+                    } else {
+                        row.push({ venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '', activityType: '', opponent: '' });
                     }
-                } catch (e) { console.log('خطا در بارگذاری داده:', e); }
+                }
+                result.push(row);
             }
-            return getEmptyData();
+            return result;
         }
 
-        var tableData = loadData();
+        var tableData = getEmptyData();
 
         function saveData(data) {
             if (!data) return;
@@ -3116,12 +3151,11 @@
                         if (data[r][c]) data[r][c].manualEditing = false;
                     }
                 }
-                localStorage.setItem('scheduleData', JSON.stringify(data));
+                tableData = data;
                 updateFloatingBadge();
+                scheduleCloudSave();
             } catch (e) { console.log('خطا در ذخیره داده:', e); }
         }
-
-        var SESSION_CONFIG_KEY = 'venueSessionConfig';
 
         function getDefaultSessionConfig() {
             var config = [];
@@ -3131,35 +3165,30 @@
             return config;
         }
 
-        function loadSessionConfig() {
+        function normalizeSessionConfig(parsed) {
             var fallback = getDefaultSessionConfig();
-            var saved = localStorage.getItem(SESSION_CONFIG_KEY);
-            if (!saved) return fallback;
-            try {
-                var parsed = JSON.parse(saved);
-                if (!Array.isArray(parsed)) return fallback;
-                var result = [];
-                for (var vi = 0; vi < venues.length; vi++) {
-                    var row = [];
-                    for (var di = 0; di < 7; di++) {
-                        var x = (parsed[vi] && parsed[vi][di] !== undefined) ? parsed[vi][di] : null;
-                        if (x === null || x === undefined || x === '') {
-                            row.push(null);
-                        } else {
-                            var n = parseInt(toEnglishDigits(String(x)), 10);
-                            row.push(Number.isFinite(n) && n >= 0 ? n : null);
-                        }
+            if (!Array.isArray(parsed)) return fallback;
+            var result = [];
+            for (var vi = 0; vi < venues.length; vi++) {
+                var row = [];
+                for (var di = 0; di < 7; di++) {
+                    var x = (parsed[vi] && parsed[vi][di] !== undefined) ? parsed[vi][di] : null;
+                    if (x === null || x === undefined || x === '') {
+                        row.push(null);
+                    } else {
+                        var n = parseInt(toEnglishDigits(String(x)), 10);
+                        row.push(Number.isFinite(n) && n >= 0 ? n : null);
                     }
-                    result.push(row);
                 }
-                return result;
-            } catch (e) { console.log('خطا در بارگذاری تنظیمات سانس:', e); return fallback; }
+                result.push(row);
+            }
+            return result;
         }
 
-        var sessionConfig = loadSessionConfig();
+        var sessionConfig = getDefaultSessionConfig();
 
         function saveSessionConfigToStorage() {
-            try { localStorage.setItem(SESSION_CONFIG_KEY, JSON.stringify(sessionConfig)); } catch (e) { console.log('خطا در ذخیره تنظیمات سانس:', e); }
+            scheduleCloudSave();
         }
 
         function getStartWeekdayIndex() {
@@ -5156,8 +5185,60 @@
         }
 
         // ============================================================
-        // شروع برنامه
+        // شروع برنامه - بارگذاری از Google Sheets
         // ============================================================
+
+        async function initFromCloud() {
+            showNotification('⏳ در حال بارگذاری از Google Sheets...', false);
+
+            var cloudData = await loadFromCloud();
+
+            if (cloudData) {
+                // تیم‌ها
+                if (Array.isArray(cloudData.teams) && cloudData.teams.length > 0) {
+                    teamNames = cloudData.teams;
+                } else {
+                    teamNames = DEFAULT_TEAMS.slice();
+                }
+
+                // زمین‌ها
+                if (Array.isArray(cloudData.venues) && cloudData.venues.length > 0) {
+                    venues = cloudData.venues;
+                } else {
+                    venues = DEFAULT_VENUES.slice();
+                }
+
+                // تنظیمات سانس
+                sessionConfig = normalizeSessionConfig(cloudData.sessionConfig);
+
+                // برنامه
+                tableData = normalizeScheduleData(cloudData.scheduleData, teamNames.length);
+
+                // تاریخ
+                if (cloudData.date) {
+                    applyDateString(cloudData.date);
+                } else {
+                    setDefaultDate();
+                    applyDateString(document.getElementById('dateDisplay').textContent);
+                }
+
+                isCloudReady = true;
+                showNotification('✅ داده‌ها از Google Sheets بارگذاری شد', false);
+            } else {
+                // اگر کلود در دسترس نبود، با پیش‌فرض شروع کن
+                teamNames = DEFAULT_TEAMS.slice();
+                venues = DEFAULT_VENUES.slice();
+                sessionConfig = getDefaultSessionConfig();
+                tableData = getEmptyData();
+                setDefaultDate();
+                applyDateString(document.getElementById('dateDisplay').textContent);
+                showNotification('⚠️ اتصال به Google Sheets برقرار نشد. با داده پیش‌فرض شروع شد.', true);
+            }
+
+            buildTable();
+            setupPersianNumberInputs();
+            updateFloatingBadge();
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             var newVenueInput = document.getElementById('newVenueInput');
@@ -5174,12 +5255,10 @@
                         addNewTeam(); }
                 });
             }
-        });
 
-        loadDate();
-        buildTable();
-        setupPersianNumberInputs();
-        updateFloatingBadge();
+            // شروع بارگذاری از کلود
+            initFromCloud();
+        });
 
     </script>
 
