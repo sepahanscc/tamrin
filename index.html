@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -9,18 +9,12 @@
 
     <title>برنامه تمرینات و مسابقات آکادمی فوتبال باشگاه فولاد مبارکه سپاهان</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
-    </script>
-
-    <!-- Google Sheets API -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gapi-client/1.0.0/gapi.min.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <style>
+
         @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
 
         @page {
@@ -836,34 +830,6 @@
             transform: scale(1.02);
         }
 
-        .btn-group .sync-btn {
-            background: #1a5276;
-            color: #fff;
-            border-color: #0e3a55;
-        }
-
-        .btn-group .sync-btn:hover {
-            background: #0e3a55;
-        }
-
-        .btn-group .sync-btn.github-btn {
-            background: #24292e;
-            border-color: #1a1e22;
-        }
-
-        .btn-group .sync-btn.github-btn:hover {
-            background: #1a1e22;
-        }
-
-        .btn-group .sync-btn.google-btn {
-            background: #0f9d58;
-            border-color: #0b7a44;
-        }
-
-        .btn-group .sync-btn.google-btn:hover {
-            background: #0b7a44;
-        }
-
         .btn-group .dropdown-wrapper {
             position: relative;
             display: inline-block;
@@ -1086,12 +1052,8 @@
             animation: modalFadeIn .2s ease-out;
         }
         @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-box {
@@ -1107,14 +1069,10 @@
             border: none;
         }
         @keyframes modalSlideIn {
-            from {
-                transform: translateY(20px) scale(.96);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
+            from { transform: translateY(20px) scale(.96);
+                opacity: 0; }
+            to { transform: translateY(0) scale(1);
+                opacity: 1; }
         }
 
         .modal-header {
@@ -2158,14 +2116,8 @@
             animation: fadeInUp 0.2s ease-out;
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .session-hover-card .card-title {
             font-weight: 900;
@@ -2277,29 +2229,6 @@
             background: #c62828;
         }
 
-        /* وضعیت همگام‌سازی */
-        .sync-status {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            font-family: "Vazirmatn", Tahoma, sans-serif !important;
-            margin-right: 5px;
-        }
-        .sync-status.synced {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .sync-status.pending {
-            background: #fff3e0;
-            color: #e65100;
-        }
-        .sync-status.error {
-            background: #ffebee;
-            color: #c62828;
-        }
-
         @media print {
             .floating-session-btn,
             .session-hover-card,
@@ -2311,298 +2240,84 @@
         }
 
         @media screen and (max-width: 1000px) {
-            .page {
-                padding: 6px 8px;
-            }
-            .header-title .title {
-                font-size: 14px;
-            }
-            .header-title .date-display {
-                font-size: 13px;
-                min-width: 150px;
-            }
-            .date-editor input {
-                font-size: 12px;
-                width: 42px;
-            }
-            .date-editor .year-input {
-                font-size: 12px;
-                width: 55px !important;
-            }
-            .date-editor .month-select {
-                font-size: 12px;
-            }
-            .date-editor .static-text {
-                font-size: 12px;
-            }
-            .header-logo {
-                width: 45px;
-            }
-            thead th {
-                font-size: 12px;
-            }
-            thead th .day-name {
-                font-size: 12px;
-            }
-            thead th .day-date {
-                font-size: 10px;
-            }
-            td.team,
-            th.team {
-                font-size: 12px;
-            }
-            .slot select,
-            .slot input {
-                font-size: 10px;
-                max-width: 85px;
-            }
-            .slot {
-                min-height: 75px;
-            }
-            .manual-time-box {
-                max-width: 85px;
-            }
-            .manual-time-input {
-                width: 60px !important;
-                max-width: 60px !important;
-            }
-            .btn-group button {
-                font-size: 12px;
-                padding: 4px 14px;
-            }
-            .bottom-note {
-                font-size: 12px;
-                gap: 10px;
-            }
-            .lock-toggle {
-                font-size: 12px;
-            }
-            .slot.locked-view .print-text .venue-text {
-                font-size: 13px !important;
-            }
-            .slot.locked-view .print-text .type-text {
-                font-size: 11px !important;
-            }
-            .slot.locked-view .print-text .opponent-text {
-                font-size: 10px !important;
-            }
-            .slot.locked-view .print-text .time-text {
-                font-size: 11px !important;
-            }
-            .slot.locked-view {
-                min-height: 48px !important;
-            }
-            .floating-session-btn {
-                width: 55px;
-                height: 55px;
-                font-size: 24px;
-                bottom: 25px;
-                left: 25px;
-            }
-            .floating-session-btn .badge {
-                width: 22px;
-                height: 22px;
-                font-size: 10px;
-                top: -5px;
-                right: -5px;
-            }
-            .session-hover-card {
-                bottom: 90px;
-                left: 25px;
-                min-width: 250px;
-                max-width: 380px;
-            }
-            .report-modal {
-                width: 96%;
-            }
-            .report-item {
-                font-size: 11px;
-            }
-            .report-item .r-day {
-                min-width: 35px;
-                font-size: 11px;
-            }
-            .report-item .r-date {
-                font-size: 9px;
-                min-width: 45px;
-            }
-            .report-item .r-time {
-                font-size: 10px;
-                min-width: 55px;
-            }
-            .report-item .r-venue {
-                font-size: 10px;
-                min-width: 38px;
-            }
-            .report-item .r-type {
-                font-size: 10px;
-                min-width: 42px;
-            }
-            .report-team-header {
-                font-size: 12px;
-                padding: 4px 10px;
-            }
-            .report-team-header .team-jpg-btn {
-                font-size: 9px;
-                padding: 1px 8px;
-            }
-            .modal-box {
-                width: min(480px, 96%);
-            }
+            .page { padding: 6px 8px; }
+            .header-title .title { font-size: 14px; }
+            .header-title .date-display { font-size: 13px; min-width: 150px; }
+            .date-editor input { font-size: 12px; width: 42px; }
+            .date-editor .year-input { font-size: 12px; width: 55px !important; }
+            .date-editor .month-select { font-size: 12px; }
+            .date-editor .static-text { font-size: 12px; }
+            .header-logo { width: 45px; }
+            thead th { font-size: 12px; }
+            thead th .day-name { font-size: 12px; }
+            thead th .day-date { font-size: 10px; }
+            td.team, th.team { font-size: 12px; }
+            .slot select, .slot input { font-size: 10px; max-width: 85px; }
+            .slot { min-height: 75px; }
+            .manual-time-box { max-width: 85px; }
+            .manual-time-input { width: 60px !important; max-width: 60px !important; }
+            .btn-group button { font-size: 12px; padding: 4px 14px; }
+            .bottom-note { font-size: 12px; gap: 10px; }
+            .lock-toggle { font-size: 12px; }
+            .slot.locked-view .print-text .venue-text { font-size: 13px !important; }
+            .slot.locked-view .print-text .type-text { font-size: 11px !important; }
+            .slot.locked-view .print-text .opponent-text { font-size: 10px !important; }
+            .slot.locked-view .print-text .time-text { font-size: 11px !important; }
+            .slot.locked-view { min-height: 48px !important; }
+            .floating-session-btn { width: 55px; height: 55px; font-size: 24px; bottom: 25px; left: 25px; }
+            .floating-session-btn .badge { width: 22px; height: 22px; font-size: 10px; top: -5px; right: -5px; }
+            .session-hover-card { bottom: 90px; left: 25px; min-width: 250px; max-width: 380px; }
+            .report-modal { width: 96%; }
+            .report-item { font-size: 11px; }
+            .report-item .r-day { min-width: 35px; font-size: 11px; }
+            .report-item .r-date { font-size: 9px; min-width: 45px; }
+            .report-item .r-time { font-size: 10px; min-width: 55px; }
+            .report-item .r-venue { font-size: 10px; min-width: 38px; }
+            .report-item .r-type { font-size: 10px; min-width: 42px; }
+            .report-team-header { font-size: 12px; padding: 4px 10px; }
+            .report-team-header .team-jpg-btn { font-size: 9px; padding: 1px 8px; }
+            .modal-box { width: min(480px, 96%); }
         }
 
         @media screen and (max-width: 600px) {
-            .header {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .header-logo {
-                width: 35px;
-            }
-            .header-title .title {
-                font-size: 12px;
-            }
-            .header-title .date-display {
-                font-size: 12px;
-                min-width: 120px;
-            }
-            .date-editor input {
-                font-size: 11px;
-                width: 35px;
-            }
-            .date-editor .year-input {
-                font-size: 11px;
-                width: 45px !important;
-            }
-            .date-editor .month-select {
-                font-size: 11px;
-                padding: 2px 6px;
-            }
-            .date-editor .static-text {
-                font-size: 11px;
-            }
-            .date-editor button {
-                font-size: 11px;
-                padding: 3px 12px;
-            }
-            .slot select,
-            .slot input {
-                font-size: 9px;
-                max-width: 65px;
-            }
-            .slot {
-                min-height: 70px;
-            }
-            .manual-time-box {
-                max-width: 70px;
-            }
-            .manual-time-input {
-                width: 48px !important;
-                max-width: 48px !important;
-                font-size: 8px !important;
-            }
-            .manual-time-label {
-                font-size: 8px;
-                min-width: 20px;
-            }
-            .manual-time-actions button {
-                font-size: 8px;
-                padding: 1px 4px;
-            }
-            .opponent-box {
-                max-width: 70px;
-            }
-            .opponent-input {
-                max-width: 70px !important;
-                font-size: 8px !important;
-            }
-            .opponent-label {
-                font-size: 8px;
-            }
-            .type-display,
-            .opponent-display {
-                font-size: 8px;
-            }
-            .btn-group button {
-                font-size: 10px;
-                padding: 3px 10px;
-            }
-            .lock-toggle {
-                font-size: 10px;
-            }
-            .slot.locked-view .print-text .venue-text {
-                font-size: 12px !important;
-            }
-            .slot.locked-view .print-text .type-text {
-                font-size: 10px !important;
-            }
-            .slot.locked-view .print-text .opponent-text {
-                font-size: 9px !important;
-            }
-            .slot.locked-view .print-text .time-text {
-                font-size: 10px !important;
-            }
-            .slot.locked-view {
-                min-height: 44px !important;
-            }
-            thead th {
-                font-size: 10px !important;
-                height: 30px !important;
-            }
-            thead th .day-name {
-                font-size: 11px !important;
-            }
-            td.team,
-            th.team {
-                font-size: 10px !important;
-            }
-            .session-table th,
-            .session-table td {
-                padding: 3px 2px !important;
-                font-size: 10px !important;
-            }
-            .session-count-input {
-                width: 32px !important;
-                font-size: 11px !important;
-                padding: 2px 1px !important;
-            }
-            .session-modal {
-                width: 98%;
-            }
-            .floating-session-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 22px;
-                bottom: 20px;
-                left: 20px;
-            }
-            .floating-session-btn .badge {
-                width: 20px;
-                height: 20px;
-                font-size: 9px;
-                top: -4px;
-                right: -4px;
-            }
-            .session-hover-card {
-                bottom: 80px;
-                left: 16px;
-                right: 16px;
-                min-width: auto;
-                max-width: none;
-                padding: 12px 14px;
-                max-height: 60vh;
-            }
-            .session-hover-card .card-item {
-                font-size: 11px;
-            }
-            .session-hover-card .card-item .v-name {
-                min-width: 55px;
-            }
-            .session-hover-card .card-item .day-status .d-badge {
-                font-size: 10px;
-                min-width: 18px;
-                line-height: 18px;
-            }
+            .header { flex-wrap: wrap; justify-content: center; }
+            .header-logo { width: 35px; }
+            .header-title .title { font-size: 12px; }
+            .header-title .date-display { font-size: 12px; min-width: 120px; }
+            .date-editor input { font-size: 11px; width: 35px; }
+            .date-editor .year-input { font-size: 11px; width: 45px !important; }
+            .date-editor .month-select { font-size: 11px; padding: 2px 6px; }
+            .date-editor .static-text { font-size: 11px; }
+            .date-editor button { font-size: 11px; padding: 3px 12px; }
+            .slot select, .slot input { font-size: 9px; max-width: 65px; }
+            .slot { min-height: 70px; }
+            .manual-time-box { max-width: 70px; }
+            .manual-time-input { width: 48px !important; max-width: 48px !important; font-size: 8px !important; }
+            .manual-time-label { font-size: 8px; min-width: 20px; }
+            .manual-time-actions button { font-size: 8px; padding: 1px 4px; }
+            .opponent-box { max-width: 70px; }
+            .opponent-input { max-width: 70px !important; font-size: 8px !important; }
+            .opponent-label { font-size: 8px; }
+            .type-display, .opponent-display { font-size: 8px; }
+            .btn-group button { font-size: 10px; padding: 3px 10px; }
+            .lock-toggle { font-size: 10px; }
+            .slot.locked-view .print-text .venue-text { font-size: 12px !important; }
+            .slot.locked-view .print-text .type-text { font-size: 10px !important; }
+            .slot.locked-view .print-text .opponent-text { font-size: 9px !important; }
+            .slot.locked-view .print-text .time-text { font-size: 10px !important; }
+            .slot.locked-view { min-height: 44px !important; }
+            thead th { font-size: 10px !important; height: 30px !important; }
+            thead th .day-name { font-size: 11px !important; }
+            td.team, th.team { font-size: 10px !important; }
+            .session-table th, .session-table td { padding: 3px 2px !important; font-size: 10px !important; }
+            .session-count-input { width: 32px !important; font-size: 11px !important; padding: 2px 1px !important; }
+            .session-modal { width: 98%; }
+            .floating-session-btn { width: 50px; height: 50px; font-size: 22px; bottom: 20px; left: 20px; }
+            .floating-session-btn .badge { width: 20px; height: 20px; font-size: 9px; top: -4px; right: -4px; }
+            .session-hover-card { bottom: 80px; left: 16px; right: 16px; min-width: auto; max-width: none; padding: 12px 14px; max-height: 60vh; }
+            .session-hover-card .card-item { font-size: 11px; }
+            .session-hover-card .card-item .v-name { min-width: 55px; }
+            .session-hover-card .card-item .day-status .d-badge { font-size: 10px; min-width: 18px; line-height: 18px; }
 
             .report-modal {
                 width: 98%;
@@ -2713,55 +2428,24 @@
                 padding: 4px 0;
             }
 
-            .modal-box {
-                width: 98%;
-            }
-            .modal-item {
-                padding: 4px 8px;
-                flex-wrap: wrap;
-                gap: 4px;
-            }
-            .modal-item .item-input {
-                font-size: 12px;
-                min-width: 100px;
-            }
-            .item-actions button {
-                font-size: 9px;
-                padding: 1px 6px;
-            }
-            .modal-add-row input {
-                font-size: 12px;
-                min-width: 80px;
-            }
-            .modal-add-row button {
-                font-size: 11px;
-                padding: 4px 12px;
-            }
-            .modal-title {
-                font-size: 13px;
-            }
-            .modal-header {
-                padding: 8px 12px;
-            }
-            .modal-content {
-                padding: 6px 8px 2px;
-            }
-            .modal-footer {
-                padding: 6px 10px 10px;
-            }
-            .modal-footer button {
-                font-size: 10px;
-                padding: 4px 12px;
-            }
-            .modal-help {
-                font-size: 9px;
-                padding: 3px 8px;
-            }
+            .modal-box { width: 98%; }
+            .modal-item { padding: 4px 8px; flex-wrap: wrap; gap: 4px; }
+            .modal-item .item-input { font-size: 12px; min-width: 100px; }
+            .item-actions button { font-size: 9px; padding: 1px 6px; }
+            .modal-add-row input { font-size: 12px; min-width: 80px; }
+            .modal-add-row button { font-size: 11px; padding: 4px 12px; }
+            .modal-title { font-size: 13px; }
+            .modal-header { padding: 8px 12px; }
+            .modal-content { padding: 6px 8px 2px; }
+            .modal-footer { padding: 6px 10px 10px; }
+            .modal-footer button { font-size: 10px; padding: 4px 12px; }
+            .modal-help { font-size: 9px; padding: 3px 8px; }
         }
 
         .slot .time-display:active {
             background: rgba(64, 64, 64, 0.15);
         }
+
     </style>
 
 </head>
@@ -2861,8 +2545,6 @@
             <button class="report-btn no-print" onclick="openTeamReport()">📋 گزارش تیم‌ها</button>
             <button class="venue-manage-btn no-print" onclick="openVenueManager()">🏟 مدیریت زمین‌ها</button>
             <button class="team-manage-btn no-print" onclick="openTeamManager()">👥 مدیریت تیم‌ها</button>
-            <button class="sync-btn google-btn no-print" onclick="syncWithGoogleSheets()">🔄 Google Sheets</button>
-            <button class="sync-btn github-btn no-print" onclick="syncWithGitHub()">📦 GitHub</button>
             <label class="lock-toggle no-print">
                 <input type="checkbox" id="lockCheckbox" onchange="toggleLock()"> 🔒 قفل
             </label>
@@ -3002,35 +2684,6 @@
 
     <script>
         // ============================================================
-        // تنظیمات Google Sheets - اینجا اطلاعات خود را وارد کنید
-        // ============================================================
-        const GOOGLE_SHEETS_CONFIG = {
-            // کلید API خود را از Google Cloud Console دریافت کنید
-            API_KEY: 'YOUR_GOOGLE_API_KEY_HERE',
-            // شناسه فایل Google Sheets خود را وارد کنید
-            SPREADSHEET_ID: 'YOUR_SPREADSHEET_ID_HERE',
-            // محدوده‌های شیت‌ها
-            RANGES: {
-                SCHEDULE: 'Schedule!A1:H100',
-                TEAMS: 'Teams!A1:B100',
-                VENUES: 'Venues!A1:B100',
-                SESSION_CONFIG: 'SessionConfig!A1:H50',
-                DATE_CONFIG: 'DateConfig!A1:B10'
-            }
-        };
-
-        // ============================================================
-        // تنظیمات GitHub - اینجا اطلاعات خود را وارد کنید
-        // ============================================================
-        const GITHUB_CONFIG = {
-            owner: 'YOUR_GITHUB_USERNAME',
-            repo: 'YOUR_REPO_NAME',
-            token: 'YOUR_GITHUB_TOKEN',
-            branch: 'main',
-            filePath: 'data/schedule.json'
-        };
-
-        // ============================================================
         // کدهای جاوااسکریپت کامل
         // ============================================================
 
@@ -3046,9 +2699,7 @@
         ];
 
         function isPersianLeapYear(year) {
-            const breaks = [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262, 2324, 2394,
-                2456, 3178
-            ];
+            const breaks = [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210, 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178];
             var gy = year + 621;
             var leapJ = -14;
             var jp = breaks[0];
@@ -3107,8 +2758,7 @@
             if (day > getMonthDays(monthIndex, year)) {
                 day = 1;
                 monthIndex++;
-                if (monthIndex >= 12) { monthIndex = 0;
-                    year++; }
+                if (monthIndex >= 12) { monthIndex = 0; year++; }
             }
             return { day: day, monthIndex: monthIndex, year: year };
         }
@@ -3194,8 +2844,7 @@
                 alert('تاریخ پایان نمی‌تواند قبل از تاریخ شروع باشد.');
                 return;
             }
-            var fullDate = toPersianDigits(startDay) + ' ' + startMonth + ' تا ' + toPersianDigits(endDay) + ' ' + endMonth +
-                ' ماه ' + toPersianDigits(year);
+            var fullDate = toPersianDigits(startDay) + ' ' + startMonth + ' تا ' + toPersianDigits(endDay) + ' ' + endMonth + ' ماه ' + toPersianDigits(year);
             document.getElementById('dateDisplay').textContent = fullDate;
             localStorage.setItem('scheduleDate', fullDate);
             updateDayDates();
@@ -3218,8 +2867,7 @@
                     startMonth = parsed.startMonth;
                     endMonth = parsed.endMonth;
                     year = parsed.year;
-                    var normalized = toPersianDigits(startDay) + ' ' + startMonth + ' تا ' + toPersianDigits(endDay) + ' ' +
-                        endMonth + ' ماه ' + toPersianDigits(year);
+                    var normalized = toPersianDigits(startDay) + ' ' + startMonth + ' تا ' + toPersianDigits(endDay) + ' ' + endMonth + ' ماه ' + toPersianDigits(year);
                     document.getElementById('dateDisplay').textContent = normalized;
                     localStorage.setItem('scheduleDate', normalized);
                 } else {
@@ -3237,8 +2885,7 @@
         }
 
         function setDefaultDate() {
-            var defaultDate = toPersianDigits(DEFAULT_START) + ' ' + DEFAULT_START_MONTH + ' تا ' + toPersianDigits(
-                DEFAULT_END) + ' ' + DEFAULT_END_MONTH + ' ماه ' + toPersianDigits(DEFAULT_YEAR);
+            var defaultDate = toPersianDigits(DEFAULT_START) + ' ' + DEFAULT_START_MONTH + ' تا ' + toPersianDigits(DEFAULT_END) + ' ' + DEFAULT_END_MONTH + ' ماه ' + toPersianDigits(DEFAULT_YEAR);
             document.getElementById('dateDisplay').textContent = defaultDate;
             localStorage.setItem('scheduleDate', defaultDate);
         }
@@ -3253,8 +2900,7 @@
             var dayElements = document.querySelectorAll('.day-date');
             for (var i = 0; i < 7; i++) {
                 if (dayElements[i]) {
-                    dayElements[i].textContent = toPersianDigits(day) + ' ' + MONTHS[monthIndex] + ' ' + toPersianDigits(
-                    year);
+                    dayElements[i].textContent = toPersianDigits(day) + ' ' + MONTHS[monthIndex] + ' ' + toPersianDigits(year);
                 }
                 var next = getNextDate(day, monthIndex, year);
                 day = next.day;
@@ -3333,8 +2979,7 @@
         }
 
         function formatManualTime(input) {
-            var cleaned = String(input).trim().replace(/[۰-۹]/g, function(d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); }).replace(
-                /[^0-9:\-\.،,]/g, '');
+            var cleaned = String(input).trim().replace(/[۰-۹]/g, function(d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); }).replace(/[^0-9:\-\.،,]/g, '');
             var parts = cleaned.split(/[-ـ.،,]/).map(function(s) { return s.trim(); });
             if (parts.length === 2) {
                 var start = formatSingleTime(parts[0]);
@@ -3351,8 +2996,7 @@
         }
 
         function formatSingleTime(timeStr) {
-            var cleaned = String(timeStr).trim().replace(/[۰-۹]/g, function(d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); }).replace(
-                /[^0-9]/g, '');
+            var cleaned = String(timeStr).trim().replace(/[۰-۹]/g, function(d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); }).replace(/[^0-9]/g, '');
             if (cleaned.length === 0) return null;
             var hour, minute = 0;
             if (cleaned.length <= 2) {
@@ -3380,22 +3024,18 @@
             if (saved) {
                 try {
                     var parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed) && parsed.length > 0 && parsed.every(function(name) { return typeof name ===
-                            'string' && name.trim() !== ''; })) {
+                    if (Array.isArray(parsed) && parsed.length > 0 && parsed.every(function(name) { return typeof name === 'string' && name.trim() !== ''; })) {
                         return parsed;
                     }
                 } catch (e) { console.log('خطا در بارگذاری ترتیب تیم‌ها:', e); }
             }
-            return ['سلامت و رقابت', 'بزرگسالان ب', 'امید', 'جوانان', 'زیر ۱۸ سال A', 'زیر ۱۸ سال B', 'نوجوانان', 'زیر ۱۵ سال',
-                'زیر ۱۴ سال', 'زیر ۱۳ سال', 'زیر ۱۲ سال', 'آکادمی ۸ الی ۱۱ سال', 'پایگاه رشد', 'مدرسه فوتبال'
-            ];
+            return ['سلامت و رقابت', 'بزرگسالان ب', 'امید', 'جوانان', 'زیر ۱۸ سال A', 'زیر ۱۸ سال B', 'نوجوانان', 'زیر ۱۵ سال', 'زیر ۱۴ سال', 'زیر ۱۳ سال', 'زیر ۱۲ سال', 'آکادمی ۸ الی ۱۱ سال', 'پایگاه رشد', 'مدرسه فوتبال'];
         }
 
         var teamNames = loadTeamNames();
 
         function saveTeamNames() {
-            try { localStorage.setItem(TEAM_ORDER_KEY, JSON.stringify(teamNames)); } catch (e) { console.log(
-                    'خطا در ذخیره ترتیب تیم‌ها:', e); }
+            try { localStorage.setItem(TEAM_ORDER_KEY, JSON.stringify(teamNames)); } catch (e) { console.log('خطا در ذخیره ترتیب تیم‌ها:', e); }
         }
 
         var VENUES_KEY = 'venuesList';
@@ -3412,8 +3052,7 @@
         }
 
         function saveVenues(venues) {
-            try { localStorage.setItem(VENUES_KEY, JSON.stringify(venues)); } catch (e) { console.log(
-                    'خطا در ذخیره لیست زمین‌ها:', e); }
+            try { localStorage.setItem(VENUES_KEY, JSON.stringify(venues)); } catch (e) { console.log('خطا در ذخیره لیست زمین‌ها:', e); }
         }
 
         var venues = loadVenues();
@@ -3435,8 +3074,7 @@
             for (var row = 0; row < teamNames.length; row++) {
                 var rowData = [];
                 for (var col = 0; col < 7; col++) {
-                    rowData.push({ venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '',
-                        activityType: '', opponent: '' });
+                    rowData.push({ venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '', activityType: '', opponent: '' });
                 }
                 data.push(rowData);
             }
@@ -3522,8 +3160,7 @@
         var sessionConfig = loadSessionConfig();
 
         function saveSessionConfigToStorage() {
-            try { localStorage.setItem(SESSION_CONFIG_KEY, JSON.stringify(sessionConfig)); } catch (e) { console.log(
-                    'خطا در ذخیره تنظیمات سانس:', e); }
+            try { localStorage.setItem(SESSION_CONFIG_KEY, JSON.stringify(sessionConfig)); } catch (e) { console.log('خطا در ذخیره تنظیمات سانس:', e); }
         }
 
         function getStartWeekdayIndex() {
@@ -3634,8 +3271,7 @@
             var startWeekdayIndex = getStartWeekdayIndex();
             var actualWeekdayIndex = (startWeekdayIndex + colIdx) % 7;
             var dayName = weekdays[actualWeekdayIndex];
-            return { dayName: dayName, dateText: toPersianDigits(day) + ' ' + MONTHS[monthIndex] + ' ' + toPersianDigits(
-                    year) };
+            return { dayName: dayName, dateText: toPersianDigits(day) + ' ' + MONTHS[monthIndex] + ' ' + toPersianDigits(year) };
         }
 
         function addTooltipToSlot(slotDiv, colIdx) {
@@ -3697,8 +3333,7 @@
                 });
                 tdTeam.addEventListener('dragend', function() {
                     this.classList.remove('team-dragging');
-                    document.querySelectorAll('#table-body tr.team-row').forEach(function(row) { row.classList
-                            .remove('team-drag-over'); });
+                    document.querySelectorAll('#table-body tr.team-row').forEach(function(row) { row.classList.remove('team-drag-over'); });
                     window.draggedTeamRow = null;
                 });
                 tdTeam.addEventListener('dragover', function(e) {
@@ -3710,8 +3345,7 @@
                         this.closest('tr').classList.add('team-drag-over');
                     }
                 });
-                tdTeam.addEventListener('dragleave', function() { var row = this.closest('tr'); if (row) row.classList
-                        .remove('team-drag-over'); });
+                tdTeam.addEventListener('dragleave', function() { var row = this.closest('tr'); if (row) row.classList.remove('team-drag-over'); });
                 tdTeam.addEventListener('drop', function(e) {
                     e.preventDefault();
                     var targetRow = parseInt(this.dataset.teamRow, 10);
@@ -3722,8 +3356,7 @@
                         fromRow = parseInt(e.dataTransfer.getData('text/plain'), 10);
                     }
                     if (!Number.isInteger(fromRow) || !Number.isInteger(targetRow) || fromRow === targetRow ||
-                        fromRow < 0 || targetRow < 0 || fromRow >= teamNames.length || targetRow >= teamNames
-                        .length) {
+                        fromRow < 0 || targetRow < 0 || fromRow >= teamNames.length || targetRow >= teamNames.length) {
                         return;
                     }
                     var movedTeam = teamNames.splice(fromRow, 1)[0];
@@ -3738,8 +3371,7 @@
                 tr.appendChild(tdTeam);
                 for (var col = 0; col < 7; col++) {
                     if (!tableData[rowIdx][col]) {
-                        tableData[rowIdx][col] = { venue: '', time: '', manual: false, manualEditing: false,
-                            startTime: '', endTime: '', activityType: '', opponent: '' };
+                        tableData[rowIdx][col] = { venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '', activityType: '', opponent: '' };
                     }
                     tr.appendChild(createSlotCell(rowIdx, col));
                 }
@@ -3814,8 +3446,7 @@
                         this.value = digitsOnly === '' ? '' : toPersianDigits(digitsOnly);
                         var newValue = this.value;
                         var newPosition = selectionStart;
-                        if (newValue.length !== oldValue.length) { newPosition = Math.min(selectionStart,
-                                newValue.length); }
+                        if (newValue.length !== oldValue.length) { newPosition = Math.min(selectionStart, newValue.length); }
                         try { this.setSelectionRange(newPosition, newPosition); } catch (e) {}
                         var venueName = venues[parseInt(this.dataset.venueIndex, 10)];
                         var dayIdx = parseInt(this.dataset.dayIndex, 10);
@@ -3824,8 +3455,7 @@
                     td.appendChild(input);
                     tr.appendChild(td);
                     (function(venueName, realDayIdx, inputElem) {
-                        setTimeout(function() { updateSessionInputStyle(venueName, realDayIdx,
-                            inputElem); }, 10);
+                        setTimeout(function() { updateSessionInputStyle(venueName, realDayIdx, inputElem); }, 10);
                     })(venue, realDayIndex, input);
                 }
                 tbody.appendChild(tr);
@@ -3947,8 +3577,7 @@
             if (!container) return;
             container.innerHTML = '';
             if (venues.length === 0) {
-                container.innerHTML =
-                    '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-family:Vazirmatn,Tahoma,sans-serif;font-size:12px;">هیچ زمینی تعریف نشده است.</div>';
+                container.innerHTML = '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-family:Vazirmatn,Tahoma,sans-serif;font-size:12px;">هیچ زمینی تعریف نشده است.</div>';
                 return;
             }
             for (var i = 0; i < venues.length; i++) {
@@ -3996,7 +3625,7 @@
             var warning = document.getElementById('venueWarning');
             if (inUse) {
                 warning.classList.add('show');
-                if (!confirm('⚠️ زمین «' + venueName + '» در برنامه‌های ثبت‌شده استفاده شده است.\n\nبا حذف آن، تمام برنامه‌های مربوط به این زمین پاک می‌شوند.\nآیا مطمئن هستید？')) {
+                if (!confirm('⚠️ زمین «' + venueName + '» در برنامه‌های ثبت‌شده استفاده شده است.\n\nبا حذف آن، تمام برنامه‌های مربوط به این زمین پاک می‌شوند.\nآیا مطمئن هستید؟')) {
                     warning.classList.remove('show');
                     return;
                 }
@@ -4033,8 +3662,7 @@
             if (!input) return;
             var name = input.value.trim();
             if (!name) { alert('لطفاً نام زمین را وارد کنید.'); return; }
-            if (venues.indexOf(name) !== -1) { alert('زمین «' + name + '» قبلاً در لیست وجود دارد.'); input.value = '';
-                return; }
+            if (venues.indexOf(name) !== -1) { alert('زمین «' + name + '» قبلاً در لیست وجود دارد.'); input.value = ''; return; }
             venues.push(name);
             saveVenues(venues);
             sessionConfig.push([null, null, null, null, null, null, null]);
@@ -4072,8 +3700,7 @@
             if (!container) return;
             container.innerHTML = '';
             if (teamNames.length === 0) {
-                container.innerHTML =
-                    '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-family:Vazirmatn,Tahoma,sans-serif;font-size:12px;">هیچ تیمی تعریف نشده است.</div>';
+                container.innerHTML = '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-family:Vazirmatn,Tahoma,sans-serif;font-size:12px;">هیچ تیمی تعریف نشده است.</div>';
                 return;
             }
             for (var i = 0; i < teamNames.length; i++) {
@@ -4174,9 +3801,7 @@
             var warning = document.getElementById('teamWarning');
             if (inUse) {
                 warning.classList.add('show');
-                if (!confirm('⚠️ تیم «' + teamName + '» در برنامه‌های ثبت‌شده استفاده شده است.\n\nبا حذف آن، تمام برنامه‌های مربوط به این تیم پاک می‌شوند.\nآیا مطمئن هستید؟')) {
-                    return;
-                }
+                if (!confirm('⚠️ تیم «' + teamName + '» در برنامه‌های ثبت‌شده استفاده شده است.\n\nبا حذف آن، تمام برنامه‌های مربوط به این تیم پاک می‌شوند.\nآیا مطمئن هستید؟')) { return; }
             } else {
                 if (!confirm('آیا از حذف تیم «' + teamName + '» مطمئن هستید؟')) return;
             }
@@ -4194,13 +3819,11 @@
             if (!input) return;
             var name = input.value.trim();
             if (!name) { alert('لطفاً نام تیم را وارد کنید.'); return; }
-            if (teamNames.indexOf(name) !== -1) { alert('تیم «' + name + '» قبلاً در لیست وجود دارد.'); input.value = '';
-                return; }
+            if (teamNames.indexOf(name) !== -1) { alert('تیم «' + name + '» قبلاً در لیست وجود دارد.'); input.value = ''; return; }
             teamNames.push(name);
             saveTeamNames();
             var newRow = [];
-            for (var c = 0; c < 7; c++) { newRow.push({ venue: '', time: '', manual: false, manualEditing: false,
-                    startTime: '', endTime: '', activityType: '', opponent: '' }); }
+            for (var c = 0; c < 7; c++) { newRow.push({ venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '', activityType: '', opponent: '' }); }
             tableData.push(newRow);
             saveData(tableData);
             input.value = '';
@@ -4451,8 +4074,7 @@
             });
 
             slotDiv.addEventListener('dblclick', function(e) {
-                if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target
-                    .closest('select') || e.target.closest('.cell-clear-btn')) return;
+                if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn')) return;
                 var lockCheckbox = document.getElementById('lockCheckbox');
                 if (lockCheckbox && lockCheckbox.checked) return;
                 var current = tableData[rowIdx][colIdx];
@@ -4527,9 +4149,7 @@
                         endFormatted = combined.end; }
                 }
                 if (!startFormatted || !endFormatted) {
-                    alert(
-                        '⛔ ساعت واردشده صحیح نیست.\n\nلطفاً به یکی از فرمت‌های زیر وارد کنید:\n• ۱۶ تا ۱۸\n• ۱۶:۰۰ تا ۱۸:۰۰\n• 16-18\n• 745-9 (برای ۰۷:۴۵ تا ۰۹:۰۰)'
-                        );
+                    alert('⛔ ساعت واردشده صحیح نیست.\n\nلطفاً به یکی از فرمت‌های زیر وارد کنید:\n• ۱۶ تا ۱۸\n• ۱۶:۰۰ تا ۱۸:۰۰\n• 16-18\n• 745-9 (برای ۰۷:۴۵ تا ۰۹:۰۰)');
                     return;
                 }
                 var startMinutes = persianTimeToMinutes(startFormatted);
@@ -4546,10 +4166,7 @@
                 if (currentVenue) {
                     var capacity = checkSessionCapacity(rowIdx, colIdx, currentVenue);
                     if (!capacity.allowed) {
-                        alert('⛔ ظرفیت سانس زمین «' + currentVenue + '» در این روز تکمیل شده است.\n\nتعداد سانس تعریف‌شده: ' +
-                            toPersianDigits(capacity.limit) + '\nسانس‌های ثبت‌شده: ' + toPersianDigits(capacity
-                            .used) +
-                            '\n\nبرای افزودن سانس بیشتر، از «ویرایش سانس» استفاده کنید.');
+                        alert('⛔ ظرفیت سانس زمین «' + currentVenue + '» در این روز تکمیل شده است.\n\nتعداد سانس تعریف‌شده: ' + toPersianDigits(capacity.limit) + '\nسانس‌های ثبت‌شده: ' + toPersianDigits(capacity.used) + '\n\nبرای افزودن سانس بیشتر، از «ویرایش سانس» استفاده کنید.');
                         return;
                     }
                     var conflict = hasTimeConflict(rowIdx, colIdx, startFormatted, endFormatted, currentVenue);
@@ -4558,10 +4175,7 @@
                         return;
                     }
                     if (conflict && conflict.conflict) {
-                        alert('⛔ این بازه زمانی قابل انتخاب نیست.\n\nزمین «' + currentVenue + '» در این روز قبلاً برای تیم «' +
-                            teamNames[conflict.row] + '» رزرو شده است.\n\nزمان موجود: ' + conflict.startTime +
-                            ' تا ' + conflict.endTime + '\n\nزمان انتخابی: ' + startFormatted + ' تا ' +
-                            endFormatted);
+                        alert('⛔ این بازه زمانی قابل انتخاب نیست.\n\nزمین «' + currentVenue + '» در این روز قبلاً برای تیم «' + teamNames[conflict.row] + '» رزرو شده است.\n\nزمان موجود: ' + conflict.startTime + ' تا ' + conflict.endTime + '\n\nزمان انتخابی: ' + startFormatted + ' تا ' + endFormatted);
                         return;
                     }
                 }
@@ -4645,12 +4259,8 @@
                     if (!capacity.allowed) {
                         var dayHeaders = document.querySelectorAll('thead .day');
                         var dayName = '';
-                        if (dayHeaders[colIdx]) { var nameEl = dayHeaders[colIdx].querySelector('.day-name'); if (
-                                nameEl) dayName = nameEl.textContent || ''; }
-                        alert('⛔ ظرفیت سانس این زمین تکمیل است.\n\nزمین: ' + newVenue + '\nروز: ' + dayName +
-                            '\nتعداد سانس تعریف‌شده: ' + toPersianDigits(capacity.limit) + '\nسانس‌های ثبت‌شده: ' +
-                            toPersianDigits(capacity.used) +
-                            '\n\nابتدا از «ویرایش سانس» ظرفیت بیشتری تعریف کنید.');
+                        if (dayHeaders[colIdx]) { var nameEl = dayHeaders[colIdx].querySelector('.day-name'); if (nameEl) dayName = nameEl.textContent || ''; }
+                        alert('⛔ ظرفیت سانس این زمین تکمیل است.\n\nزمین: ' + newVenue + '\nروز: ' + dayName + '\nتعداد سانس تعریف‌شده: ' + toPersianDigits(capacity.limit) + '\nسانس‌های ثبت‌شده: ' + toPersianDigits(capacity.used) + '\n\nابتدا از «ویرایش سانس» ظرفیت بیشتری تعریف کنید.');
                         this.value = cell.venue || '';
                         updateSelectStyle(this);
                         return;
@@ -4661,10 +4271,7 @@
                     var endText = cell.manual ? cell.endTime : getEndTime(cell.time);
                     var conflict = hasTimeConflict(rowIdx, colIdx, startText, endText, newVenue);
                     if (conflict && conflict.conflict) {
-                        alert('⛔ این زمین در این ساعت قابل انتخاب نیست.\n\nزمین «' + newVenue +
-                            '» در این روز برای تیم «' + teamNames[conflict.row] +
-                            '» رزرو شده است.\n\nزمان موجود: ' + conflict.startTime + ' تا ' + conflict.endTime +
-                            '\n\nزمان این تیم: ' + startText + ' تا ' + endText);
+                        alert('⛔ این زمین در این ساعت قابل انتخاب نیست.\n\nزمین «' + newVenue + '» در این روز برای تیم «' + teamNames[conflict.row] + '» رزرو شده است.\n\nزمان موجود: ' + conflict.startTime + ' تا ' + conflict.endTime + '\n\nزمان این تیم: ' + startText + ' تا ' + endText);
                         this.value = cell.venue || '';
                         updateSelectStyle(this);
                         return;
@@ -4695,20 +4302,14 @@
                 if (currentVenue) {
                     var capacity = checkSessionCapacity(rowIdx, colIdx, currentVenue);
                     if (!capacity.allowed) {
-                        alert('⛔ ظرفیت سانس زمین «' + currentVenue + '» در این روز تکمیل شده است.\n\nتعداد سانس تعریف‌شده: ' +
-                            toPersianDigits(capacity.limit) + '\nسانس‌های ثبت‌شده: ' + toPersianDigits(capacity
-                            .used) +
-                            '\n\nبرای افزودن سانس بیشتر، از «ویرایش سانس» استفاده کنید.');
+                        alert('⛔ ظرفیت سانس زمین «' + currentVenue + '» در این روز تکمیل شده است.\n\nتعداد سانس تعریف‌شده: ' + toPersianDigits(capacity.limit) + '\nسانس‌های ثبت‌شده: ' + toPersianDigits(capacity.used) + '\n\nبرای افزودن سانس بیشتر، از «ویرایش سانس» استفاده کنید.');
                         this.value = previousTime;
                         updateSelectStyle(this);
                         return;
                     }
                     var conflict = hasTimeConflict(rowIdx, colIdx, val, getEndTime(val), currentVenue);
                     if (conflict && conflict.conflict) {
-                        alert('⛔ این ساعت قابل انتخاب نیست.\n\nزمین «' + currentVenue + '» در این روز قبلاً برای تیم «' +
-                            teamNames[conflict.row] + '» رزرو شده است.\n\nزمان موجود: ' + conflict.startTime +
-                            ' تا ' + conflict.endTime + '\n\nزمان انتخابی: ' + val + ' تا ' + getEndTime(val) +
-                            '\n\nدر زمین‌های متفاوت، ساعت هم‌زمان مجاز است.');
+                        alert('⛔ این ساعت قابل انتخاب نیست.\n\nزمین «' + currentVenue + '» در این روز قبلاً برای تیم «' + teamNames[conflict.row] + '» رزرو شده است.\n\nزمان موجود: ' + conflict.startTime + ' تا ' + conflict.endTime + '\n\nزمان انتخابی: ' + val + ' تا ' + getEndTime(val) + '\n\nدر زمین‌های متفاوت، ساعت هم‌زمان مجاز است.');
                         this.value = previousTime;
                         updateSelectStyle(this);
                         return;
@@ -4746,8 +4347,7 @@
             var timeDisplay = slotDiv.querySelector('.time-display');
             var typeDisplay = slotDiv.querySelector('.type-display');
             var opponentDisplay = slotDiv.querySelector('.opponent-display');
-            var clearBtn = slotDiv.querySelector('.cell-clear-btn') || (slotDiv.closest('td') ? slotDiv.closest('td')
-                .querySelector('.cell-clear-btn') : null);
+            var clearBtn = slotDiv.querySelector('.cell-clear-btn') || (slotDiv.closest('td') ? slotDiv.closest('td').querySelector('.cell-clear-btn') : null);
             var row = parseInt(slotDiv.dataset.row, 10);
             var col = parseInt(slotDiv.dataset.col, 10);
             var cell = tableData[row][col];
@@ -4910,8 +4510,7 @@
         // ============================================================
 
         function applyColorByVenue(td, venue) {
-            td.classList.remove('green', 'blue', 'orange', 'gold', 'purple', 'pink', 'teal', 'coral', 'empty',
-                'match-official', 'match-friendly');
+            td.classList.remove('green', 'blue', 'orange', 'gold', 'purple', 'pink', 'teal', 'coral', 'empty', 'match-official', 'match-friendly');
             if (!venue) { td.classList.add('empty'); return; }
             switch (venue) {
                 case 'باغ فردوس':
@@ -4969,9 +4568,7 @@
                     var time = getTimeDisplay(cell);
                     if (!venue && !time && !type) continue;
                     var dayInfo = getDayAndDateForColumn(col);
-                    items.push({ day: dayInfo.dayName, date: dayInfo.dateText, time: time || 'نامشخص',
-                        venue: venue || 'نامشخص', type: type || 'نامشخص', opponent: (type === 'مسابقه دوستانه' ||
-                            type === 'مسابقه رسمی') ? opponent : '' });
+                    items.push({ day: dayInfo.dayName, date: dayInfo.dateText, time: time || 'نامشخص', venue: venue || 'نامشخص', type: type || 'نامشخص', opponent: (type === 'مسابقه دوستانه' || type === 'مسابقه رسمی') ? opponent : '' });
                 }
                 totalPrograms += items.length;
                 var countPersian = toPersianDigits(String(items.length));
@@ -5005,8 +4602,7 @@
             var headerTitle = document.querySelector('.report-modal-title');
             if (headerTitle) headerTitle.textContent = '📋 گزارش برنامه هفتگی تیم‌ها (مجموع: ' + totalPersian + ' برنامه)';
             if (totalPrograms === 0) {
-                html =
-                    '<div style="text-align:center;padding:30px 0;color:#888;font-weight:700;font-size:16px;font-family:Vazirmatn,Tahoma,sans-serif;">📭 هیچ برنامه‌ای برای هیچ تیمی ثبت نشده است.</div>';
+                html = '<div style="text-align:center;padding:30px 0;color:#888;font-weight:700;font-size:16px;font-family:Vazirmatn,Tahoma,sans-serif;">📭 هیچ برنامه‌ای برای هیچ تیمی ثبت نشده است.</div>';
             }
             content.innerHTML = html;
             overlay.classList.add('active');
@@ -5025,31 +4621,25 @@
                 var time = getTimeDisplay(cell);
                 if (!venue && !time && !type) continue;
                 var dayInfo = getDayAndDateForColumn(col);
-                items.push({ day: dayInfo.dayName, date: dayInfo.dateText, time: time || 'نامشخص',
-                    venue: venue || 'نامشخص', type: type || 'نامشخص', opponent: (type === 'مسابقه دوستانه' ||
-                        type === 'مسابقه رسمی') ? opponent : '' });
+                items.push({ day: dayInfo.dayName, date: dayInfo.dateText, time: time || 'نامشخص', venue: venue || 'نامشخص', type: type || 'نامشخص', opponent: (type === 'مسابقه دوستانه' || type === 'مسابقه رسمی') ? opponent : '' });
             }
 
             var exportDiv = document.createElement('div');
             exportDiv.className = 'report-team-export';
-            exportDiv.style.cssText =
-                'background:#fff;padding:6px 10px;direction:rtl;font-family:"Vazirmatn",Tahoma,"Segoe UI",Arial,sans-serif;max-width:500px;margin:0 auto;border:2px solid #ddd;border-radius:8px;';
+            exportDiv.style.cssText = 'background:#fff;padding:6px 10px;direction:rtl;font-family:"Vazirmatn",Tahoma,"Segoe UI",Arial,sans-serif;max-width:500px;margin:0 auto;border:2px solid #ddd;border-radius:8px;';
 
             var header = document.createElement('div');
             header.className = 'export-header';
-            header.style.cssText =
-                'display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #2c3e50;padding-bottom:4px;margin-bottom:4px;';
+            header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #2c3e50;padding-bottom:4px;margin-bottom:4px;';
 
             var nameSpan = document.createElement('span');
             nameSpan.className = 'team-name';
-            nameSpan.style.cssText =
-                'font-size:14px;font-weight:900;color:#2c3e50;font-family:"Vazirmatn",Tahoma,sans-serif;';
+            nameSpan.style.cssText = 'font-size:14px;font-weight:900;color:#2c3e50;font-family:"Vazirmatn",Tahoma,sans-serif;';
             nameSpan.textContent = teamName;
 
             var countSpan = document.createElement('span');
             countSpan.className = 'count-label';
-            countSpan.style.cssText =
-                'font-size:11px;font-weight:700;font-family:"Vazirmatn",Tahoma,sans-serif;background:#f1c40f;color:#2c3e50;padding:0 8px;border-radius:14px;';
+            countSpan.style.cssText = 'font-size:11px;font-weight:700;font-family:"Vazirmatn",Tahoma,sans-serif;background:#f1c40f;color:#2c3e50;padding:0 8px;border-radius:14px;';
             countSpan.textContent = '📊 ' + toPersianDigits(String(items.length));
 
             header.appendChild(nameSpan);
@@ -5059,8 +4649,7 @@
             if (items.length === 0) {
                 var empty = document.createElement('div');
                 empty.className = 'export-empty';
-                empty.style.cssText =
-                    'text-align:center;color:#999;padding:10px 0;font-weight:700;font-size:12px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                empty.style.cssText = 'text-align:center;color:#999;padding:10px 0;font-weight:700;font-size:12px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                 empty.textContent = '⚠️ برنامه‌ای برای این تیم ثبت نشده است.';
                 exportDiv.appendChild(empty);
             } else {
@@ -5068,37 +4657,31 @@
                     var item = items[i];
                     var itemDiv = document.createElement('div');
                     itemDiv.className = 'export-item';
-                    itemDiv.style.cssText =
-                        'display:flex;align-items:center;gap:3px;padding:2px 3px;border-bottom:1px solid #f0f0f0;font-size:11px;flex-wrap:nowrap;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    itemDiv.style.cssText = 'display:flex;align-items:center;gap:3px;padding:2px 3px;border-bottom:1px solid #f0f0f0;font-size:11px;flex-wrap:nowrap;font-family:"Vazirmatn",Tahoma,sans-serif;';
 
                     var daySpan = document.createElement('span');
                     daySpan.className = 'e-day';
-                    daySpan.style.cssText =
-                        'font-weight:900;min-width:32px;color:#1a5276;font-size:11px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    daySpan.style.cssText = 'font-weight:900;min-width:32px;color:#1a5276;font-size:11px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     daySpan.textContent = item.day;
 
                     var dateSpan = document.createElement('span');
                     dateSpan.className = 'e-date';
-                    dateSpan.style.cssText =
-                        'color:#666;font-size:9px;min-width:42px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    dateSpan.style.cssText = 'color:#666;font-size:9px;min-width:42px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     dateSpan.textContent = item.date;
 
                     var timeSpan = document.createElement('span');
                     timeSpan.className = 'e-time';
-                    timeSpan.style.cssText =
-                        'font-weight:700;direction:ltr;unicode-bidi:isolate;min-width:50px;color:#222;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    timeSpan.style.cssText = 'font-weight:700;direction:ltr;unicode-bidi:isolate;min-width:50px;color:#222;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     timeSpan.textContent = item.time;
 
                     var venueSpan = document.createElement('span');
                     venueSpan.className = 'e-venue';
-                    venueSpan.style.cssText =
-                        'font-weight:800;color:#1a6e3a;min-width:35px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    venueSpan.style.cssText = 'font-weight:800;color:#1a6e3a;min-width:35px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     venueSpan.textContent = item.venue;
 
                     var typeSpan = document.createElement('span');
                     typeSpan.className = 'e-type';
-                    typeSpan.style.cssText =
-                        'font-weight:800;color:#8b1a1a;min-width:38px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    typeSpan.style.cssText = 'font-weight:800;color:#8b1a1a;min-width:38px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     typeSpan.textContent = item.type;
 
                     itemDiv.appendChild(daySpan);
@@ -5110,8 +4693,7 @@
                     if (item.opponent) {
                         var oppSpan = document.createElement('span');
                         oppSpan.className = 'e-opponent';
-                        oppSpan.style.cssText =
-                            'font-weight:700;color:#555;white-space:pre-wrap;word-break:break-word;font-size:9px;flex:1;min-width:30px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                        oppSpan.style.cssText = 'font-weight:700;color:#555;white-space:pre-wrap;word-break:break-word;font-size:9px;flex:1;min-width:30px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                         oppSpan.textContent = '🆚 ' + item.opponent;
                         itemDiv.appendChild(oppSpan);
                     }
@@ -5122,8 +4704,7 @@
 
             var footer = document.createElement('div');
             footer.className = 'export-footer';
-            footer.style.cssText =
-                'border-top:1px solid #eee;margin-top:4px;padding-top:4px;text-align:center;font-size:9px;color:#999;font-family:"Vazirmatn",Tahoma,sans-serif;';
+            footer.style.cssText = 'border-top:1px solid #eee;margin-top:4px;padding-top:4px;text-align:center;font-size:9px;color:#999;font-family:"Vazirmatn",Tahoma,sans-serif;';
             var dateDisplay = document.getElementById('dateDisplay');
             footer.textContent = '📅 ' + (dateDisplay ? dateDisplay.textContent : '');
             exportDiv.appendChild(footer);
@@ -5199,10 +4780,7 @@
             var hasAnyLimit = false;
             for (var vi = 0; vi < venues.length; vi++) {
                 for (var di = 0; di < 7; di++) {
-                    if (sessionConfig[vi] && sessionConfig[vi][di] !== null && sessionConfig[vi][di] !== undefined) {
-                        hasAnyLimit = true;
-                        break;
-                    }
+                    if (sessionConfig[vi] && sessionConfig[vi][di] !== null && sessionConfig[vi][di] !== undefined) { hasAnyLimit = true; break; }
                 }
                 if (hasAnyLimit) break;
             }
@@ -5233,12 +4811,10 @@
                         statusClass = 'full'; } else { statusText = toPersianDigits(String(remaining));
                         statusClass = 'available'; }
                     var dayShort = orderedDays[di];
-                    statusParts.push('<span class="d-name">' + dayShort + '</span><span class="d-badge ' +
-                        statusClass + '">' + statusText + '</span>');
+                    statusParts.push('<span class="d-name">' + dayShort + '</span><span class="d-badge ' + statusClass + '">' + statusText + '</span>');
                 }
                 if (!hasVenueLimit) continue;
-                html += '<div class="card-item"><span class="v-name">' + venue +
-                    '</span><div class="day-status">' + statusParts.join(' ') + '</div></div>';
+                html += '<div class="card-item"><span class="v-name">' + venue + '</span><div class="day-status">' + statusParts.join(' ') + '</div></div>';
             }
             var badge = document.getElementById('floatingBadge');
             if (badge) {
@@ -5246,8 +4822,7 @@
                     badge.className = 'badge'; } else { badge.textContent = '✓';
                     badge.className = 'badge zero'; }
             }
-            if (html === '') container.innerHTML =
-            '<div class="no-limit-text">هیچ محدودیت سانسی تعریف نشده است.</div>';
+            if (html === '') container.innerHTML = '<div class="no-limit-text">هیچ محدودیت سانسی تعریف نشده است.</div>';
             else container.innerHTML = html;
         }
 
@@ -5258,9 +4833,7 @@
         // ============================================================
 
         function clearAllSlots() {
-            if (confirm(
-                    'آیا مطمئن هستید؟ تمام زمین، نوع برنامه، حریف و ساعت‌های تمرین پاک خواهند شد. (تاریخ و تنظیمات سانس‌ها حفظ می‌شوند)'
-                    )) {
+            if (confirm('آیا مطمئن هستید؟ تمام زمین، نوع برنامه، حریف و ساعت‌های تمرین پاک خواهند شد. (تاریخ و تنظیمات سانس‌ها حفظ می‌شوند)')) {
                 tableData = getEmptyData();
                 buildTable();
                 updateFloatingBadge();
@@ -5286,8 +4859,7 @@
                             if (timeSelect) timeSelect.classList.add('hidden');
                             if (manualBox) {
                                 if (cell.manualEditing === true) { manualBox.classList.add('active');
-                                    manualBox.style.display = 'flex'; } else { manualBox.classList.remove(
-                                        'active');
+                                    manualBox.style.display = 'flex'; } else { manualBox.classList.remove('active');
                                     manualBox.style.display = 'none'; }
                             }
                         } else {
@@ -5500,17 +5072,13 @@
                         }
                         importedData.push(rowData);
                     }
-                    if (importedTeams.length === 0) { showNotification('⛔ هیچ تیمی در فایل Excel یافت نشد.', true);
-                        return; }
-                    if (!confirm('⚠️ آیا از جایگزینی داده‌های فعلی با داده‌های فایل Excel مطمئن هستید؟\n\nتعداد تیم‌های جدید: ' +
-                            toPersianDigits(String(importedTeams.length)) +
-                            '\nداده‌های فعلی بازنویسی می‌شوند.')) return;
+                    if (importedTeams.length === 0) { showNotification('⛔ هیچ تیمی در فایل Excel یافت نشد.', true); return; }
+                    if (!confirm('⚠️ آیا از جایگزینی داده‌های فعلی با داده‌های فایل Excel مطمئن هستید؟\n\nتعداد تیم‌های جدید: ' + toPersianDigits(String(importedTeams.length)) + '\nداده‌های فعلی بازنویسی می‌شوند.')) return;
                     var newTableData = [];
                     for (var r = 0; r < importedTeams.length; r++) {
                         var newRow = [];
                         for (var c = 0; c < 7; c++) {
-                            newRow.push({ venue: '', time: '', manual: false, manualEditing: false, startTime: '',
-                                endTime: '', activityType: '', opponent: '' });
+                            newRow.push({ venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '', activityType: '', opponent: '' });
                             var cellText = importedData[r] ? importedData[r][c] || '' : '';
                             if (cellText) {
                                 var parsedCell = parseCellText(cellText);
@@ -5535,8 +5103,7 @@
 
         function parseCellText(text) {
             if (!text || typeof text !== 'string') return null;
-            var result = { venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '',
-                activityType: '', opponent: '' };
+            var result = { venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '', activityType: '', opponent: '' };
             var lines = text.split('\n').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
             for (var i = 0; i < lines.length; i++) {
                 var line = lines[i];
@@ -5590,276 +5157,6 @@
         }
 
         // ============================================================
-        // همگام‌سازی با Google Sheets
-        // ============================================================
-
-        let gapiInitialized = false;
-
-        function initGapi() {
-            return new Promise((resolve, reject) => {
-                if (gapiInitialized) { resolve(); return; }
-                if (typeof gapi === 'undefined') {
-                    reject(new Error('Google API library not loaded'));
-                    return;
-                }
-                gapi.client.init({
-                    apiKey: GOOGLE_SHEETS_CONFIG.API_KEY,
-                    discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"]
-                }).then(() => {
-                    gapiInitialized = true;
-                    resolve();
-                }).catch(reject);
-            });
-        }
-
-        async function syncWithGoogleSheets() {
-            try {
-                showNotification('🔄 در حال بارگذاری از Google Sheets...', false);
-
-                await initGapi();
-
-                // بارگذاری داده‌ها
-                const response = await gapi.client.sheets.spreadsheets.values.batchGet({
-                    spreadsheetId: GOOGLE_SHEETS_CONFIG.SPREADSHEET_ID,
-                    ranges: [
-                        GOOGLE_SHEETS_CONFIG.RANGES.SCHEDULE,
-                        GOOGLE_SHEETS_CONFIG.RANGES.TEAMS,
-                        GOOGLE_SHEETS_CONFIG.RANGES.VENUES,
-                        GOOGLE_SHEETS_CONFIG.RANGES.SESSION_CONFIG,
-                        GOOGLE_SHEETS_CONFIG.RANGES.DATE_CONFIG
-                    ]
-                });
-
-                const data = response.result;
-                const parsedData = parseSheetsData(data.valueRanges);
-
-                // به‌روزرسانی داده‌های برنامه
-                if (parsedData.teams && parsedData.teams.length > 0) {
-                    teamNames = parsedData.teams;
-                    saveTeamNames();
-                }
-
-                if (parsedData.venues && parsedData.venues.length > 0) {
-                    venues = parsedData.venues;
-                    saveVenues(venues);
-                }
-
-                if (parsedData.sessionConfig && parsedData.sessionConfig.length > 0) {
-                    sessionConfig = parsedData.sessionConfig;
-                    saveSessionConfigToStorage();
-                }
-
-                if (parsedData.schedule && parsedData.schedule.length > 0) {
-                    tableData = parsedData.schedule;
-                    saveData(tableData);
-                }
-
-                if (parsedData.dateConfig) {
-                    if (parsedData.dateConfig.StartDay) {
-                        document.getElementById('startDayInput').value = parsedData.dateConfig.StartDay;
-                    }
-                    if (parsedData.dateConfig.EndDay) {
-                        document.getElementById('endDayInput').value = parsedData.dateConfig.EndDay;
-                    }
-                    if (parsedData.dateConfig.StartMonth) {
-                        document.getElementById('startMonthSelect').value = parsedData.dateConfig.StartMonth;
-                    }
-                    if (parsedData.dateConfig.EndMonth) {
-                        document.getElementById('endMonthSelect').value = parsedData.dateConfig.EndMonth;
-                    }
-                    if (parsedData.dateConfig.Year) {
-                        document.getElementById('yearInput').value = parsedData.dateConfig.Year;
-                    }
-                    updateDateFromEditor();
-                }
-
-                buildTable();
-                updateFloatingBadge();
-
-                showNotification('✅ داده‌ها با موفقیت از Google Sheets بارگذاری شدند!', false);
-            } catch (error) {
-                console.error('Error syncing with Google Sheets:', error);
-                showNotification('⛔ خطا در همگام‌سازی با Google Sheets: ' + error.message, true);
-            }
-        }
-
-        function parseSheetsData(valueRanges) {
-            const result = {
-                schedule: [],
-                teams: [],
-                venues: [],
-                sessionConfig: [],
-                dateConfig: {}
-            };
-
-            // Parse Schedule
-            const scheduleValues = valueRanges[0]?.values || [];
-            if (scheduleValues.length > 1) {
-                for (let i = 1; i < scheduleValues.length; i++) {
-                    const row = scheduleValues[i];
-                    if (!row || row.length === 0) continue;
-                    const rowData = [];
-                    for (let j = 1; j < Math.min(row.length, 8); j++) {
-                        const cell = row[j] || '';
-                        rowData.push(parseCellText(cell) || { venue: '', time: '', manual: false, manualEditing: false,
-                            startTime: '', endTime: '', activityType: '', opponent: '' });
-                    }
-                    if (rowData.length > 0) {
-                        result.schedule.push(rowData);
-                    }
-                }
-            }
-
-            // Parse Teams
-            const teamsValues = valueRanges[1]?.values || [];
-            if (teamsValues.length > 1) {
-                for (let i = 1; i < teamsValues.length; i++) {
-                    const row = teamsValues[i];
-                    if (row && row[1]) {
-                        result.teams.push(String(row[1]).trim());
-                    }
-                }
-            }
-
-            // Parse Venues
-            const venuesValues = valueRanges[2]?.values || [];
-            if (venuesValues.length > 1) {
-                for (let i = 1; i < venuesValues.length; i++) {
-                    const row = venuesValues[i];
-                    if (row && row[1]) {
-                        result.venues.push(String(row[1]).trim());
-                    }
-                }
-            }
-
-            // Parse Session Config
-            const sessionValues = valueRanges[3]?.values || [];
-            if (sessionValues.length > 1) {
-                for (let i = 1; i < sessionValues.length; i++) {
-                    const row = sessionValues[i];
-                    if (!row || row.length === 0) continue;
-                    const configRow = [];
-                    for (let j = 1; j < Math.min(row.length, 8); j++) {
-                        const val = row[j];
-                        if (val === '' || val === undefined || val === null) {
-                            configRow.push(null);
-                        } else {
-                            const n = parseInt(toEnglishDigits(String(val)), 10);
-                            configRow.push(Number.isFinite(n) && n >= 0 ? n : null);
-                        }
-                    }
-                    if (configRow.length === 7) {
-                        result.sessionConfig.push(configRow);
-                    }
-                }
-            }
-
-            // Parse Date Config
-            const dateValues = valueRanges[4]?.values || [];
-            if (dateValues.length > 1) {
-                for (let i = 1; i < dateValues.length; i++) {
-                    const row = dateValues[i];
-                    if (row && row[0] && row[1]) {
-                        result.dateConfig[row[0]] = String(row[1]).trim();
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        // ============================================================
-        // همگام‌سازی با GitHub
-        // ============================================================
-
-        async function syncWithGitHub() {
-            try {
-                showNotification('🔄 در حال همگام‌سازی با GitHub...', false);
-
-                // ساخت داده‌های فعلی
-                const data = {
-                    teams: teamNames,
-                    venues: venues,
-                    schedule: tableData,
-                    sessionConfig: sessionConfig,
-                    dateConfig: {
-                        StartDay: document.getElementById('startDayInput').value || '۱',
-                        EndDay: document.getElementById('endDayInput').value || '۷',
-                        StartMonth: document.getElementById('startMonthSelect').value || 'فروردین',
-                        EndMonth: document.getElementById('endMonthSelect').value || 'فروردین',
-                        Year: document.getElementById('yearInput').value || '۱۴۰۵'
-                    },
-                    lastUpdate: new Date().toISOString()
-                };
-
-                // ذخیره در GitHub
-                const saved = await saveToGitHub(data);
-                if (saved) {
-                    showNotification('✅ داده‌ها با موفقیت در GitHub ذخیره شدند!', false);
-                } else {
-                    showNotification('⛔ خطا در ذخیره در GitHub', true);
-                }
-            } catch (error) {
-                console.error('Error syncing with GitHub:', error);
-                showNotification('⛔ خطا در همگام‌سازی با GitHub: ' + error.message, true);
-            }
-        }
-
-        async function saveToGitHub(data) {
-            try {
-                const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-
-                // ابتدا فایل موجود را بررسی می‌کنیم
-                let sha = null;
-                try {
-                    const response = await fetch(
-                        `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.filePath}?ref=${GITHUB_CONFIG.branch}`,
-                        {
-                            headers: {
-                                'Authorization': `token ${GITHUB_CONFIG.token}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        }
-                    );
-                    if (response.ok) {
-                        const existing = await response.json();
-                        sha = existing.sha;
-                    }
-                } catch (e) {
-                    // فایل وجود ندارد، ادامه می‌دهیم
-                }
-
-                const commitResponse = await fetch(
-                    `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.filePath}`,
-                    {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `token ${GITHUB_CONFIG.token}`,
-                            'Accept': 'application/vnd.github.v3+json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            message: `Update schedule data - ${new Date().toISOString()}`,
-                            content: content,
-                            sha: sha,
-                            branch: GITHUB_CONFIG.branch
-                        })
-                    }
-                );
-
-                if (!commitResponse.ok) {
-                    const errorData = await commitResponse.json();
-                    throw new Error(`GitHub commit error: ${commitResponse.status} - ${errorData.message || 'Unknown error'}`);
-                }
-
-                return true;
-            } catch (error) {
-                console.error('Error saving to GitHub:', error);
-                throw error;
-            }
-        }
-
-        // ============================================================
         // شروع برنامه
         // ============================================================
 
@@ -5884,9 +5181,9 @@
         buildTable();
         setupPersianNumberInputs();
         updateFloatingBadge();
+
     </script>
 
 </body>
 
 </html>
-```
