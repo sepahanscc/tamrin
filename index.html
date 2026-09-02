@@ -696,8 +696,8 @@
         .slot .print-text .time-text {
             font-size: 11px;
             font-weight: 700;
-            direction: ltr;
-            unicode-bidi: isolate;
+            direction: ltr !important;
+            unicode-bidi: bidi-override !important;
         }
 
         .slot .time-display {
@@ -705,8 +705,8 @@
             font-weight: 700;
             color: #333;
             margin-top: 0;
-            direction: ltr;
-            unicode-bidi: isolate;
+            direction: ltr !important;
+            unicode-bidi: bidi-override !important;
             text-align: center;
             cursor: pointer;
             padding: 2px 4px;
@@ -1954,8 +1954,8 @@
         .slot.locked-view .print-text .time-text {
             font-size: 12px !important;
             font-weight: 700;
-            direction: ltr;
-            unicode-bidi: isolate;
+            direction: ltr !important;
+            unicode-bidi: bidi-override !important;
         }
 
         .slot.locked-view .empty-label {
@@ -2974,10 +2974,19 @@
         function getTimeDisplay(cell) {
             if (!cell) return '';
             if (cell.manual && cell.startTime && cell.endTime) {
-                return cell.startTime + ' - ' + cell.endTime;
+                var t1 = cell.startTime;
+                var t2 = cell.endTime;
+                var m1 = persianTimeToMinutes(t1);
+                var m2 = persianTimeToMinutes(t2);
+                // همیشه ساعت کوچکتر (زودتر) اول بیاید
+                if (m1 !== null && m2 !== null && m2 < m1) {
+                    return t2 + ' - ' + t1;
+                }
+                return t1 + ' - ' + t2;
             }
             if (cell.time) {
-                return cell.time + ' - ' + getEndTime(cell.time);
+                var end = getEndTime(cell.time);
+                return cell.time + ' - ' + end;
             }
             return '';
         }
@@ -3117,7 +3126,6 @@
 
         function normalizeScheduleData(parsed, expectedLength) {
             if (!Array.isArray(parsed)) return getEmptyData();
-            // اگر طول فرق داشت، تطبیق می‌دیم
             var result = [];
             for (var r = 0; r < expectedLength; r++) {
                 var row = [];
@@ -3131,6 +3139,18 @@
                         if (cell.endTime === undefined) cell.endTime = '';
                         if (cell.activityType === undefined) cell.activityType = '';
                         if (cell.opponent === undefined) cell.opponent = '';
+
+                        // اصلاح ساعت‌های جابه‌جا شده
+                        if (cell.manual && cell.startTime && cell.endTime) {
+                            var m1 = persianTimeToMinutes(cell.startTime);
+                            var m2 = persianTimeToMinutes(cell.endTime);
+                            if (m1 !== null && m2 !== null && m2 < m1) {
+                                var tmp = cell.startTime;
+                                cell.startTime = cell.endTime;
+                                cell.endTime = tmp;
+                                cell.time = cell.startTime;
+                            }
+                        }
                         row.push(cell);
                     } else {
                         row.push({ venue: '', time: '', manual: false, manualEditing: false, startTime: '', endTime: '', activityType: '', opponent: '' });
@@ -4208,6 +4228,15 @@
                     }
                 }
                 var cell = tableData[rowIdx][colIdx];
+                // اطمینان از اینکه start همیشه قبل از end باشد
+                var sMin = persianTimeToMinutes(startFormatted);
+                var eMin = persianTimeToMinutes(endFormatted);
+                if (sMin !== null && eMin !== null && eMin < sMin) {
+                    // جابه‌جا کن
+                    var tmp = startFormatted;
+                    startFormatted = endFormatted;
+                    endFormatted = tmp;
+                }
                 cell.startTime = startFormatted;
                 cell.endTime = endFormatted;
                 cell.time = startFormatted;
