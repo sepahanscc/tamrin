@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" id="viewportMeta">
 
     <title>برنامه تمرینات و مسابقات آکادمی فوتبال باشگاه فولاد مبارکه سپاهان</title>
 
@@ -63,7 +63,6 @@
         html, body {
             margin: 0;
             padding: 0;
-            overflow: auto;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -75,18 +74,28 @@
             display: flex;
             justify-content: center;
             padding: 10px;
+        }
+
+        /* بعد از ورود: سایز دسکتاپ ثابت + اسکرول لمسی */
+        body.desktop-mode {
             min-width: 1200px;
+            overflow: auto;
         }
 
         .page {
-            width: 1200px;
-            min-width: 1200px;
+            width: 100%;
             max-width: 1200px;
             background: #fff;
             padding: 10px 12px 8px;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             position: relative;
+        }
+
+        body.desktop-mode .page {
+            width: 1200px;
+            min-width: 1200px;
+            max-width: 1200px;
             flex-shrink: 0;
         }
 
@@ -2545,10 +2554,51 @@
         #app-content {
             display: none;
             width: 100%;
-            min-width: 1200px;
         }
         #app-content.visible {
             display: block;
+        }
+        body.desktop-mode #app-content {
+            min-width: 1200px;
+        }
+
+        /* حالت فقط مشاهده (رمز 1953) */
+        body.view-only-mode .no-print {
+            display: none !important;
+        }
+        body.view-only-mode .cell-clear-btn {
+            display: none !important;
+        }
+        body.view-only-mode .floating-session-btn,
+        body.view-only-mode .session-hover-card {
+            display: none !important;
+        }
+        body.view-only-mode .btn-group,
+        body.view-only-mode .date-editor {
+            display: none !important;
+        }
+
+        /* صفحه ورود روی موبایل خوانا و بزرگ */
+        @media screen and (max-width: 600px) {
+            .login-box {
+                padding: 28px 20px;
+                width: min(340px, 90%);
+            }
+            .login-box h2 {
+                font-size: 17px;
+            }
+            .login-box p {
+                font-size: 13px;
+            }
+            .login-box input {
+                font-size: 20px;
+                padding: 14px 12px;
+                letter-spacing: 6px;
+            }
+            .login-box button {
+                font-size: 16px;
+                padding: 14px;
+            }
         }
 
     </style>
@@ -2807,16 +2857,58 @@
         // ============================================================
 
         // ========== سیستم ورود ==========
-        const LOGIN_PASSWORD = '7160';
+        const LOGIN_PASSWORD_ADMIN = '7160';  // دسترسی کامل
+        const LOGIN_PASSWORD_VIEW = '1953';   // فقط مشاهده خروجی
+
+        function enableDesktopMode() {
+            document.body.classList.add('desktop-mode');
+            var meta = document.getElementById('viewportMeta');
+            if (meta) {
+                meta.setAttribute('content', 'width=1200, user-scalable=yes');
+            }
+        }
+
+        function enableViewOnlyMode() {
+            document.body.classList.add('view-only-mode');
+            var noPrintEls = document.querySelectorAll('.no-print');
+            for (var i = 0; i < noPrintEls.length; i++) {
+                noPrintEls[i].style.display = 'none';
+            }
+            var lockCheckbox = document.getElementById('lockCheckbox');
+            if (lockCheckbox) {
+                lockCheckbox.checked = true;
+            }
+            setTimeout(function() {
+                if (typeof toggleLock === 'function') toggleLock();
+                var noPrintEls2 = document.querySelectorAll('.no-print');
+                for (var j = 0; j < noPrintEls2.length; j++) {
+                    noPrintEls2[j].style.display = 'none';
+                }
+                var floating = document.getElementById('floatingBtn');
+                if (floating) floating.style.display = 'none';
+                var hoverCard = document.getElementById('sessionHoverCard');
+                if (hoverCard) hoverCard.style.display = 'none';
+            }, 800);
+        }
 
         function checkLogin() {
             var input = document.getElementById('loginPassword');
             var error = document.getElementById('loginError');
             if (!input) return;
-            if (input.value === LOGIN_PASSWORD) {
-                sessionStorage.setItem('sepahan_logged_in', '1');
+            var pass = input.value;
+
+            if (pass === LOGIN_PASSWORD_ADMIN) {
+                sessionStorage.setItem('sepahan_logged_in', 'admin');
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('app-content').classList.add('visible');
+                enableDesktopMode();
+                error.classList.remove('show');
+            } else if (pass === LOGIN_PASSWORD_VIEW) {
+                sessionStorage.setItem('sepahan_logged_in', 'view');
+                document.getElementById('login-overlay').classList.add('hidden');
+                document.getElementById('app-content').classList.add('visible');
+                enableDesktopMode();
+                enableViewOnlyMode();
                 error.classList.remove('show');
             } else {
                 error.classList.add('show');
@@ -2826,15 +2918,20 @@
         }
 
         function initLogin() {
-            if (sessionStorage.getItem('sepahan_logged_in') === '1') {
+            var role = sessionStorage.getItem('sepahan_logged_in');
+            if (role === 'admin' || role === 'view') {
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('app-content').classList.add('visible');
+                enableDesktopMode();
+                if (role === 'view') {
+                    enableViewOnlyMode();
+                }
             } else {
                 document.getElementById('login-overlay').classList.remove('hidden');
                 document.getElementById('app-content').classList.remove('visible');
                 var input = document.getElementById('loginPassword');
                 if (input) {
-                    input.focus();
+                    setTimeout(function() { input.focus(); }, 200);
                     input.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter') {
                             e.preventDefault();
@@ -2843,6 +2940,18 @@
                     });
                 }
             }
+        }
+
+        // تشخیص مرورگر داخل برنامه‌ها (ایتا، تلگرام و ...)
+        function isInAppBrowser() {
+            var ua = navigator.userAgent || navigator.vendor || '';
+            return /Eitaa|Telegram|Instagram|FBAN|FBAV|Line|MicroMessenger|Twitter|Snapchat|TikTok|WhatsApp|LinkedInApp/i.test(ua)
+                || (/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(ua))
+                || (/Android.*(wv|\.0\.0\.0)/i.test(ua));
+        }
+
+        function showInAppExportWarning() {
+            alert('⚠️ برای گرفتن خروجی (JPG / PDF / Excel)\nلطفاً لینک را در مرورگر کروم یا سافاری باز کنید.\n\nمرورگر داخل ایتا و بعضی پیام‌رسان‌ها از خروجی پشتیبانی کامل نمی‌کنند.');
         }
 
         // اجرای فوری ورود
@@ -4833,6 +4942,10 @@
         }
 
         function exportTeamJPG(rowIndex) {
+            if (isInAppBrowser()) {
+                showInAppExportWarning();
+                return;
+            }
             var teamName = teamNames[rowIndex];
             var items = [];
             for (var col = 0; col < 7; col++) {
@@ -5119,6 +5232,10 @@
 
         function handleExport(type) {
             document.getElementById('exportDropdown').classList.remove('show');
+            if (isInAppBrowser()) {
+                showInAppExportWarning();
+                return;
+            }
             if (type === 'jpg') captureAsJPG();
             else if (type === 'pdf') captureAsPDF();
             else if (type === 'excel') exportAsExcel();
@@ -5433,6 +5550,11 @@
             buildTable();
             setupPersianNumberInputs();
             updateFloatingBadge();
+
+            // اگر کاربر فقط‌مشاهده است، بعد از ساخت جدول حالت قفل را اعمال کن
+            if (sessionStorage.getItem('sepahan_logged_in') === 'view') {
+                enableViewOnlyMode();
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
