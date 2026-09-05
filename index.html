@@ -2446,12 +2446,119 @@
             background: rgba(64, 64, 64, 0.15);
         }
 
+        /* ========== صفحه ورود ========== */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0e3145 0%, #1a5276 50%, #0e3145 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            direction: rtl;
+        }
+        #login-overlay.hidden {
+            display: none !important;
+        }
+        .login-box {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 28px;
+            width: min(360px, 92%);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+            text-align: center;
+        }
+        .login-box .login-logo {
+            width: 70px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+        .login-box h2 {
+            margin: 0 0 6px;
+            font-size: 16px;
+            font-weight: 900;
+            color: #0e3145;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .login-box p {
+            margin: 0 0 18px;
+            font-size: 12px;
+            color: #666;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            direction: ltr;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .login-box input:focus {
+            border-color: #0e3145;
+            box-shadow: 0 0 0 3px rgba(14,49,69,0.15);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background: #0e3145;
+            color: #fff900;
+            border: 2px solid #111;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            transition: all 0.2s;
+        }
+        .login-box button:hover {
+            background: #1a5276;
+            transform: scale(1.02);
+        }
+        .login-error {
+            color: #c62828;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 10px;
+            display: none;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .login-error.show {
+            display: block;
+        }
+        #app-content {
+            display: none;
+        }
+        #app-content.visible {
+            display: block;
+        }
+
     </style>
 
 </head>
 
 <body>
 
+    <!-- صفحه ورود -->
+    <div id="login-overlay">
+        <div class="login-box">
+            <img class="login-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Sepahan_New_Logo.svg/960px-Sepahan_New_Logo.svg.png" alt="لوگو">
+            <h2>آکادمی فوتبال سپاهان</h2>
+            <p>لطفاً رمز عبور را وارد کنید</p>
+            <input type="password" id="loginPassword" placeholder="••••" maxlength="20" autocomplete="off">
+            <button type="button" onclick="checkLogin()">ورود</button>
+            <div class="login-error" id="loginError">رمز عبور اشتباه است</div>
+        </div>
+    </div>
+
+    <div id="app-content">
     <div class="page" id="capture-area">
 
         <div class="header">
@@ -2681,11 +2788,59 @@
 
     <!-- اعلان -->
     <div class="import-notification" id="importNotification"></div>
+    </div><!-- end #app-content -->
 
     <script>
         // ============================================================
         // کدهای جاوااسکریپت کامل
         // ============================================================
+
+        // ========== سیستم ورود ==========
+        const LOGIN_PASSWORD = '7160';
+
+        function checkLogin() {
+            var input = document.getElementById('loginPassword');
+            var error = document.getElementById('loginError');
+            if (!input) return;
+            if (input.value === LOGIN_PASSWORD) {
+                sessionStorage.setItem('sepahan_logged_in', '1');
+                document.getElementById('login-overlay').classList.add('hidden');
+                document.getElementById('app-content').classList.add('visible');
+                error.classList.remove('show');
+            } else {
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function initLogin() {
+            if (sessionStorage.getItem('sepahan_logged_in') === '1') {
+                document.getElementById('login-overlay').classList.add('hidden');
+                document.getElementById('app-content').classList.add('visible');
+            } else {
+                document.getElementById('login-overlay').classList.remove('hidden');
+                document.getElementById('app-content').classList.remove('visible');
+                var input = document.getElementById('loginPassword');
+                if (input) {
+                    input.focus();
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            checkLogin();
+                        }
+                    });
+                }
+            }
+        }
+
+        // اجرای فوری ورود
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initLogin);
+        } else {
+            initLogin();
+        }
+        // ================================
 
         const DEFAULT_START = 1;
         const DEFAULT_END = 7;
