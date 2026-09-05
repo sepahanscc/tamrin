@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1200, user-scalable=yes">
 
     <title>برنامه تمرینات و مسابقات آکادمی فوتبال باشگاه فولاد مبارکه سپاهان</title>
 
@@ -60,8 +60,14 @@
             font-size: 11px !important;
         }
 
-        body {
+        html, body {
             margin: 0;
+            padding: 0;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        body {
             background: #f0f0f0;
             color: #111;
             font-family: "Vazirmatn", Tahoma, "Segoe UI", Arial, sans-serif !important;
@@ -69,16 +75,19 @@
             display: flex;
             justify-content: center;
             padding: 10px;
+            min-width: 1200px;
         }
 
         .page {
-            width: 100%;
+            width: 1200px;
+            min-width: 1200px;
             max-width: 1200px;
             background: #fff;
             padding: 10px 12px 8px;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             position: relative;
+            flex-shrink: 0;
         }
 
         .header {
@@ -2535,6 +2544,8 @@
         }
         #app-content {
             display: none;
+            width: 100%;
+            min-width: 1200px;
         }
         #app-content.visible {
             display: block;
