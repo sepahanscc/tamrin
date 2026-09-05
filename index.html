@@ -113,46 +113,55 @@
             -webkit-overflow-scrolling: touch;
             flex-direction: column;
             align-items: center;
-            padding: 16px;
+            padding: 12px 12px 100px;
             box-sizing: border-box;
         }
         #viewer-screen.active {
             display: flex;
         }
         #viewer-screen .viewer-toolbar {
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
             display: flex;
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            padding: 10px;
-            background: rgba(0,0,0,0.75);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            width: min(100%, 500px);
+            padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+            background: rgba(0,0,0,0.92);
+            border-top: 1px solid #333;
+            width: 100%;
+            box-sizing: border-box;
         }
         #viewer-screen .viewer-toolbar button {
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 900;
-            padding: 10px 22px;
-            border-radius: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
             border: 2px solid #111;
             cursor: pointer;
+            min-width: 220px;
         }
         #viewer-screen .viewer-download {
             background: #1a6e3a;
             color: #fff;
         }
+        #viewer-screen .viewer-download:disabled {
+            background: #555;
+            color: #bbb;
+            cursor: wait;
+        }
         #viewer-screen .viewer-status {
             color: #fff900;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             text-align: center;
             padding: 40px 20px;
+            line-height: 1.8;
         }
         #viewer-image {
             max-width: 100%;
@@ -2684,11 +2693,11 @@
 
     <!-- صفحه مشاهده‌کننده: فقط عکس + دانلود -->
     <div id="viewer-screen">
-        <div class="viewer-toolbar">
-            <button type="button" class="viewer-download" id="viewerDownloadBtn" onclick="downloadViewerImage()" style="display:none;">📥 دانلود تصویر</button>
-        </div>
         <div class="viewer-status" id="viewerStatus">⏳ در حال آماده‌سازی تصویر...</div>
         <img id="viewer-image" alt="برنامه تمرینات" style="display:none;">
+        <div class="viewer-toolbar">
+            <button type="button" class="viewer-download" id="viewerDownloadBtn" onclick="downloadViewerImage()" disabled>📥 در حال آماده‌سازی...</button>
+        </div>
     </div>
 
     <div id="app-content">
@@ -2945,7 +2954,6 @@
         function showViewerScreen() {
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('app-content').classList.add('visible');
-            // app-content را خارج از دید بگذار ولی در DOM نگه دار تا html2canvas کار کند
             var app = document.getElementById('app-content');
             app.style.position = 'fixed';
             app.style.left = '-99999px';
@@ -2957,17 +2965,23 @@
             document.getElementById('viewerStatus').style.display = 'block';
             document.getElementById('viewerStatus').textContent = '⏳ در حال آماده‌سازی تصویر...';
             document.getElementById('viewer-image').style.display = 'none';
-            document.getElementById('viewerDownloadBtn').style.display = 'none';
+            var btn = document.getElementById('viewerDownloadBtn');
+            btn.disabled = true;
+            btn.textContent = '📥 در حال آماده‌سازی...';
         }
 
         function generateViewerImage() {
             var element = document.getElementById('capture-area');
+            var btn = document.getElementById('viewerDownloadBtn');
+            var status = document.getElementById('viewerStatus');
+
             if (!element || typeof html2canvas === 'undefined') {
-                document.getElementById('viewerStatus').textContent = '⛔ خطا در ساخت تصویر';
+                status.textContent = '⛔ خطا در ساخت تصویر.\nلطفاً لینک را در مرورگر کروم باز کنید.';
+                btn.disabled = true;
+                btn.textContent = '📥 دانلود در دسترس نیست';
                 return;
             }
 
-            // آماده‌سازی ظاهر خروجی
             var dateEditor = document.querySelector('.date-editor');
             var btnGroup = document.querySelector('.btn-group');
             if (dateEditor) dateEditor.style.display = 'none';
@@ -2986,15 +3000,18 @@
                 if (typeof updateSlotDisplay === 'function') updateSlotDisplay(slots[i]);
             }
             var clearBtns = element.querySelectorAll('.cell-clear-btn');
-            clearBtns.forEach(function(btn) { btn.style.display = 'none'; });
+            clearBtns.forEach(function(btn2) { btn2.style.display = 'none'; });
 
-            // موقتاً برای capture قابل مشاهده شود
             var app = document.getElementById('app-content');
             app.style.left = '0';
             app.style.opacity = '1';
 
+            // روی موبایل scale کمتر برای جلوگیری از خطا
+            var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            var scale = isMobile ? 1.5 : 2.5;
+
             html2canvas(element, {
-                scale: 2.5,
+                scale: scale,
                 useCORS: true,
                 allowTaint: true,
                 backgroundColor: '#ffffff',
@@ -3002,7 +3019,6 @@
                 width: element.scrollWidth,
                 height: element.scrollHeight
             }).then(function(canvas) {
-                // برگرداندن app به حالت مخفی
                 app.style.left = '-99999px';
                 app.style.opacity = '0';
 
@@ -3011,21 +3027,25 @@
                     lockCheckbox.checked = false;
                     if (typeof toggleLock === 'function') toggleLock();
                 }
-                clearBtns.forEach(function(btn) { btn.style.display = ''; });
+                clearBtns.forEach(function(btn2) { btn2.style.display = ''; });
                 if (dateEditor) dateEditor.style.display = '';
                 if (btnGroup) btnGroup.style.display = '';
 
-                viewerImageDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+                viewerImageDataUrl = canvas.toDataURL('image/jpeg', 0.9);
                 var img = document.getElementById('viewer-image');
                 img.src = viewerImageDataUrl;
                 img.style.display = 'block';
-                document.getElementById('viewerStatus').style.display = 'none';
-                document.getElementById('viewerDownloadBtn').style.display = 'inline-block';
+                status.style.display = 'none';
+                btn.disabled = false;
+                btn.textContent = '📥 دانلود تصویر';
             }).catch(function(err) {
                 console.error(err);
                 app.style.left = '-99999px';
                 app.style.opacity = '0';
-                document.getElementById('viewerStatus').textContent = '⛔ خطا در ساخت تصویر. صفحه را رفرش کنید.';
+                status.style.display = 'block';
+                status.textContent = '⛔ خطا در ساخت تصویر.\nلطفاً لینک را در مرورگر کروم باز کنید و دوباره وارد شوید.';
+                btn.disabled = true;
+                btn.textContent = '📥 دانلود در دسترس نیست';
             });
         }
 
