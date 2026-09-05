@@ -2940,6 +2940,10 @@
         // ========== سیستم ورود ==========
         const LOGIN_PASSWORD_ADMIN = '7160';  // دسترسی کامل
         const LOGIN_PASSWORD_VIEW = '1953';   // فقط مشاهده خروجی
+        var currentRole = null; // فقط در حافظه؛ با رفرش پاک می‌شود
+        var viewerImageDataUrl = null;
+        var dataReady = false;
+        var pendingViewImage = false;
 
         function enableDesktopMode() {
             document.body.classList.add('desktop-mode');
@@ -2948,8 +2952,6 @@
                 meta.setAttribute('content', 'width=1200, user-scalable=yes');
             }
         }
-
-        var viewerImageDataUrl = null;
 
         function showViewerScreen() {
             document.getElementById('login-overlay').classList.add('hidden');
@@ -2986,11 +2988,10 @@
             var btnGroup = document.querySelector('.btn-group');
             if (dateEditor) dateEditor.style.display = 'none';
             if (btnGroup) btnGroup.style.display = 'none';
-            element.classList.add('export-mode');
 
+            // بدون export-mode برای سرعت بیشتر روی موبایل
             var lockCheckbox = document.getElementById('lockCheckbox');
-            var wasLocked = lockCheckbox ? lockCheckbox.checked : false;
-            if (lockCheckbox && !wasLocked) {
+            if (lockCheckbox) {
                 lockCheckbox.checked = true;
                 if (typeof toggleLock === 'function') toggleLock();
             }
@@ -3006,46 +3007,42 @@
             app.style.left = '0';
             app.style.opacity = '1';
 
-            // روی موبایل scale کمتر برای جلوگیری از خطا
-            var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-            var scale = isMobile ? 1.5 : 2.5;
+            // موبایل: scale خیلی سبک‌تر = خیلی سریع‌تر
+            var isMobile = window.innerWidth < 900 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            var scale = isMobile ? 1 : 2;
 
-            html2canvas(element, {
-                scale: scale,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#ffffff',
-                logging: false,
-                width: element.scrollWidth,
-                height: element.scrollHeight
-            }).then(function(canvas) {
-                app.style.left = '-99999px';
-                app.style.opacity = '0';
+            requestAnimationFrame(function() {
+                html2canvas(element, {
+                    scale: scale,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    imageTimeout: 0,
+                    removeContainer: true
+                }).then(function(canvas) {
+                    app.style.left = '-99999px';
+                    app.style.opacity = '0';
 
-                element.classList.remove('export-mode');
-                if (lockCheckbox && !wasLocked) {
-                    lockCheckbox.checked = false;
-                    if (typeof toggleLock === 'function') toggleLock();
-                }
-                clearBtns.forEach(function(btn2) { btn2.style.display = ''; });
-                if (dateEditor) dateEditor.style.display = '';
-                if (btnGroup) btnGroup.style.display = '';
+                    if (dateEditor) dateEditor.style.display = '';
+                    if (btnGroup) btnGroup.style.display = '';
 
-                viewerImageDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-                var img = document.getElementById('viewer-image');
-                img.src = viewerImageDataUrl;
-                img.style.display = 'block';
-                status.style.display = 'none';
-                btn.disabled = false;
-                btn.textContent = '📥 دانلود تصویر';
-            }).catch(function(err) {
-                console.error(err);
-                app.style.left = '-99999px';
-                app.style.opacity = '0';
-                status.style.display = 'block';
-                status.textContent = '⛔ خطا در ساخت تصویر.\nلطفاً لینک را در مرورگر کروم باز کنید و دوباره وارد شوید.';
-                btn.disabled = true;
-                btn.textContent = '📥 دانلود در دسترس نیست';
+                    viewerImageDataUrl = canvas.toDataURL('image/jpeg', isMobile ? 0.8 : 0.9);
+                    var img = document.getElementById('viewer-image');
+                    img.src = viewerImageDataUrl;
+                    img.style.display = 'block';
+                    status.style.display = 'none';
+                    btn.disabled = false;
+                    btn.textContent = '📥 دانلود تصویر';
+                }).catch(function(err) {
+                    console.error(err);
+                    app.style.left = '-99999px';
+                    app.style.opacity = '0';
+                    status.style.display = 'block';
+                    status.textContent = '⛔ خطا در ساخت تصویر.\nلطفاً لینک را در مرورگر کروم باز کنید و دوباره وارد شوید.';
+                    btn.disabled = true;
+                    btn.textContent = '📥 دانلود در دسترس نیست';
+                });
             });
         }
 
@@ -3062,12 +3059,10 @@
         }
 
         function enableViewOnlyMode() {
-            // بعد از لود داده از کلود صدا زده می‌شود
             showViewerScreen();
-            // کمی صبر تا جدول کاملاً ساخته شود
             setTimeout(function() {
                 generateViewerImage();
-            }, 500);
+            }, 150);
         }
 
         function checkLogin() {
@@ -3077,18 +3072,30 @@
             var pass = input.value;
 
             if (pass === LOGIN_PASSWORD_ADMIN) {
-                sessionStorage.setItem('sepahan_logged_in', 'admin');
+                currentRole = 'admin';
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('app-content').classList.add('visible');
                 document.getElementById('viewer-screen').classList.remove('active');
+                // بازگرداندن app به حالت عادی
+                var app = document.getElementById('app-content');
+                app.style.position = '';
+                app.style.left = '';
+                app.style.top = '';
+                app.style.opacity = '';
+                app.style.pointerEvents = '';
                 enableDesktopMode();
                 error.classList.remove('show');
             } else if (pass === LOGIN_PASSWORD_VIEW) {
-                sessionStorage.setItem('sepahan_logged_in', 'view');
+                currentRole = 'view';
                 enableDesktopMode();
                 error.classList.remove('show');
-                // تصویر بعد از لود داده ساخته می‌شود
                 showViewerScreen();
+                // اگر داده از قبل لود شده، سریع تصویر بساز
+                if (dataReady) {
+                    enableViewOnlyMode();
+                } else {
+                    pendingViewImage = true;
+                }
             } else {
                 error.classList.add('show');
                 input.value = '';
@@ -3097,29 +3104,23 @@
         }
 
         function initLogin() {
-            var role = sessionStorage.getItem('sepahan_logged_in');
-            if (role === 'admin') {
-                document.getElementById('login-overlay').classList.add('hidden');
-                document.getElementById('app-content').classList.add('visible');
-                document.getElementById('viewer-screen').classList.remove('active');
-                enableDesktopMode();
-            } else if (role === 'view') {
-                enableDesktopMode();
-                showViewerScreen();
-            } else {
-                document.getElementById('login-overlay').classList.remove('hidden');
-                document.getElementById('app-content').classList.remove('visible');
-                document.getElementById('viewer-screen').classList.remove('active');
-                var input = document.getElementById('loginPassword');
-                if (input) {
-                    setTimeout(function() { input.focus(); }, 200);
-                    input.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            checkLogin();
-                        }
-                    });
-                }
+            // همیشه با رفرش به صفحه ورود برگرد
+            currentRole = null;
+            try { sessionStorage.removeItem('sepahan_logged_in'); } catch (e) {}
+
+            document.getElementById('login-overlay').classList.remove('hidden');
+            document.getElementById('app-content').classList.remove('visible');
+            document.getElementById('viewer-screen').classList.remove('active');
+
+            var input = document.getElementById('loginPassword');
+            if (input) {
+                setTimeout(function() { input.focus(); }, 200);
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        checkLogin();
+                    }
+                });
             }
         }
 
@@ -5741,9 +5742,11 @@
             buildTable();
             setupPersianNumberInputs();
             updateFloatingBadge();
+            dataReady = true;
 
-            // اگر کاربر فقط‌مشاهده است، بعد از ساخت جدول حالت قفل را اعمال کن
-            if (sessionStorage.getItem('sepahan_logged_in') === 'view') {
+            // اگر کاربر با رمز مشاهده وارد شده، تصویر را بساز
+            if (currentRole === 'view' || pendingViewImage) {
+                pendingViewImage = false;
                 enableViewOnlyMode();
             }
         }
