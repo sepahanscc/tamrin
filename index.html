@@ -3126,9 +3126,19 @@
         // تشخیص مرورگر داخل برنامه‌ها (ایتا، تلگرام و ...)
         function isInAppBrowser() {
             var ua = navigator.userAgent || navigator.vendor || '';
-            return /Eitaa|Telegram|Instagram|FBAN|FBAV|Line|MicroMessenger|Twitter|Snapchat|TikTok|WhatsApp|LinkedInApp/i.test(ua)
-                || (/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(ua))
-                || (/Android.*(wv|\.0\.0\.0)/i.test(ua));
+            // فقط پیام‌رسان‌ها — نه کروم معمولی
+            if (/Eitaa|Telegram|Instagram|FBAN|FBAV|Line\/|MicroMessenger|Twitter|Snapchat|TikTok|WhatsApp|LinkedInApp/i.test(ua)) {
+                return true;
+            }
+            // iOS WebView (بدون Safari)
+            if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(ua) && !/Safari/i.test(ua)) {
+                return true;
+            }
+            // Android WebView واقعی (دارای ; wv)
+            if (/Android/i.test(ua) && /;\s*wv\)/i.test(ua)) {
+                return true;
+            }
+            return false;
         }
 
         function showInAppExportWarning() {
