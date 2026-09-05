@@ -76,10 +76,11 @@
             padding: 10px;
         }
 
-        /* بعد از ورود: سایز دسکتاپ ثابت + اسکرول لمسی */
+        /* بعد از ورود: سایز دسکتاپ ثابت + اسکرول لمسی + وسط‌چین */
         body.desktop-mode {
-            min-width: 1200px;
+            min-width: 1220px;
             overflow: auto;
+            justify-content: center;
         }
 
         .page {
@@ -90,6 +91,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             position: relative;
+            margin: 0 auto;
         }
 
         body.desktop-mode .page {
@@ -97,6 +99,67 @@
             min-width: 1200px;
             max-width: 1200px;
             flex-shrink: 0;
+            margin: 0 auto;
+        }
+
+        /* صفحه مشاهده‌کننده (فقط عکس + دانلود) */
+        #viewer-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #1a1a1a;
+            z-index: 999998;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+        #viewer-screen.active {
+            display: flex;
+        }
+        #viewer-screen .viewer-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: rgba(0,0,0,0.75);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            width: min(100%, 500px);
+        }
+        #viewer-screen .viewer-toolbar button {
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 14px;
+            font-weight: 900;
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: 2px solid #111;
+            cursor: pointer;
+        }
+        #viewer-screen .viewer-download {
+            background: #1a6e3a;
+            color: #fff;
+        }
+        #viewer-screen .viewer-status {
+            color: #fff900;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        #viewer-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+            background: #fff;
         }
 
         .header {
@@ -2619,6 +2682,15 @@
         </div>
     </div>
 
+    <!-- صفحه مشاهده‌کننده: فقط عکس + دانلود -->
+    <div id="viewer-screen">
+        <div class="viewer-toolbar">
+            <button type="button" class="viewer-download" id="viewerDownloadBtn" onclick="downloadViewerImage()" style="display:none;">📥 دانلود تصویر</button>
+        </div>
+        <div class="viewer-status" id="viewerStatus">⏳ در حال آماده‌سازی تصویر...</div>
+        <img id="viewer-image" alt="برنامه تمرینات" style="display:none;">
+    </div>
+
     <div id="app-content">
     <div class="page" id="capture-area">
 
@@ -2868,27 +2940,114 @@
             }
         }
 
-        function enableViewOnlyMode() {
-            document.body.classList.add('view-only-mode');
-            var noPrintEls = document.querySelectorAll('.no-print');
-            for (var i = 0; i < noPrintEls.length; i++) {
-                noPrintEls[i].style.display = 'none';
+        var viewerImageDataUrl = null;
+
+        function showViewerScreen() {
+            document.getElementById('login-overlay').classList.add('hidden');
+            document.getElementById('app-content').classList.add('visible');
+            // app-content را خارج از دید بگذار ولی در DOM نگه دار تا html2canvas کار کند
+            var app = document.getElementById('app-content');
+            app.style.position = 'fixed';
+            app.style.left = '-99999px';
+            app.style.top = '0';
+            app.style.opacity = '0';
+            app.style.pointerEvents = 'none';
+
+            document.getElementById('viewer-screen').classList.add('active');
+            document.getElementById('viewerStatus').style.display = 'block';
+            document.getElementById('viewerStatus').textContent = '⏳ در حال آماده‌سازی تصویر...';
+            document.getElementById('viewer-image').style.display = 'none';
+            document.getElementById('viewerDownloadBtn').style.display = 'none';
+        }
+
+        function generateViewerImage() {
+            var element = document.getElementById('capture-area');
+            if (!element || typeof html2canvas === 'undefined') {
+                document.getElementById('viewerStatus').textContent = '⛔ خطا در ساخت تصویر';
+                return;
             }
+
+            // آماده‌سازی ظاهر خروجی
+            var dateEditor = document.querySelector('.date-editor');
+            var btnGroup = document.querySelector('.btn-group');
+            if (dateEditor) dateEditor.style.display = 'none';
+            if (btnGroup) btnGroup.style.display = 'none';
+            element.classList.add('export-mode');
+
             var lockCheckbox = document.getElementById('lockCheckbox');
-            if (lockCheckbox) {
+            var wasLocked = lockCheckbox ? lockCheckbox.checked : false;
+            if (lockCheckbox && !wasLocked) {
                 lockCheckbox.checked = true;
-            }
-            setTimeout(function() {
                 if (typeof toggleLock === 'function') toggleLock();
-                var noPrintEls2 = document.querySelectorAll('.no-print');
-                for (var j = 0; j < noPrintEls2.length; j++) {
-                    noPrintEls2[j].style.display = 'none';
+            }
+
+            var slots = document.querySelectorAll('.slot');
+            for (var i = 0; i < slots.length; i++) {
+                if (typeof updateSlotDisplay === 'function') updateSlotDisplay(slots[i]);
+            }
+            var clearBtns = element.querySelectorAll('.cell-clear-btn');
+            clearBtns.forEach(function(btn) { btn.style.display = 'none'; });
+
+            // موقتاً برای capture قابل مشاهده شود
+            var app = document.getElementById('app-content');
+            app.style.left = '0';
+            app.style.opacity = '1';
+
+            html2canvas(element, {
+                scale: 2.5,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+                width: element.scrollWidth,
+                height: element.scrollHeight
+            }).then(function(canvas) {
+                // برگرداندن app به حالت مخفی
+                app.style.left = '-99999px';
+                app.style.opacity = '0';
+
+                element.classList.remove('export-mode');
+                if (lockCheckbox && !wasLocked) {
+                    lockCheckbox.checked = false;
+                    if (typeof toggleLock === 'function') toggleLock();
                 }
-                var floating = document.getElementById('floatingBtn');
-                if (floating) floating.style.display = 'none';
-                var hoverCard = document.getElementById('sessionHoverCard');
-                if (hoverCard) hoverCard.style.display = 'none';
-            }, 800);
+                clearBtns.forEach(function(btn) { btn.style.display = ''; });
+                if (dateEditor) dateEditor.style.display = '';
+                if (btnGroup) btnGroup.style.display = '';
+
+                viewerImageDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+                var img = document.getElementById('viewer-image');
+                img.src = viewerImageDataUrl;
+                img.style.display = 'block';
+                document.getElementById('viewerStatus').style.display = 'none';
+                document.getElementById('viewerDownloadBtn').style.display = 'inline-block';
+            }).catch(function(err) {
+                console.error(err);
+                app.style.left = '-99999px';
+                app.style.opacity = '0';
+                document.getElementById('viewerStatus').textContent = '⛔ خطا در ساخت تصویر. صفحه را رفرش کنید.';
+            });
+        }
+
+        function downloadViewerImage() {
+            if (!viewerImageDataUrl) return;
+            if (typeof isInAppBrowser === 'function' && isInAppBrowser()) {
+                showInAppExportWarning();
+                return;
+            }
+            var link = document.createElement('a');
+            link.download = 'برنامه تمرینات آکادمی سپاهان.jpg';
+            link.href = viewerImageDataUrl;
+            link.click();
+        }
+
+        function enableViewOnlyMode() {
+            // بعد از لود داده از کلود صدا زده می‌شود
+            showViewerScreen();
+            // کمی صبر تا جدول کاملاً ساخته شود
+            setTimeout(function() {
+                generateViewerImage();
+            }, 500);
         }
 
         function checkLogin() {
@@ -2901,15 +3060,15 @@
                 sessionStorage.setItem('sepahan_logged_in', 'admin');
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('app-content').classList.add('visible');
+                document.getElementById('viewer-screen').classList.remove('active');
                 enableDesktopMode();
                 error.classList.remove('show');
             } else if (pass === LOGIN_PASSWORD_VIEW) {
                 sessionStorage.setItem('sepahan_logged_in', 'view');
-                document.getElementById('login-overlay').classList.add('hidden');
-                document.getElementById('app-content').classList.add('visible');
                 enableDesktopMode();
-                enableViewOnlyMode();
                 error.classList.remove('show');
+                // تصویر بعد از لود داده ساخته می‌شود
+                showViewerScreen();
             } else {
                 error.classList.add('show');
                 input.value = '';
@@ -2919,16 +3078,18 @@
 
         function initLogin() {
             var role = sessionStorage.getItem('sepahan_logged_in');
-            if (role === 'admin' || role === 'view') {
+            if (role === 'admin') {
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('app-content').classList.add('visible');
+                document.getElementById('viewer-screen').classList.remove('active');
                 enableDesktopMode();
-                if (role === 'view') {
-                    enableViewOnlyMode();
-                }
+            } else if (role === 'view') {
+                enableDesktopMode();
+                showViewerScreen();
             } else {
                 document.getElementById('login-overlay').classList.remove('hidden');
                 document.getElementById('app-content').classList.remove('visible');
+                document.getElementById('viewer-screen').classList.remove('active');
                 var input = document.getElementById('loginPassword');
                 if (input) {
                     setTimeout(function() { input.focus(); }, 200);
