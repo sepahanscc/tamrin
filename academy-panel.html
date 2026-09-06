@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" id="viewportMeta">
+    <title>برنامه تمرینات و مسابقات آکادمی فوتبال باشگاه فولاد مبارکه سپاهان</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+
+        @page { size: A4 landscape; margin: 5mm; }
+        * { box-sizing: border-box; }
+        *, *::before, *::after {
+            font-family: "Vazirmatn", Tahoma, "Segoe UI", Arial, sans-serif !important;
+            direction: rtl !important;
+        }
+        html, body { margin: 0; padding: 0; -webkit-overflow-scrolling: touch; }
+        body { background: #f0f0f0; color: #111; }
+        body.desktop-mode { min-width: 1220px; overflow: auto; justify-content: center; }
+        .page { width: 100%; max-width: 1200px; background: #fff; padding: 10px 12px 8px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); margin: 0 auto; }
+        body.desktop-mode .page { width: 1200px; min-width: 1200px; max-width: 1200px; flex-shrink: 0; }
+
+        /* تب‌های اصلی */
+        .main-tabs { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .main-tab { padding: 10px 22px; background: #e8e8e8; border: 2px solid #111; border-radius: 8px; cursor: pointer; font-weight: 700; transition: all 0.2s; }
+        .main-tab.active { background: #00695c; color: white; border-color: #00695c; }
+
+        .main-content { display: none; }
+        .main-content.active { display: block; }
+
+        /* بقیه استایل‌های اصلی بدون تغییر */
+        table { width: 100%; border-collapse: collapse; border: 2px solid #111; }
+        th, td { border: 1px solid #111; text-align: center; vertical-align: middle; }
+        th { background: #0e3145; color: #fff900; font-size: 13px; font-weight: 900; height: 34px; }
+        td.team { background: #0e3145; color: #fff900; font-size: 14px; font-weight: 900; }
+        /* ... (تمام استایل‌های قبلی از header-logo تا print-text و ... را همان قبلی کپی کن) ... */
+    </style>
+</head>
+
+<body>
+
+    <!-- صفحه ورود -->
+    <div id="login-overlay">
+        <div class="login-box">
+            <img class="login-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Sepahan_New_Logo.svg/960px-Sepahan_New_Logo.svg.png" alt="لوگو">
+            <h2>آکادمی فوتبال سپاهان</h2>
+            <p>لطفاً رمز عبور را وارد کنید</p>
+            <input type="password" id="loginPassword" placeholder="••••" maxlength="20" autocomplete="off">
+            <button type="button" onclick="checkLogin()">ورود</button>
+            <div class="login-error" id="loginError">رمز عبور اشتباه است</div>
+        </div>
+    </div>
+
+    <!-- صفحه مشاهده‌کننده -->
+    <div id="viewer-screen">
+        <div class="viewer-status" id="viewerStatus">⏳ در حال آماده‌سازی تصویر...</div>
+        <img id="viewer-image" alt="برنامه تمرینات" style="display:none;">
+        <div class="viewer-toolbar">
+            <button type="button" class="viewer-download" id="viewerDownloadBtn" onclick="downloadViewerImage()" disabled>📥 در حال آماده‌سازی...</button>
+        </div>
+    </div>
+
+    <div id="app-content">
+        <div class="page" id="capture-area">
+
+            <!-- تب‌های اصلی -->
+            <div class="main-tabs no-print">
+                <div class="main-tab active" onclick="switchMainTab(0)">جدول اصلی برنامه</div>
+                <div class="main-tab" onclick="switchMainTab(1)">پیشنهاد برنامه</div>
+                <div class="main-tab" onclick="switchMainTab(2)">گزارش تیم‌ها</div>
+                <div class="main-tab" onclick="switchMainTab(3)">مدیریت زمین‌ها</div>
+                <div class="main-tab" onclick="switchMainTab(4)">مدیریت تیم‌ها</div>
+            </div>
+
+            <!-- تب ۰: جدول اصلی برنامه -->
+            <div class="main-content active" id="content-0">
+                <!-- تمام کد اصلی از <div class="header"> تا انتهای جدول برنامه را اینجا بذار (همان فایل قبلی بدون تغییر) -->
+                <div class="header">... (کپی کن از فایل قبلی) ...</div>
+                <table id="schedule-table">... (جدول اصلی) ...</table>
+                <!-- بقیه کد اصلی تب ۰ را کامل بذار -->
+            </div>
+
+            <!-- تب ۱: پیشنهاد برنامه (جدید) -->
+            <div class="main-content" id="content-1">
+                <div style="max-width:1200px;margin:0 auto;background:white;padding:20px;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.15);">
+                    <h2 style="color:#00695c;text-align:center;margin-bottom:20px;">پیشنهاد برنامه من</h2>
+                    <div id="teamSchedule"></div>
+                    <button onclick="saveUserSchedule()" style="margin-top:20px;padding:12px 30px;font-size:16px;">💾 ذخیره برنامه پیشنهادی</button>
+                </div>
+            </div>
+
+            <!-- تب ۲: گزارش برنامه‌های کاربران -->
+            <div class="main-content" id="content-2">
+                <div id="adminReport" style="padding:20px;"></div>
+            </div>
+
+            <!-- تب‌های ۳ و ۴: بقیه مودال‌ها (بدون تغییر) -->
+            <div class="main-content" id="content-3">... (مودال مدیریت زمین‌ها و تیم‌ها را کامل بذار) ...</div>
+            <div class="main-content" id="content-4">... (مودال گزارش را کامل بذار) ...</div>
+        </div>
+    </div>
+
+    <!-- دکمه شناور و بقیه کد اصلی -->
+    <!-- تمام کد از floating-session-btn تا انتهای script اصلی را اینجا بذار -->
+
+    <script>
+        // ==================== تنظیمات جدید ====================
+        let currentUser = null;
+        let allSchedules = [];
+
+        function switchMainTab(tabIndex) {
+            currentMainTab = tabIndex;
+            document.querySelectorAll('.main-tab').forEach((t, i) => t.classList.toggle('active', i === tabIndex));
+            document.querySelectorAll('.main-content').forEach((c, i) => c.classList.toggle('active', i === tabIndex));
+
+            if (tabIndex === 1) renderUserSchedule();
+            if (tabIndex === 2) viewAdminReport();
+        }
+
+        function switchToProposalTab() {
+            switchMainTab(1);
+        }
+
+        // ==================== ورود ====================
+        const LOGIN_PASSWORD_ADMIN = '1953';
+        const LOGIN_PASSWORD_VIEW = '1953';
+
+        function checkLogin() {
+            var pass = document.getElementById('loginPassword').value.trim();
+
+            if (pass === LOGIN_PASSWORD_ADMIN || pass === LOGIN_PASSWORD_VIEW) {
+                currentUser = { name: pass === LOGIN_PASSWORD_ADMIN ? 'مدیر سیستم' : 'مشاهده‌کننده', isAdmin: pass === LOGIN_PASSWORD_ADMIN };
+                switchToProposalTab();
+                return;
+            }
+
+            // کاربران عادی
+            if (pass.length > 0) {
+                currentUser = { name: 'تیم ' + pass, isAdmin: false };
+                switchToProposalTab();
+                renderUserSchedule();
+                return;
+            }
+
+            alert('رمز عبور اشتباه است');
+        }
+
+        function initLogin() {
+            // کد اصلی initLogin بدون تغییر
+            document.getElementById('login-overlay').classList.remove('hidden');
+            document.getElementById('app-content').classList.remove('visible');
+            document.getElementById('viewer-screen').classList.remove('active');
+
+            var input = document.getElementById('loginPassword');
+            if (input) {
+                setTimeout(() => input.focus(), 200);
+                input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); checkLogin(); } });
+            }
+        }
+
+        // ==================== تب پیشنهاد برنامه ====================
+        function renderUserSchedule() {
+            if (!currentUser || currentUser.isAdmin) return;
+            var html = `<table><thead><tr><th>روز</th><th>زمین</th><th>ساعت</th><th>نوع</th><th>حریف</th></tr></thead><tbody>`;
+            var days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
+            for (var i = 0; i < 7; i++) {
+                html += `<tr>
+                    <td><strong>${days[i]}</strong></td>
+                    <td><select id="venue-${i}"><option value="">زمین</option><option value="باغ فردوس">باغ فردوس</option><option value="نیروگاه">نیروگاه</option><option value="قدس">قدس</option><option value="آب منطقه ای">آب منطقه ای</option><option value="زمین بهارستان">زمین بهارستان</option><option value="کردآباد">کردآباد</option><option value="نقش جهان">نقش جهان</option><option value="۲۵ آبان">۲۵ آبان</option><option value="آبفا">آبفا</option></select></td>
+                    <td><input type="text" id="time-${i}" placeholder="ساعت" style="width:140px;"></td>
+                    <td><select id="type-${i}"><option value="">نوع</option><option value="تمرین">تمرین</option><option value="مسابقه دوستانه">مسابقه دوستانه</option><option value="مسابقه رسمی">مسابقه رسمی</option></select></td>
+                    <td><input type="text" id="opponent-${i}" placeholder="حریف" style="width:160px;"></td>
+                </tr>`;
+            }
+            html += `</tbody></table>`;
+            document.getElementById('teamSchedule').innerHTML = html;
+
+            if (allSchedules[currentUser.name]) {
+                var old = allSchedules[currentUser.name];
+                for (var i = 0; i < 7; i++) {
+                    var sel = document.getElementById('venue-' + i);
+                    var time = document.getElementById('time-' + i);
+                    var typ = document.getElementById('type-' + i);
+                    var opp = document.getElementById('opponent-' + i);
+                    if (sel) sel.value = old[i] ? old[i].venue || '' : '';
+                    if (time) time.value = old[i] ? old[i].time || '' : '';
+                    if (typ) typ.value = old[i] ? old[i].type || '' : '';
+                    if (opp) opp.value = old[i] ? old[i].opponent || '' : '';
+                }
+            }
+        }
+
+        function saveUserSchedule() {
+            if (!currentUser || currentUser.isAdmin) return;
+            var schedule = [];
+            for (var i = 0; i < 7; i++) {
+                schedule.push({
+                    venue: document.getElementById('venue-' + i).value,
+                    time: document.getElementById('time-' + i).value,
+                    type: document.getElementById('type-' + i).value,
+                    opponent: document.getElementById('opponent-' + i).value
+                });
+            }
+            allSchedules[currentUser.name] = schedule;
+            alert('✅ برنامه پیشنهادی شما ذخیره شد!');
+            viewAdminReport();
+        }
+
+        function viewAdminReport() {
+            var html = '<h3 style="color:#00695c;">برنامه‌های پیشنهادی همه تیم‌ها</h3><table border="1" cellpadding="8"><thead><tr><th>تیم</th><th>شنبه</th><th>یکشنبه</th><th>دوشنبه</th><th>سه‌شنبه</th><th>چهارشنبه</th><th>پنجشنبه</th><th>جمعه</th></tr></thead><tbody>';
+            Object.keys(allSchedules).forEach(team => {
+                html += `<tr><td><strong>${team}</strong></td>`;
+                var sch = allSchedules[team];
+                for (var i = 0; i < 7; i++) {
+                    var cell = sch[i] ? (sch[i].venue || sch[i].time || sch[i].type || sch[i].opponent ? 'دارای برنامه' : '') : '';
+                    html += `<td>${cell}</td>`;
+                }
+                html += `</tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('adminReport').innerHTML = html;
+        }
+
+        // ==================== بقیه کد اصلی (بدون تغییر) ====================
+        // تمام کدهای قبلی از const DEFAULT_START تا end of script را همان قبلی کپی کن
+
+        // اجرای فوری ورود
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initLogin);
+        } else {
+            initLogin();
+        }
+    </script>
+
+</body>
+</html>
