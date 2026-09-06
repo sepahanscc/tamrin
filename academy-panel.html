@@ -33,12 +33,12 @@
         .main-content { display: none; }
         .main-content.active { display: block; }
 
-        /* بقیه استایل‌های اصلی بدون تغییر */
+        /* بقیه استایل‌ها بدون تغییر */
         table { width: 100%; border-collapse: collapse; border: 2px solid #111; }
         th, td { border: 1px solid #111; text-align: center; vertical-align: middle; }
         th { background: #0e3145; color: #fff900; font-size: 13px; font-weight: 900; height: 34px; }
         td.team { background: #0e3145; color: #fff900; font-size: 14px; font-weight: 900; }
-        /* ... (تمام استایل‌های قبلی از header-logo تا print-text و ... را همان قبلی کپی کن) ... */
+        /* تمام استایل‌های قبلی (header، slot، modal، report و ...) را همینجا بذار */
     </style>
 </head>
 
@@ -77,10 +77,10 @@
                 <div class="main-tab" onclick="switchMainTab(4)">مدیریت تیم‌ها</div>
             </div>
 
-            <!-- تب ۰: جدول اصلی برنامه -->
+            <!-- تب ۰: جدول اصلی برنامه (همه چیز قبلی بدون تغییر) -->
             <div class="main-content active" id="content-0">
-                <!-- تمام کد اصلی از <div class="header"> تا انتهای جدول برنامه را اینجا بذار (همان فایل قبلی بدون تغییر) -->
-                <div class="header">... (کپی کن از فایل قبلی) ...</div>
+                <!-- تمام کد اصلی از اینجا تا انتهای جدول و دکمه‌ها را بذار -->
+                <div class="header">... (کپی کن از فایل قدیمی) ...</div>
                 <table id="schedule-table">... (جدول اصلی) ...</table>
                 <!-- بقیه کد اصلی تب ۰ را کامل بذار -->
             </div>
@@ -94,19 +94,19 @@
                 </div>
             </div>
 
-            <!-- تب ۲: گزارش برنامه‌های کاربران -->
+            <!-- تب ۲: گزارش همه برنامه‌های کاربران -->
             <div class="main-content" id="content-2">
                 <div id="adminReport" style="padding:20px;"></div>
             </div>
 
-            <!-- تب‌های ۳ و ۴: بقیه مودال‌ها (بدون تغییر) -->
-            <div class="main-content" id="content-3">... (مودال مدیریت زمین‌ها و تیم‌ها را کامل بذار) ...</div>
-            <div class="main-content" id="content-4">... (مودال گزارش را کامل بذار) ...</div>
+            <!-- تب‌های ۳ و ۴: مودال‌ها بدون تغییر -->
+            <div class="main-content" id="content-3">... (مودال‌های قبلی را کامل بذار) ...</div>
+            <div class="main-content" id="content-4">... (مودال‌های قبلی را کامل بذار) ...</div>
         </div>
     </div>
 
     <!-- دکمه شناور و بقیه کد اصلی -->
-    <!-- تمام کد از floating-session-btn تا انتهای script اصلی را اینجا بذار -->
+    <!-- تمام کد از floating-session-btn تا انتهای script اصلی را بذار -->
 
     <script>
         // ==================== تنظیمات جدید ====================
@@ -139,7 +139,6 @@
                 return;
             }
 
-            // کاربران عادی
             if (pass.length > 0) {
                 currentUser = { name: 'تیم ' + pass, isAdmin: false };
                 switchToProposalTab();
@@ -151,7 +150,6 @@
         }
 
         function initLogin() {
-            // کد اصلی initLogin بدون تغییر
             document.getElementById('login-overlay').classList.remove('hidden');
             document.getElementById('app-content').classList.remove('visible');
             document.getElementById('viewer-screen').classList.remove('active');
@@ -226,8 +224,8 @@
             document.getElementById('adminReport').innerHTML = html;
         }
 
-        // ==================== بقیه کد اصلی (بدون تغییر) ====================
-        // تمام کدهای قبلی از const DEFAULT_START تا end of script را همان قبلی کپی کن
+        // ==================== بقیه کد اصلی ====================
+        // تمام کدهای قبلی (از const DEFAULT_START تا end of script) را اینجا بذار
 
         // اجرای فوری ورود
         if (document.readyState === 'loading') {
