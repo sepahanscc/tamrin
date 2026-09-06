@@ -33,12 +33,7 @@
         .main-content { display: none; }
         .main-content.active { display: block; }
 
-        /* بقیه استایل‌ها بدون تغییر */
-        table { width: 100%; border-collapse: collapse; border: 2px solid #111; }
-        th, td { border: 1px solid #111; text-align: center; vertical-align: middle; }
-        th { background: #0e3145; color: #fff900; font-size: 13px; font-weight: 900; height: 34px; }
-        td.team { background: #0e3145; color: #fff900; font-size: 14px; font-weight: 900; }
-        /* تمام استایل‌های قبلی (header، slot، modal، report و ...) را همینجا بذار */
+        /* تمام استایل‌های قبلی (header، slot، modal، report و ...) را اینجا بذار */
     </style>
 </head>
 
@@ -79,10 +74,8 @@
 
             <!-- تب ۰: جدول اصلی برنامه (همه چیز قبلی بدون تغییر) -->
             <div class="main-content active" id="content-0">
-                <!-- تمام کد اصلی از اینجا تا انتهای جدول و دکمه‌ها را بذار -->
-                <div class="header">... (کپی کن از فایل قدیمی) ...</div>
-                <table id="schedule-table">... (جدول اصلی) ...</table>
-                <!-- بقیه کد اصلی تب ۰ را کامل بذار -->
+                <!-- تمام کد اصلی از <div class="header"> تا انتهای جدول و دکمه‌ها را اینجا بذار -->
+                <!-- (کپی کن از فایل index.html که الان داری) -->
             </div>
 
             <!-- تب ۱: پیشنهاد برنامه (جدید) -->
