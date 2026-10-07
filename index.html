@@ -828,51 +828,117 @@
             white-space: pre-wrap;
         }
 
-        .empty {
-            background: #fff !important;
-            color: #111;
-        }
+.empty {
+    background: #fff !important;
+    color: #111;
+}
 
-        .green {
-            background: #b9dca5;
-        }
+.green {
+    background: #b9dca5;
+}
 
-        .blue {
-            background: #8db9df;
-        }
+.blue {
+    background: #8db9df;
+}
 
-        .orange {
-            background: #f2b27b;
-        }
+.orange {
+    background: #f2b27b;
+}
 
-        .gold {
-            background: #ffc000;
-        }
+.gold {
+    background: #ffc000;
+}
 
-        .purple {
-            background: #d4a5e6;
-        }
+.purple {
+    background: #d4a5e6;
+}
 
-        .pink {
-            background: #f5a0b0;
-        }
+.pink {
+    background: #f5a0b0;
+}
 
-        .teal {
-            background: #7fcdcd;
-        }
+.teal {
+    background: #7fcdcd;
+}
 
-        .coral {
-            background: #f7a58f;
-        }
+.coral {
+    background: #f7a58f;
+}
 
-        .match-official {
-            background-color: #ff4d4d !important;
-        }
 
-        .match-friendly {
-            background-color: #d3d3d3 !important;
-        }
+.lime {
+    background: #c5df8b;
+}
 
+.sky {
+    background: #9fd8e5;
+}
+
+.mint {
+    background: #a8d8c0;
+}
+
+.lavender {
+    background: #c1b5e3;
+}
+
+.peach {
+    background: #f3c09f;
+}
+
+.yellow {
+    background: #f3df8a;
+}
+
+.aqua {
+    background: #8fd9d0;
+}
+
+.salmon {
+    background: #efa69a;
+}
+
+.rose {
+    background: #e8a8c0;
+}
+
+.indigo {
+    background: #a5acd9;
+}
+
+.olive {
+    background: #b8c98a;
+}
+
+.turquoise {
+    background: #8bcfd1;
+}
+
+.lilac {
+    background: #d0b4d9;
+}
+
+.apricot {
+    background: #f0c08b;
+}
+
+.mauve {
+    background: #d2a8c4;
+}
+
+.seafoam {
+    background: #a8d5c8;
+}
+
+/* رنگ مسابقات */
+
+.match-official {
+    background-color: #ff4d4d !important;
+}
+
+.match-friendly {
+    background-color: #d3d3d3 !important;
+}
         .bottom-note {
             display: flex;
             justify-content: center;
@@ -3747,7 +3813,7 @@
         var ACTIVITY_TYPES = ['', 'تمرین', 'مسابقه دوستانه', 'مسابقه رسمی'];
 
         var DEFAULT_TEAMS = ['سلامت و رقابت', 'بزرگسالان ب', 'امید', 'جوانان', 'زیر ۱۸ سال A', 'زیر ۱۸ سال B', 'نوجوانان', 'زیر ۱۵ سال', 'زیر ۱۴ سال', 'زیر ۱۳ سال', 'زیر ۱۲ سال', 'آکادمی ۸ الی ۱۱ سال', 'پایگاه رشد', 'مدرسه فوتبال'];
-        var DEFAULT_VENUES = ['باغ فردوس', 'نیروگاه', 'قدس', 'آب منطقه ای', 'زمین بهارستان', 'کردآباد', 'نقش جهان', '۲۵ آبان', 'آبفا'];
+        var DEFAULT_VENUES = ['باغ فردوس', 'نیروگاه', 'قدس', 'آب منطقه ای', 'زمین بهارستان', 'کردآباد', 'نقش جهان', '۲۵ آبان', 'آبفا' ,'جروکان'];
 
         var teamNames = DEFAULT_TEAMS.slice();
         var venues = DEFAULT_VENUES.slice();
@@ -5256,10 +5322,13 @@
                     td.classList.add('coral');
                     break;
                 case 'آبفا':
-                    td.classList.add('green');
+                    td.classList.add('mint');
+                    break;
+					case 'جروکان':
+                    td.classList.add('turquoise');
                     break;
                 default:
-                    td.classList.add('green');
+                    td.classList.add('seafoam');
             }
         }
 
