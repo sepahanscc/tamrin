@@ -833,29 +833,37 @@
             color: #111;
         }
 
-        /* =========================================================
-           رنگ‌های چرخشی زمین‌ها (۲۰ رنگ متمایز و پایدار)
-        ========================================================= */
-        .color-0  { background: #b9dca5; }  /* سبز روشن */
-        .color-1  { background: #8db9df; }  /* آبی آسمانی */
-        .color-2  { background: #f2b27b; }  /* نارنجی ملایم */
-        .color-3  { background: #ffc000; }  /* طلایی */
-        .color-4  { background: #d4a5e6; }  /* بنفش روشن */
-        .color-5  { background: #f5a0b0; }  /* صورتی */
-        .color-6  { background: #7fcdcd; }  /* فیروزه‌ای */
-        .color-7  { background: #f7a58f; }  /* مرجانی */
-        .color-8  { background: #a5d6a7; }  /* سبز نعنایی */
-        .color-9  { background: #90caf9; }  /* آبی ملایم */
-        .color-10 { background: #ce93d8; }  /* ارغوانی */
-        .color-11 { background: #ffab91; }  /* هلویی */
-        .color-12 { background: #fff59d; }  /* لیمویی */
-        .color-13 { background: #80cbc4; }  /* سبز آبی */
-        .color-14 { background: #ef9a9a; }  /* قرمز ملایم */
-        .color-15 { background: #b39ddb; }  /* آبی بنفش */
-        .color-16 { background: #9fa8da; }  /* نیلی */
-        .color-17 { background: #80deea; }  /* آبی فیروزه */
-        .color-18 { background: #c5e1a5; }  /* سبز لیمویی */
-        .color-19 { background: #f48fb1; }  /* صورتی گلبهی */
+        .green {
+            background: #b9dca5;
+        }
+
+        .blue {
+            background: #8db9df;
+        }
+
+        .orange {
+            background: #f2b27b;
+        }
+
+        .gold {
+            background: #ffc000;
+        }
+
+        .purple {
+            background: #d4a5e6;
+        }
+
+        .pink {
+            background: #f5a0b0;
+        }
+
+        .teal {
+            background: #7fcdcd;
+        }
+
+        .coral {
+            background: #f7a58f;
+        }
 
         .match-official {
             background-color: #ff4d4d !important;
@@ -5216,27 +5224,43 @@
         }
 
         // ============================================================
-        // رنگ سلول - نسخه هش پایدار (۲۰ رنگ)
+        // رنگ سلول
         // ============================================================
 
         function applyColorByVenue(td, venue) {
-            // حذف همه کلاس‌های رنگ قبلی
-            var allColors = [];
-            for (var i = 0; i < 20; i++) allColors.push('color-' + i);
-            allColors.push('empty', 'match-official', 'match-friendly');
-            td.classList.remove.apply(td.classList, allColors);
-
+            td.classList.remove('green', 'blue', 'orange', 'gold', 'purple', 'pink', 'teal', 'coral', 'empty', 'match-official', 'match-friendly');
             if (!venue) { td.classList.add('empty'); return; }
-
-            // هش پایدار بر اساس نام زمین → همیشه همان رنگ، روی همه سیستم‌ها
-            var hash = 0;
-            var name = String(venue).trim();
-            for (var i = 0; i < name.length; i++) {
-                hash = ((hash << 5) - hash) + name.charCodeAt(i);
-                hash |= 0; // تبدیل به 32-bit integer
+            switch (venue) {
+                case 'باغ فردوس':
+                    td.classList.add('green');
+                    break;
+                case 'آب منطقه ای':
+                    td.classList.add('blue');
+                    break;
+                case 'نیروگاه':
+                    td.classList.add('orange');
+                    break;
+                case 'زمین بهارستان':
+                    td.classList.add('gold');
+                    break;
+                case 'قدس':
+                    td.classList.add('purple');
+                    break;
+                case 'کردآباد':
+                    td.classList.add('pink');
+                    break;
+                case 'نقش جهان':
+                    td.classList.add('teal');
+                    break;
+                case '۲۵ آبان':
+                    td.classList.add('coral');
+                    break;
+                case 'آبفا':
+                    td.classList.add('green');
+                    break;
+                default:
+                    td.classList.add('green');
             }
-            var colorIndex = Math.abs(hash) % 20;
-            td.classList.add('color-' + colorIndex);
         }
 
         // ============================================================
