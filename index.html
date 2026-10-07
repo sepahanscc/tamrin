@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -2673,6 +2672,182 @@
             }
         }
 
+        /* =========================================================
+           مودال هشدار سلول‌های ناقص
+        ========================================================= */
+        .incomplete-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            z-index: 999999;
+        }
+        .incomplete-modal-overlay.active {
+            display: flex;
+            animation: modalFadeIn .2s ease-out;
+        }
+        .incomplete-modal {
+            width: min(560px, 96%);
+            max-height: 88vh;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, .4);
+            direction: rtl;
+            display: flex;
+            flex-direction: column;
+            animation: modalSlideIn .25s ease-out;
+        }
+        .incomplete-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: #fff;
+            border-bottom: 3px solid #fbbf24;
+        }
+        .incomplete-modal-title {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 900;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .incomplete-modal-close {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .15);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .incomplete-modal-close:hover {
+            background: #e74c3c;
+            transform: rotate(90deg);
+        }
+        .incomplete-modal-body {
+            padding: 12px 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .incomplete-modal-body::-webkit-scrollbar {
+            width: 5px;
+        }
+        .incomplete-modal-body::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 5px;
+        }
+        .incomplete-intro {
+            font-size: 13px;
+            font-weight: 700;
+            color: #92400e;
+            background: #fef3c7;
+            border-right: 4px solid #d97706;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin: 0 0 10px;
+            line-height: 1.6;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .incomplete-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .incomplete-list li {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-right: 4px solid #dc2626;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .incomplete-list li .inc-team {
+            font-weight: 900;
+            font-size: 13px;
+            color: #7f1d1d;
+            margin-bottom: 3px;
+            display: block;
+        }
+        .incomplete-list li .inc-loc {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .incomplete-list li .inc-problems {
+            font-size: 12px;
+            color: #b91c1c;
+            font-weight: 800;
+            display: block;
+        }
+        .incomplete-list li .inc-problems::before {
+            content: '⚠ ';
+        }
+        .incomplete-more {
+            text-align: center;
+            font-size: 12px;
+            color: #92400e;
+            font-weight: 800;
+            padding: 6px;
+            background: #fef3c7;
+            border-radius: 6px;
+            margin-top: 6px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .incomplete-modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            border-top: 1px solid #e8eaed;
+            background: #fafbfc;
+        }
+        .incomplete-modal-footer button {
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 13px;
+            font-weight: 900;
+            padding: 9px 22px;
+            border-radius: 8px;
+            border: 2px solid #111;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .incomplete-cancel-btn {
+            background: #e8eaed;
+            color: #444;
+            border-color: #ccc !important;
+        }
+        .incomplete-cancel-btn:hover {
+            background: #d5d8dd;
+        }
+        .incomplete-confirm-btn {
+            background: #b45309;
+            color: #fff;
+        }
+        .incomplete-confirm-btn:hover {
+            background: #92400e;
+            transform: scale(1.03);
+        }
+
     </style>
 
 </head>
@@ -2931,6 +3106,25 @@
     <!-- اعلان -->
     <div class="import-notification" id="importNotification"></div>
     </div><!-- end #app-content -->
+
+    <!-- مودال هشدار سلول‌های ناقص (قبل از خروجی) -->
+    <div class="incomplete-modal-overlay" id="incompleteModalOverlay">
+        <div class="incomplete-modal">
+            <div class="incomplete-modal-header">
+                <div class="incomplete-modal-title">⚠️ هشدار: اطلاعات ناقص</div>
+                <button type="button" class="incomplete-modal-close" onclick="closeIncompleteModal()">✕</button>
+            </div>
+            <div class="incomplete-modal-body">
+                <p class="incomplete-intro" id="incompleteIntro"></p>
+                <ul class="incomplete-list" id="incompleteList"></ul>
+                <div class="incomplete-more" id="incompleteMore" style="display:none;"></div>
+            </div>
+            <div class="incomplete-modal-footer">
+                <button type="button" class="incomplete-cancel-btn" onclick="closeIncompleteModal()">✏️ بازگشت و اصلاح</button>
+                <button type="button" class="incomplete-confirm-btn" id="incompleteConfirmBtn">📥 ادامه و خروجی</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ============================================================
@@ -5433,7 +5627,128 @@
             else if (type === 'excel') exportAsExcel();
         }
 
+        // ============================================================
+        // بررسی کامل بودن سلول‌ها قبل از خروجی
+        // ============================================================
+
+        function checkIncompleteCells() {
+            var incompleteList = [];
+            for (var row = 0; row < teamNames.length; row++) {
+                for (var col = 0; col < 7; col++) {
+                    var cell = tableData[row][col];
+                    if (!cell) continue;
+                    var venue = (cell.venue || '').trim();
+                    var time = getTimeDisplay(cell);
+                    var activityType = (cell.activityType || '').trim();
+                    var opponent = (cell.opponent || '').trim();
+
+                    // سلول کاملاً خالی اشکالی ندارد
+                    var hasAnyData = venue || time || activityType || opponent;
+                    if (!hasAnyData) continue;
+
+                    var problems = [];
+
+                    // زمین دارد ولی ساعت ندارد
+                    if (venue && !time) {
+                        problems.push('ساعت ثبت نشده');
+                    }
+                    // ساعت دارد ولی زمین ندارد
+                    if (time && !venue) {
+                        problems.push('زمین انتخاب نشده');
+                    }
+                    // نوع مسابقه است ولی حریف ثبت نشده
+                    if ((activityType === 'مسابقه دوستانه' || activityType === 'مسابقه رسمی') && !opponent) {
+                        problems.push('نام حریف ثبت نشده');
+                    }
+                    // فقط نوع برنامه دارد ولی زمین و ساعت ندارد
+                    if (activityType && !venue && !time) {
+                        // اگر قبلاً مشکل دیگری اضافه نشده، این را اضافه کن
+                        if (problems.indexOf('زمین انتخاب نشده') === -1 && problems.indexOf('ساعت ثبت نشده') === -1) {
+                            problems.push('زمین و ساعت ثبت نشده');
+                        }
+                    }
+
+                    if (problems.length > 0) {
+                        var dayInfo = getDayAndDateForColumn(col);
+                        incompleteList.push({
+                            team: teamNames[row],
+                            day: dayInfo.dayName,
+                            date: dayInfo.dateText,
+                            problems: problems
+                        });
+                    }
+                }
+            }
+            return incompleteList;
+        }
+
+        var pendingIncompleteAction = null;
+
+        function openIncompleteModal(incompleteList, onConfirm) {
+            var overlay = document.getElementById('incompleteModalOverlay');
+            var intro = document.getElementById('incompleteIntro');
+            var listEl = document.getElementById('incompleteList');
+            var moreEl = document.getElementById('incompleteMore');
+            var confirmBtn = document.getElementById('incompleteConfirmBtn');
+            if (!overlay || !intro || !listEl || !moreEl || !confirmBtn) {
+                // fallback: از confirm استفاده کن
+                if (onConfirm) onConfirm();
+                return;
+            }
+
+            var total = incompleteList.length;
+            intro.textContent = '⚠️ ' + toPersianDigits(String(total)) + ' سلول ناقص پیدا شد. ادامه خروجی با اطلاعات ناقص ممکن است باعث اشتباه در برنامه شود. لطفاً بررسی کنید.';
+
+            var maxShow = 20;
+            var showCount = Math.min(total, maxShow);
+            var html = '';
+            for (var i = 0; i < showCount; i++) {
+                var item = incompleteList[i];
+                html += '<li>';
+                html += '<span class="inc-team">👥 ' + item.team + '</span>';
+                html += '<span class="inc-loc">📅 ' + item.day + ' — ' + item.date + '</span>';
+                html += '<span class="inc-problems">' + item.problems.join(' ، ') + '</span>';
+                html += '</li>';
+            }
+            listEl.innerHTML = html;
+
+            if (total > maxShow) {
+                moreEl.style.display = 'block';
+                moreEl.textContent = '... و ' + toPersianDigits(String(total - maxShow)) + ' مورد دیگر';
+            } else {
+                moreEl.style.display = 'none';
+                moreEl.textContent = '';
+            }
+
+            // دکمه تأیید
+            confirmBtn.onclick = function() {
+                closeIncompleteModal();
+                if (onConfirm) onConfirm();
+            };
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeIncompleteModal() {
+            var overlay = document.getElementById('incompleteModalOverlay');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
         function captureAsJPG() {
+            // بررسی سلول‌های ناقص قبل از خروجی
+            var incompleteList = checkIncompleteCells();
+            if (incompleteList.length > 0) {
+                openIncompleteModal(incompleteList, function() {
+                    doCaptureAsJPG();
+                });
+                return;
+            }
+            doCaptureAsJPG();
+        }
+
+        function doCaptureAsJPG() {
             var element = document.getElementById('capture-area');
             var dateEditor = document.querySelector('.date-editor');
             var btnGroup = document.querySelector('.btn-group');
@@ -5484,6 +5799,18 @@
         }
 
         function captureAsPDF() {
+            // بررسی سلول‌های ناقص قبل از خروجی
+            var incompleteList = checkIncompleteCells();
+            if (incompleteList.length > 0) {
+                openIncompleteModal(incompleteList, function() {
+                    doCaptureAsPDF();
+                });
+                return;
+            }
+            doCaptureAsPDF();
+        }
+
+        function doCaptureAsPDF() {
             var element = document.getElementById('capture-area');
             var dateEditor = document.querySelector('.date-editor');
             var btnGroup = document.querySelector('.btn-group');
@@ -5544,6 +5871,18 @@
         }
 
         function exportAsExcel() {
+            // بررسی سلول‌های ناقص قبل از خروجی
+            var incompleteList = checkIncompleteCells();
+            if (incompleteList.length > 0) {
+                openIncompleteModal(incompleteList, function() {
+                    doExportAsExcel();
+                });
+                return;
+            }
+            doExportAsExcel();
+        }
+
+        function doExportAsExcel() {
             try {
                 var data = [];
                 var headerRow = ['تیم'];
