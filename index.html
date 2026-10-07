@@ -1370,54 +1370,6 @@
             box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.15);
         }
 
-        .venue-color-wrap {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 6px;
-            flex-shrink: 0;
-        }
-
-        .venue-color-swatch {
-            width: 27px;
-            height: 27px;
-            min-width: 27px;
-            padding: 0;
-            border: 2px solid #333;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 1px 4px rgba(0,0,0,.18);
-            transition: transform .15s, box-shadow .15s;
-        }
-        .venue-color-swatch:hover {
-            transform: scale(1.08);
-            box-shadow: 0 2px 8px rgba(0,0,0,.25);
-        }
-        .venue-color-input {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .venue-color-label {
-            font-size: 9px;
-            color: #777;
-            margin-left: 4px;
-            white-space: nowrap;
-        }
-
-        .incomplete-cell {
-            outline: 3px solid #ff9800 !important;
-            outline-offset: -3px;
-        }
-
-        .export-warning-note {
-            margin-top: 6px;
-            color: #b71c1c;
-            font-weight: 900;
-        }
-
         .item-actions {
             display: flex;
             gap: 4px;
@@ -3591,7 +3543,6 @@
                 saveToCloud({
                     teams: teamNames,
                     venues: venues,
-                    venueColors: venueColors,
                     sessionConfig: sessionConfig,
                     scheduleData: tableData,
                     date: document.getElementById('dateDisplay') ? document.getElementById('dateDisplay').textContent : ''
@@ -3606,63 +3557,6 @@
 
         var teamNames = DEFAULT_TEAMS.slice();
         var venues = DEFAULT_VENUES.slice();
-
-        // رنگ اختصاصی هر زمین
-        var DEFAULT_VENUE_COLORS = {
-            'باغ فردوس': '#b9dca5',
-            'نیروگاه': '#f2b27b',
-            'قدس': '#d4a5e6',
-            'آب منطقه ای': '#8db9df',
-            'زمین بهارستان': '#ffc000',
-            'کردآباد': '#f5a0b0',
-            'نقش جهان': '#7fcdcd',
-            '۲۵ آبان': '#f7a58f',
-            'آبفا': '#b9dca5',
-            'زمین فولاد': '#c5e1a5',
-            'اهواز': '#90caf9',
-            'آمل': '#ffcc80',
-            'جروکان': '#ce93d8',
-            'طالقانی رهنان': '#80cbc4',
-            'ایران': '#b0bec5'
-        };
-
-        var venueColors = Object.assign({}, DEFAULT_VENUE_COLORS);
-
-        function normalizeVenueColors(parsed) {
-            var result = {};
-            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
-                Object.keys(parsed).forEach(function(name) {
-                    var color = String(parsed[name] || '').trim();
-                    if (/^#[0-9a-fA-F]{6}$/.test(color)) result[name] = color;
-                });
-            }
-            for (var i = 0; i < venues.length; i++) {
-                if (!result[venues[i]]) result[venues[i]] = DEFAULT_VENUE_COLORS[venues[i]] || '#bdbdbd';
-            }
-            return result;
-        }
-
-        function getVenueColor(venue) {
-            if (!venue) return '';
-            if (!venueColors[venue]) {
-                venueColors[venue] = DEFAULT_VENUE_COLORS[venue] || '#bdbdbd';
-            }
-            return venueColors[venue];
-        }
-
-        function saveVenueColors() {
-            try { localStorage.setItem('venueColors', JSON.stringify(venueColors)); } catch (e) {}
-            scheduleCloudSave();
-        }
-
-        function setVenueColor(index, color) {
-            if (index < 0 || index >= venues.length) return;
-            if (!/^#[0-9a-fA-F]{6}$/.test(color)) return;
-            venueColors[venues[index]] = color;
-            saveVenueColors();
-            rebuildAllSlots();
-            renderVenueList();
-        }
 
         function saveTeamNames() {
             scheduleCloudSave();
@@ -4177,12 +4071,8 @@
                 renderVenueList();
                 return;
             }
-            var oldColor = getVenueColor(oldName);
-            delete venueColors[oldName];
             venues[index] = newName;
-            venueColors[newName] = oldColor || DEFAULT_VENUE_COLORS[newName] || '#bdbdbd';
             saveVenues(venues);
-            saveVenueColors();
             for (var r = 0; r < tableData.length; r++) {
                 for (var c = 0; c < tableData[r].length; c++) {
                     if (tableData[r][c] && tableData[r][c].venue === oldName) {
@@ -4208,79 +4098,29 @@
             for (var i = 0; i < venues.length; i++) {
                 var item = document.createElement('div');
                 item.className = 'modal-item';
-
                 var indexSpan = document.createElement('span');
                 indexSpan.className = 'item-index';
                 indexSpan.textContent = toPersianDigits(String(i + 1)) + '.';
                 item.appendChild(indexSpan);
-
-                var colorWrap = document.createElement('span');
-                colorWrap.className = 'venue-color-wrap';
-                colorWrap.title = 'انتخاب رنگ زمین';
-
-                var colorInput = document.createElement('input');
-                colorInput.type = 'color';
-                colorInput.className = 'venue-color-input';
-                colorInput.value = getVenueColor(venues[i]);
-                colorInput.dataset.index = i;
-
-                var colorButton = document.createElement('button');
-                colorButton.type = 'button';
-                colorButton.className = 'venue-color-swatch';
-                colorButton.style.backgroundColor = getVenueColor(venues[i]);
-                colorButton.title = 'برای انتخاب رنگ کلیک کنید';
-                colorButton.onclick = function(e) {
-                    e.stopPropagation();
-                    var input = this.parentNode.querySelector('.venue-color-input');
-                    if (input) {
-                        try { input.showPicker(); }
-                        catch (err) { input.click(); }
-                    }
-                };
-
-                colorInput.oninput = function(e) {
-                    e.stopPropagation();
-                    var idx = parseInt(this.dataset.index, 10);
-                    setVenueColor(idx, this.value);
-                };
-                colorInput.onchange = function(e) {
-                    e.stopPropagation();
-                    var idx = parseInt(this.dataset.index, 10);
-                    setVenueColor(idx, this.value);
-                };
-
-                colorWrap.appendChild(colorButton);
-                colorWrap.appendChild(colorInput);
-                item.appendChild(colorWrap);
-
                 var nameSpan = document.createElement('span');
                 nameSpan.className = 'item-name';
                 nameSpan.textContent = venues[i];
                 item.appendChild(nameSpan);
-
                 var actions = document.createElement('div');
                 actions.className = 'item-actions';
-
                 var editBtn = document.createElement('button');
                 editBtn.className = 'item-edit-btn venue-edit';
                 editBtn.textContent = '✏️';
                 editBtn.dataset.index = i;
-                editBtn.onclick = function(e) {
-                    e.stopPropagation();
-                    var idx = parseInt(this.dataset.index, 10);
-                    startEditingVenue(idx);
-                };
+                editBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
+                    startEditingVenue(idx); };
                 actions.appendChild(editBtn);
-
                 var removeBtn = document.createElement('button');
                 removeBtn.className = 'item-remove-btn';
                 removeBtn.textContent = '✕';
                 removeBtn.dataset.index = i;
-                removeBtn.onclick = function(e) {
-                    e.stopPropagation();
-                    var idx = parseInt(this.dataset.index, 10);
-                    removeVenue(idx);
-                };
+                removeBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
+                    removeVenue(idx); };
                 actions.appendChild(removeBtn);
                 item.appendChild(actions);
                 container.appendChild(item);
@@ -4307,10 +4147,8 @@
             } else {
                 if (!confirm('آیا از حذف زمین «' + venueName + '» مطمئن هستید؟')) return;
             }
-            delete venueColors[venueName];
             venues.splice(index, 1);
             saveVenues(venues);
-            saveVenueColors();
             sessionConfig.splice(index, 1);
             saveSessionConfigToStorage();
             for (var r2 = 0; r2 < tableData.length; r2++) {
@@ -4341,9 +4179,7 @@
             if (!name) { alert('لطفاً نام زمین را وارد کنید.'); return; }
             if (venues.indexOf(name) !== -1) { alert('زمین «' + name + '» قبلاً در لیست وجود دارد.'); input.value = ''; return; }
             venues.push(name);
-            venueColors[name] = DEFAULT_VENUE_COLORS[name] || '#bdbdbd';
             saveVenues(venues);
-            saveVenueColors();
             sessionConfig.push([null, null, null, null, null, null, null]);
             saveSessionConfigToStorage();
             input.value = '';
@@ -5045,7 +4881,6 @@
             var activityType = cell.activityType || '';
             var opponent = cell.opponent || '';
             var time = getTimeDisplay(cell);
-            if (td) applyColorByVenue(td, venue);
             var isEmpty = !venue && !activityType && !opponent && !time;
             var isMatch = activityType === 'مسابقه دوستانه' || activityType === 'مسابقه رسمی';
             var lockCheckbox = document.getElementById('lockCheckbox');
@@ -5199,16 +5034,39 @@
         // ============================================================
 
         function applyColorByVenue(td, venue) {
-            if (!td) return;
-            td.classList.remove('green', 'blue', 'orange', 'gold', 'purple', 'pink', 'teal', 'coral', 'empty');
-            if (!venue) {
-                td.style.removeProperty('background-color');
-                td.classList.add('empty');
-                return;
+            td.classList.remove('green', 'blue', 'orange', 'gold', 'purple', 'pink', 'teal', 'coral', 'empty', 'match-official', 'match-friendly');
+            if (!venue) { td.classList.add('empty'); return; }
+            switch (venue) {
+                case 'باغ فردوس':
+                    td.classList.add('green');
+                    break;
+                case 'آب منطقه ای':
+                    td.classList.add('blue');
+                    break;
+                case 'نیروگاه':
+                    td.classList.add('orange');
+                    break;
+                case 'زمین بهارستان':
+                    td.classList.add('gold');
+                    break;
+                case 'قدس':
+                    td.classList.add('purple');
+                    break;
+                case 'کردآباد':
+                    td.classList.add('pink');
+                    break;
+                case 'نقش جهان':
+                    td.classList.add('teal');
+                    break;
+                case '۲۵ آبان':
+                    td.classList.add('coral');
+                    break;
+                case 'آبفا':
+                    td.classList.add('green');
+                    break;
+                default:
+                    td.classList.add('green');
             }
-            var color = getVenueColor(venue);
-            if (color) td.style.setProperty('background-color', color, 'important');
-            td.classList.remove('empty');
         }
 
         // ============================================================
@@ -5276,7 +5134,6 @@
         }
 
         function exportTeamJPG(rowIndex) {
-            if (!validateBeforeJPG(rowIndex)) return;
             if (isInAppBrowser()) {
                 showInAppExportWarning();
                 return;
@@ -5576,85 +5433,7 @@
             else if (type === 'excel') exportAsExcel();
         }
 
-        function getIncompleteScheduleCells(rowStart, rowEnd) {
-            var issues = [];
-            var r1 = (typeof rowStart === 'number') ? rowStart : 0;
-            var r2 = (typeof rowEnd === 'number') ? rowEnd : teamNames.length - 1;
-
-            for (var r = r1; r <= r2; r++) {
-                if (!tableData[r]) continue;
-                for (var c = 0; c < 7; c++) {
-                    var cell = tableData[r][c];
-                    if (!cell) continue;
-
-                    var venue = String(cell.venue || '').trim();
-                    var type = String(cell.activityType || '').trim();
-                    var opponent = String(cell.opponent || '').trim();
-                    var time = String(getTimeDisplay(cell) || '').trim();
-
-                    // سلول کاملاً خالی، معتبر است و نیازی به هشدار ندارد.
-                    if (!venue && !type && !opponent && !time) continue;
-
-                    var missing = [];
-                    if (!venue) missing.push('زمین');
-                    if (!time) missing.push('ساعت');
-                    if (!type) missing.push('نوع برنامه');
-                    if ((type === 'مسابقه دوستانه' || type === 'مسابقه رسمی') && !opponent) {
-                        missing.push('حریف');
-                    }
-
-                    if (missing.length > 0) {
-                        var dayInfo = getDayAndDateForColumn(c);
-                        issues.push({
-                            row: r,
-                            col: c,
-                            team: teamNames[r] || 'بدون نام',
-                            day: dayInfo.dayName,
-                            date: dayInfo.dateText,
-                            venue: venue || 'وارد نشده',
-                            missing: missing
-                        });
-                    }
-                }
-            }
-            return issues;
-        }
-
-        function showExportValidationWarning(issues, title) {
-            if (!issues || !issues.length) return true;
-            var lines = [];
-            lines.push('⚠️ ' + (title || 'اطلاعات برنامه کامل نیست'));
-            lines.push('');
-            lines.push('تعداد موارد ناقص: ' + toPersianDigits(String(issues.length)));
-            lines.push('');
-            var maxShow = Math.min(issues.length, 20);
-            for (var i = 0; i < maxShow; i++) {
-                var x = issues[i];
-                lines.push((i + 1) + ') ' + x.team + ' — ' + x.day + ' — ' + x.date);
-                lines.push('   زمین: ' + x.venue);
-                lines.push('   موارد ناقص: ' + x.missing.join('، '));
-            }
-            if (issues.length > maxShow) {
-                lines.push('');
-                lines.push('... و ' + toPersianDigits(String(issues.length - maxShow)) + ' مورد دیگر.');
-            }
-            lines.push('');
-            lines.push('آیا با همین اطلاعات ناقص، خروجی JPG گرفته شود؟');
-            return confirm(lines.join('\n'));
-        }
-
-        function validateBeforeJPG(rowIndex) {
-            var issues;
-            if (typeof rowIndex === 'number') {
-                issues = getIncompleteScheduleCells(rowIndex, rowIndex);
-                return showExportValidationWarning(issues, 'اطلاعات برنامه این تیم کامل نیست');
-            }
-            issues = getIncompleteScheduleCells();
-            return showExportValidationWarning(issues, 'اطلاعات برنامه کامل نیست');
-        }
-
         function captureAsJPG() {
-            if (!validateBeforeJPG()) return;
             var element = document.getElementById('capture-area');
             var dateEditor = document.querySelector('.date-editor');
             var btnGroup = document.querySelector('.btn-group');
@@ -5933,19 +5712,6 @@
                     venues = DEFAULT_VENUES.slice();
                 }
 
-                // رنگ زمین‌ها
-                if (cloudData.venueColors && typeof cloudData.venueColors === 'object') {
-                    venueColors = normalizeVenueColors(cloudData.venueColors);
-                    try { localStorage.setItem('venueColors', JSON.stringify(venueColors)); } catch (e) {}
-                } else {
-                    try {
-                        var localVenueColors = JSON.parse(localStorage.getItem('venueColors') || '{}');
-                        venueColors = normalizeVenueColors(localVenueColors);
-                    } catch (e) {
-                        venueColors = normalizeVenueColors({});
-                    }
-                }
-
                 // تنظیمات سانس
                 sessionConfig = normalizeSessionConfig(cloudData.sessionConfig);
 
@@ -5966,12 +5732,6 @@
                 // اگر کلود در دسترس نبود، با پیش‌فرض شروع کن
                 teamNames = DEFAULT_TEAMS.slice();
                 venues = DEFAULT_VENUES.slice();
-                try {
-                    var fallbackColors = JSON.parse(localStorage.getItem('venueColors') || '{}');
-                    venueColors = normalizeVenueColors(fallbackColors);
-                } catch (e) {
-                    venueColors = normalizeVenueColors({});
-                }
                 sessionConfig = getDefaultSessionConfig();
                 tableData = getEmptyData();
                 setDefaultDate();
