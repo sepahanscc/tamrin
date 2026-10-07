@@ -5628,7 +5628,7 @@
         }
 
         // ============================================================
-        // بررسی کامل بودن سلول‌ها قبل از خروجی
+        // بررسی کامل بودن سلول‌ها قبل از خروجی (نسخه اصلاح‌شده)
         // ============================================================
 
         function checkIncompleteCells() {
@@ -5637,35 +5637,60 @@
                 for (var col = 0; col < 7; col++) {
                     var cell = tableData[row][col];
                     if (!cell) continue;
+
                     var venue = (cell.venue || '').trim();
-                    var time = getTimeDisplay(cell);
                     var activityType = (cell.activityType || '').trim();
                     var opponent = (cell.opponent || '').trim();
 
-                    // سلول کاملاً خالی اشکالی ندارد
-                    var hasAnyData = venue || time || activityType || opponent;
+                    // ===== بررسی دقیق‌تر ساعت =====
+                    var hasStart = !!(cell.startTime && String(cell.startTime).trim());
+                    var hasEnd = !!(cell.endTime && String(cell.endTime).trim());
+                    var hasSimpleTime = !!(cell.time && String(cell.time).trim());
+
+                    // ساعت کامل = یا manual با start و end، یا ساده با time
+                    var hasCompleteTime = (cell.manual === true && hasStart && hasEnd) ||
+                                          (cell.manual !== true && hasSimpleTime);
+
+                    // هر نوع ساعتی وارد شده باشد (کامل یا ناقص)
+                    var hasAnyTime = hasStart || hasEnd || hasSimpleTime;
+
+                    // ===== آیا اصلاً داده‌ای در این سلول هست؟ =====
+                    var hasAnyData = venue || hasAnyTime || activityType || opponent;
                     if (!hasAnyData) continue;
 
                     var problems = [];
 
-                    // زمین دارد ولی ساعت ندارد
-                    if (venue && !time) {
-                        problems.push('ساعت ثبت نشده');
+                    // ۱) زمین دارد ولی ساعت کامل ندارد
+                    if (venue && !hasCompleteTime) {
+                        if (hasAnyTime) {
+                            problems.push('ساعت ناقص است');
+                        } else {
+                            problems.push('ساعت ثبت نشده');
+                        }
                     }
-                    // ساعت دارد ولی زمین ندارد
-                    if (time && !venue) {
+
+                    // ۲) ساعت دارد ولی زمین ندارد
+                    if (hasAnyTime && !venue) {
                         problems.push('زمین انتخاب نشده');
                     }
-                    // نوع مسابقه است ولی حریف ثبت نشده
+
+                    // ۳) نوع مسابقه است ولی حریف ثبت نشده
                     if ((activityType === 'مسابقه دوستانه' || activityType === 'مسابقه رسمی') && !opponent) {
                         problems.push('نام حریف ثبت نشده');
                     }
-                    // فقط نوع برنامه دارد ولی زمین و ساعت ندارد
-                    if (activityType && !venue && !time) {
-                        // اگر قبلاً مشکل دیگری اضافه نشده، این را اضافه کن
-                        if (problems.indexOf('زمین انتخاب نشده') === -1 && problems.indexOf('ساعت ثبت نشده') === -1) {
+
+                    // ۴) فقط نوع برنامه دارد بدون زمین و ساعت
+                    if (activityType && !venue && !hasAnyTime) {
+                        if (problems.indexOf('زمین انتخاب نشده') === -1 &&
+                            problems.indexOf('ساعت ثبت نشده') === -1 &&
+                            problems.indexOf('ساعت ناقص است') === -1) {
                             problems.push('زمین و ساعت ثبت نشده');
                         }
+                    }
+
+                    // ۵) زمین و ساعت دارد ولی نوع برنامه انتخاب نشده
+                    if (venue && hasCompleteTime && !activityType) {
+                        problems.push('نوع برنامه انتخاب نشده');
                     }
 
                     if (problems.length > 0) {
