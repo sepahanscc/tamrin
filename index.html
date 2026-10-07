@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -76,7 +75,6 @@
             padding: 10px;
         }
 
-        /* بعد از ورود: سایز دسکتاپ ثابت + اسکرول لمسی + وسط‌چین */
         body.desktop-mode {
             min-width: 1220px;
             overflow: auto;
@@ -102,73 +100,8 @@
             margin: 0 auto;
         }
 
-        /* صفحه مشاهده‌کننده (فقط عکس + دانلود) */
         #viewer-screen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #1a1a1a;
-            z-index: 999998;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            flex-direction: column;
-            align-items: center;
-            padding: 12px 12px 100px;
-            box-sizing: border-box;
-        }
-        #viewer-screen.active {
-            display: flex;
-        }
-        #viewer-screen .viewer-toolbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 20;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
-            background: rgba(0,0,0,0.92);
-            border-top: 1px solid #333;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        #viewer-screen .viewer-toolbar button {
-            font-family: "Vazirmatn", Tahoma, sans-serif !important;
-            font-size: 16px;
-            font-weight: 900;
-            padding: 14px 28px;
-            border-radius: 10px;
-            border: 2px solid #111;
-            cursor: pointer;
-            min-width: 220px;
-        }
-        #viewer-screen .viewer-download {
-            background: #1a6e3a;
-            color: #fff;
-        }
-        #viewer-screen .viewer-download:disabled {
-            background: #555;
-            color: #bbb;
-            cursor: wait;
-        }
-        #viewer-screen .viewer-status {
-            color: #fff900;
-            font-family: "Vazirmatn", Tahoma, sans-serif !important;
-            font-size: 15px;
-            font-weight: 700;
-            text-align: center;
-            padding: 40px 20px;
-            line-height: 1.8;
-        }
-        #viewer-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-            background: #fff;
+            display: none !important;
         }
 
         .header {
@@ -834,38 +767,6 @@
             color: #111;
         }
 
-        .green {
-            background: #b9dca5;
-        }
-
-        .blue {
-            background: #8db9df;
-        }
-
-        .orange {
-            background: #f2b27b;
-        }
-
-        .gold {
-            background: #ffc000;
-        }
-
-        .purple {
-            background: #d4a5e6;
-        }
-
-        .pink {
-            background: #f5a0b0;
-        }
-
-        .teal {
-            background: #7fcdcd;
-        }
-
-        .coral {
-            background: #f7a58f;
-        }
-
         .match-official {
             background-color: #ff4d4d !important;
         }
@@ -1121,10 +1022,6 @@
             visibility: visible;
             opacity: 1;
         }
-
-        /* =========================================================
-           مودال‌ها
-        ========================================================= */
 
         .modal-overlay {
             position: fixed;
@@ -1522,10 +1419,6 @@
             background: #d5d8dd;
         }
 
-        /* =========================================================
-           مودال سانس
-        ========================================================= */
-
         .session-modal {
             width: min(600px, 96%);
             max-height: 85vh;
@@ -1655,10 +1548,6 @@
             text-align: center;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-
-        /* =========================================================
-           مودال گزارش - با فونت معمولی
-        ========================================================= */
 
         .report-modal-overlay {
             position: fixed;
@@ -1805,7 +1694,6 @@
             padding: 4px 8px;
         }
 
-        /* آیتم گزارش - فشرده بدون گپ */
         .report-item {
             display: flex;
             align-items: center;
@@ -1883,10 +1771,6 @@
         .report-team-body .report-empty {
             padding: 8px 0;
         }
-
-        /* =========================================================
-           خروجی JPG گزارش تیم - با فونت معمولی و بدون گپ
-        ========================================================= */
 
         .report-team-export {
             background: #fff;
@@ -1997,10 +1881,6 @@
             color: #999;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-
-        /* =========================================================
-           بقیه استایل‌ها
-        ========================================================= */
 
         .no-print {}
 
@@ -2451,7 +2331,6 @@
                 padding: 3px 4px;
             }
 
-            /* آیتم گزارش در موبایل - با Grid و بدون گپ */
             .report-item {
                 display: grid;
                 grid-template-columns: auto auto 1fr;
@@ -2635,6 +2514,9 @@
         }
 
         /* حالت فقط مشاهده (رمز 1953) */
+        body.view-only-mode {
+            padding-bottom: 90px;
+        }
         body.view-only-mode .no-print {
             display: none !important;
         }
@@ -2649,8 +2531,63 @@
         body.view-only-mode .date-editor {
             display: none !important;
         }
+        body.view-only-mode .slot select,
+        body.view-only-mode .slot input,
+        body.view-only-mode .slot .time-display {
+            pointer-events: none !important;
+        }
+        body.view-only-mode td.team.team-draggable {
+            cursor: default !important;
+            pointer-events: none !important;
+        }
+        body.view-only-mode td.team.team-draggable::before {
+            display: none !important;
+        }
 
-        /* صفحه ورود روی موبایل خوانا و بزرگ */
+        /* نوار دانلود در حالت مشاهده */
+        #viewer-download-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background: rgba(0,0,0,0.92);
+            padding: 12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            border-top: 2px solid #333;
+            box-sizing: border-box;
+        }
+        #viewer-download-bar button {
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 16px;
+            font-weight: 900;
+            padding: 14px 28px;
+            border-radius: 10px;
+            border: 2px solid #111;
+            background: #1a6e3a;
+            color: #fff;
+            cursor: pointer;
+            min-width: 220px;
+            transition: all 0.2s;
+        }
+        #viewer-download-bar button:hover {
+            background: #0d5a2e;
+            transform: scale(1.02);
+        }
+        #viewer-download-bar button:disabled {
+            background: #555;
+            color: #bbb;
+            cursor: wait;
+        }
+
+        @media print {
+            #viewer-download-bar { display: none !important; }
+            body.view-only-mode { padding-bottom: 0 !important; }
+        }
+
         @media screen and (max-width: 600px) {
             .login-box {
                 padding: 28px 20px;
@@ -2691,14 +2628,8 @@
         </div>
     </div>
 
-    <!-- صفحه مشاهده‌کننده: فقط عکس + دانلود -->
-    <div id="viewer-screen">
-        <div class="viewer-status" id="viewerStatus">⏳ در حال آماده‌سازی تصویر...</div>
-        <img id="viewer-image" alt="برنامه تمرینات" style="display:none;">
-        <div class="viewer-toolbar">
-            <button type="button" class="viewer-download" id="viewerDownloadBtn" onclick="downloadViewerImage()" disabled>📥 در حال آماده‌سازی...</button>
-        </div>
-    </div>
+    <!-- صفحه مشاهده‌کننده (غیرفعال) -->
+    <div id="viewer-screen" style="display:none;"></div>
 
     <div id="app-content">
     <div class="page" id="capture-area">
@@ -2815,9 +2746,9 @@
                 <div class="modal-content">
                     <p class="modal-help">تعداد سانس مجاز برای هر زمین در هر روز را وارد کنید. <strong>خالی</strong> = بدون محدودیت • <strong>۰</strong> = تعطیل</p>
                     <div style="display:flex;gap:4px;flex-wrap:wrap;margin:-2px 0 6px;">
-                        <span style="padding:2px 8px;border-radius:999px;background:#f0f2f6;color:#566070;font-size:9px;font-weight:800;border:1px solid #e0e4eb;font-family:'Vazirmatn',Tahoma,sans-serif;">مثال: ۲ = دو سانس</span>
-                        <span style="padding:2px 8px;border-radius:999px;background:#f0f2f6;color:#566070;font-size:9px;font-weight:800;border:1px solid #e0e4eb;font-family:'Vazirmatn',Tahoma,sans-serif;">خالی = نامحدود</span>
-                        <span style="padding:2px 8px;border-radius:999px;background:#f0f2f6;color:#566070;font-size:9px;font-weight:800;border:1px solid #e0e4eb;font-family:'Vazirmatn',Tahoma,sans-serif;">۰ = تعطیل</span>
+                        <span style="padding:2px 8px;border-radius:999px;background:#f0f2f6;color:#566070;font-size:9px;font-weight:800;border:1px solid #e0e4eb;">مثال: ۲ = دو سانس</span>
+                        <span style="padding:2px 8px;border-radius:999px;background:#f0f2f6;color:#566070;font-size:9px;font-weight:800;border:1px solid #e0e4eb;">خالی = نامحدود</span>
+                        <span style="padding:2px 8px;border-radius:999px;background:#f0f2f6;color:#566070;font-size:9px;font-weight:800;border:1px solid #e0e4eb;">۰ = تعطیل</span>
                     </div>
                     <div class="session-table-wrap">
                         <table class="session-table">
@@ -2852,13 +2783,13 @@
                         <div class="modal-icon venue-icon">🏟</div>
                         <div>
                             <div class="modal-title">مدیریت زمین‌ها</div>
-                            <div class="modal-subtitle venue-sub">ورزشگاه‌های موجود</div>
+                            <div class="modal-subtitle venue-sub">ورزشگاه‌ها و رنگ‌بندی دلخواه</div>
                         </div>
                     </div>
                     <button type="button" class="modal-close" onclick="closeVenueManager()">✕</button>
                 </div>
                 <div class="modal-content">
-                    <p class="modal-note">همه زمین‌ها قابل حذف و ویرایش هستند.</p>
+                    <p class="modal-note">🎨 رنگ دلخواه هر زمین را از پیکر رنگی انتخاب کنید. همه زمین‌ها قابل حذف و ویرایش هستند.</p>
                     <div class="modal-list" id="venueListContainer"></div>
                     <div class="modal-add-row">
                         <input type="text" id="newVenueInput" class="venue-add-input" placeholder="نام زمین جدید..." maxlength="30">
@@ -2938,131 +2869,46 @@
         // ============================================================
 
         // ========== سیستم ورود ==========
-        const LOGIN_PASSWORD_ADMIN = '7160';  // دسترسی کامل
-        const LOGIN_PASSWORD_VIEW = '1953';   // فقط مشاهده خروجی
-        var currentRole = null; // فقط در حافظه؛ با رفرش پاک می‌شود
-        var viewerImageDataUrl = null;
+        const LOGIN_PASSWORD_ADMIN = '7160';
+        const LOGIN_PASSWORD_VIEW = '1953';
+        var currentRole = null;
         var dataReady = false;
         var pendingViewImage = false;
 
+        // ========== رنگ زمین‌ها (HEX دلخواه) ==========
+        // پالت پیش‌فرض برای زمین‌های بدون رنگ
+        var PALETTE = ['#b9dca5', '#8db9df', '#f2b27b', '#ffc000', '#d4a5e6', '#f5a0b0', '#7fcdcd', '#f7a58f', '#ff8a80', '#d4e157'];
+
+        var venueColors = {};
+
+        function loadVenueColors() {
+            try {
+                var saved = localStorage.getItem('sepahan_venueColors');
+                if (saved) {
+                    venueColors = JSON.parse(saved) || {};
+                }
+            } catch (e) { venueColors = {}; }
+            for (var i = 0; i < venues.length; i++) {
+                var c = venueColors[venues[i]];
+                if (!c || typeof c !== 'string' || c.charAt(0) !== '#') {
+                    venueColors[venues[i]] = PALETTE[i % PALETTE.length];
+                }
+            }
+        }
+
+        function saveVenueColors() {
+            try {
+                localStorage.setItem('sepahan_venueColors', JSON.stringify(venueColors));
+            } catch (e) { console.log('خطا در ذخیره رنگ‌ها:', e); }
+        }
+
+        // ========== توابع ورود ==========
         function enableDesktopMode() {
             document.body.classList.add('desktop-mode');
             var meta = document.getElementById('viewportMeta');
             if (meta) {
                 meta.setAttribute('content', 'width=1200, user-scalable=yes');
             }
-        }
-
-        function showViewerScreen() {
-            document.getElementById('login-overlay').classList.add('hidden');
-            document.getElementById('app-content').classList.add('visible');
-            var app = document.getElementById('app-content');
-            app.style.position = 'fixed';
-            app.style.left = '-99999px';
-            app.style.top = '0';
-            app.style.opacity = '0';
-            app.style.pointerEvents = 'none';
-
-            document.getElementById('viewer-screen').classList.add('active');
-            document.getElementById('viewerStatus').style.display = 'block';
-            document.getElementById('viewerStatus').textContent = '⏳ در حال آماده‌سازی تصویر...';
-            document.getElementById('viewer-image').style.display = 'none';
-            var btn = document.getElementById('viewerDownloadBtn');
-            btn.disabled = true;
-            btn.textContent = '📥 در حال آماده‌سازی...';
-        }
-
-        function generateViewerImage() {
-            var element = document.getElementById('capture-area');
-            var btn = document.getElementById('viewerDownloadBtn');
-            var status = document.getElementById('viewerStatus');
-
-            if (!element || typeof html2canvas === 'undefined') {
-                status.textContent = '⛔ خطا در ساخت تصویر.\nلطفاً لینک را در مرورگر کروم باز کنید.';
-                btn.disabled = true;
-                btn.textContent = '📥 دانلود در دسترس نیست';
-                return;
-            }
-
-            var dateEditor = document.querySelector('.date-editor');
-            var btnGroup = document.querySelector('.btn-group');
-            if (dateEditor) dateEditor.style.display = 'none';
-            if (btnGroup) btnGroup.style.display = 'none';
-
-            // بدون export-mode برای سرعت بیشتر روی موبایل
-            var lockCheckbox = document.getElementById('lockCheckbox');
-            if (lockCheckbox) {
-                lockCheckbox.checked = true;
-                if (typeof toggleLock === 'function') toggleLock();
-            }
-
-            var slots = document.querySelectorAll('.slot');
-            for (var i = 0; i < slots.length; i++) {
-                if (typeof updateSlotDisplay === 'function') updateSlotDisplay(slots[i]);
-            }
-            var clearBtns = element.querySelectorAll('.cell-clear-btn');
-            clearBtns.forEach(function(btn2) { btn2.style.display = 'none'; });
-
-            var app = document.getElementById('app-content');
-            app.style.left = '0';
-            app.style.opacity = '1';
-
-            // موبایل: scale خیلی سبک‌تر = خیلی سریع‌تر
-            var isMobile = window.innerWidth < 900 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-            var scale = isMobile ? 1 : 2;
-
-            requestAnimationFrame(function() {
-                html2canvas(element, {
-                    scale: scale,
-                    useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: '#ffffff',
-                    logging: false,
-                    imageTimeout: 0,
-                    removeContainer: true
-                }).then(function(canvas) {
-                    app.style.left = '-99999px';
-                    app.style.opacity = '0';
-
-                    if (dateEditor) dateEditor.style.display = '';
-                    if (btnGroup) btnGroup.style.display = '';
-
-                    viewerImageDataUrl = canvas.toDataURL('image/jpeg', isMobile ? 0.8 : 0.9);
-                    var img = document.getElementById('viewer-image');
-                    img.src = viewerImageDataUrl;
-                    img.style.display = 'block';
-                    status.style.display = 'none';
-                    btn.disabled = false;
-                    btn.textContent = '📥 دانلود تصویر';
-                }).catch(function(err) {
-                    console.error(err);
-                    app.style.left = '-99999px';
-                    app.style.opacity = '0';
-                    status.style.display = 'block';
-                    status.textContent = '⛔ خطا در ساخت تصویر.\nلطفاً لینک را در مرورگر کروم باز کنید و دوباره وارد شوید.';
-                    btn.disabled = true;
-                    btn.textContent = '📥 دانلود در دسترس نیست';
-                });
-            });
-        }
-
-        function downloadViewerImage() {
-            if (!viewerImageDataUrl) return;
-            if (typeof isInAppBrowser === 'function' && isInAppBrowser()) {
-                showInAppExportWarning();
-                return;
-            }
-            var link = document.createElement('a');
-            link.download = 'برنامه تمرینات آکادمی سپاهان.jpg';
-            link.href = viewerImageDataUrl;
-            link.click();
-        }
-
-        function enableViewOnlyMode() {
-            showViewerScreen();
-            setTimeout(function() {
-                generateViewerImage();
-            }, 150);
         }
 
         function checkLogin() {
@@ -3075,22 +2921,18 @@
                 currentRole = 'admin';
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('app-content').classList.add('visible');
-                document.getElementById('viewer-screen').classList.remove('active');
-                // بازگرداندن app به حالت عادی
-                var app = document.getElementById('app-content');
-                app.style.position = '';
-                app.style.left = '';
-                app.style.top = '';
-                app.style.opacity = '';
-                app.style.pointerEvents = '';
+                document.body.classList.remove('view-only-mode');
+                var oldBar = document.getElementById('viewer-download-bar');
+                if (oldBar) oldBar.remove();
                 enableDesktopMode();
                 error.classList.remove('show');
             } else if (pass === LOGIN_PASSWORD_VIEW) {
                 currentRole = 'view';
                 enableDesktopMode();
                 error.classList.remove('show');
-                showViewerScreen();
-                // اگر داده از قبل لود شده، سریع تصویر بساز
+                document.getElementById('login-overlay').classList.add('hidden');
+                document.getElementById('app-content').classList.add('visible');
+                document.body.classList.add('view-only-mode');
                 if (dataReady) {
                     enableViewOnlyMode();
                 } else {
@@ -3103,15 +2945,112 @@
             }
         }
 
+        function enableViewOnlyMode() {
+            document.getElementById('login-overlay').classList.add('hidden');
+            document.getElementById('viewer-screen').classList.remove('active');
+            var app = document.getElementById('app-content');
+            app.classList.add('visible');
+            app.style.position = '';
+            app.style.left = '';
+            app.style.top = '';
+            app.style.opacity = '';
+            app.style.pointerEvents = '';
+
+            document.body.classList.add('view-only-mode');
+
+            var lockCheckbox = document.getElementById('lockCheckbox');
+            if (lockCheckbox) {
+                lockCheckbox.checked = true;
+                if (typeof toggleLock === 'function') toggleLock();
+            }
+
+            var draggableTeams = document.querySelectorAll('td.team.team-draggable');
+            draggableTeams.forEach(function(td) {
+                td.draggable = false;
+                td.title = '';
+            });
+
+            addViewerDownloadBar();
+        }
+
+        function addViewerDownloadBar() {
+            if (document.getElementById('viewer-download-bar')) return;
+            var bar = document.createElement('div');
+            bar.id = 'viewer-download-bar';
+            bar.innerHTML = '<button type="button" id="viewerDownloadBtn">📥 دانلود تصویر برنامه (JPG)</button>';
+            document.body.appendChild(bar);
+            document.getElementById('viewerDownloadBtn').addEventListener('click', function() {
+                downloadViewerImageFromHTML();
+            });
+        }
+
+        function downloadViewerImageFromHTML() {
+            if (isInAppBrowser()) {
+                showInAppExportWarning();
+                return;
+            }
+            // چک کردن سلول‌های ناقص
+            if (!checkIncompleteBeforeExport()) return;
+
+            var btn = document.getElementById('viewerDownloadBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ در حال آماده‌سازی...';
+
+            var element = document.getElementById('capture-area');
+            var dateEditor = document.querySelector('.date-editor');
+            var btnGroup = document.querySelector('.btn-group');
+            var oldDateDisplay = dateEditor ? dateEditor.style.display : '';
+            var oldBtnDisplay = btnGroup ? btnGroup.style.display : '';
+            if (dateEditor) dateEditor.style.display = 'none';
+            if (btnGroup) btnGroup.style.display = 'none';
+
+            var clearBtns = element.querySelectorAll('.cell-clear-btn');
+            clearBtns.forEach(function(b) { b.style.display = 'none'; });
+
+            var isMobile = window.innerWidth < 900 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            var scale = isMobile ? 1.5 : 2.5;
+
+            requestAnimationFrame(function() {
+                html2canvas(element, {
+                    scale: scale,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    imageTimeout: 0
+                }).then(function(canvas) {
+                    if (dateEditor) dateEditor.style.display = oldDateDisplay || 'flex';
+                    if (btnGroup) btnGroup.style.display = oldBtnDisplay || 'flex';
+                    clearBtns.forEach(function(b) { b.style.display = ''; });
+
+                    var dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+                    var link = document.createElement('a');
+                    link.download = 'برنامه تمرینات آکادمی سپاهان.jpg';
+                    link.href = dataUrl;
+                    link.click();
+
+                    btn.disabled = false;
+                    btn.textContent = '📥 دانلود تصویر برنامه (JPG)';
+                }).catch(function(err) {
+                    console.error(err);
+                    if (dateEditor) dateEditor.style.display = oldDateDisplay || 'flex';
+                    if (btnGroup) btnGroup.style.display = oldBtnDisplay || 'flex';
+                    clearBtns.forEach(function(b) { b.style.display = ''; });
+                    btn.disabled = false;
+                    btn.textContent = '📥 دانلود تصویر برنامه (JPG)';
+                    alert('خطا در ساخت تصویر. لطفاً دوباره تلاش کنید.');
+                });
+            });
+        }
+
         function initLogin() {
-            // همیشه با رفرش به صفحه ورود برگرد
             currentRole = null;
             try { sessionStorage.removeItem('sepahan_logged_in'); } catch (e) {}
-
             document.getElementById('login-overlay').classList.remove('hidden');
             document.getElementById('app-content').classList.remove('visible');
-            document.getElementById('viewer-screen').classList.remove('active');
-
+            document.body.classList.remove('view-only-mode');
+            var oldBar = document.getElementById('viewer-download-bar');
+            if (oldBar) oldBar.remove();
             var input = document.getElementById('loginPassword');
             if (input) {
                 setTimeout(function() { input.focus(); }, 200);
@@ -3124,18 +3063,14 @@
             }
         }
 
-        // تشخیص مرورگر داخل برنامه‌ها (ایتا، تلگرام و ...)
         function isInAppBrowser() {
             var ua = navigator.userAgent || navigator.vendor || '';
-            // فقط پیام‌رسان‌ها — نه کروم معمولی
             if (/Eitaa|Telegram|Instagram|FBAN|FBAV|Line\/|MicroMessenger|Twitter|Snapchat|TikTok|WhatsApp|LinkedInApp/i.test(ua)) {
                 return true;
             }
-            // iOS WebView (بدون Safari)
             if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(ua) && !/Safari/i.test(ua)) {
                 return true;
             }
-            // Android WebView واقعی (دارای ; wv)
             if (/Android/i.test(ua) && /;\s*wv\)/i.test(ua)) {
                 return true;
             }
@@ -3146,12 +3081,12 @@
             alert('⚠️ برای گرفتن خروجی (JPG / PDF / Excel)\nلطفاً لینک را در مرورگر کروم یا سافاری باز کنید.\n\nمرورگر داخل ایتا و بعضی پیام‌رسان‌ها از خروجی پشتیبانی کامل نمی‌کنند.');
         }
 
-        // اجرای فوری ورود
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initLogin);
         } else {
             initLogin();
         }
+
         // ================================
 
         const DEFAULT_START = 1;
@@ -3351,11 +3286,6 @@
             updateDayDates();
         }
 
-        function loadDate() {
-            // تاریخ از کلود در initFromCloud اعمال می‌شه
-            applyDateString(null);
-        }
-
         function setDefaultDate() {
             var defaultDate = toPersianDigits(DEFAULT_START) + ' ' + DEFAULT_START_MONTH + ' تا ' + toPersianDigits(DEFAULT_END) + ' ' + DEFAULT_END_MONTH + ' ماه ' + toPersianDigits(DEFAULT_YEAR);
             document.getElementById('dateDisplay').textContent = defaultDate;
@@ -3445,7 +3375,6 @@
                 var t2 = cell.endTime;
                 var m1 = persianTimeToMinutes(t1);
                 var m2 = persianTimeToMinutes(t2);
-                // همیشه ساعت کوچکتر (زودتر) اول بیاید
                 if (m1 !== null && m2 !== null && m2 < m1) {
                     return t2 + ' - ' + t1;
                 }
@@ -3495,9 +3424,6 @@
             return formatTimePersian(hour, minute);
         }
 
-        // ============================================================
-        // تنظیمات Google Sheets به عنوان دیتابیس
-        // ============================================================
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz23FaSc84XVJkWw9mXPsWomxi8ERTIUPeHXDKXHJwmp0Z2bzL16VafYpqj3T_FNUeHuQ/exec';
         const SECRET_KEY = 'sepahan1405';
 
@@ -3528,7 +3454,6 @@
                     body: JSON.stringify(payload),
                     mode: 'no-cors'
                 });
-                // با no-cors نمی‌تونیم پاسخ رو بخونیم، اما درخواست ارسال می‌شه
                 return true;
             } catch (err) {
                 console.error('خطا در ذخیره در Google Sheets:', err);
@@ -3547,7 +3472,7 @@
                     scheduleData: tableData,
                     date: document.getElementById('dateDisplay') ? document.getElementById('dateDisplay').textContent : ''
                 });
-            }, 800); // debounce 800ms
+            }, 800);
         }
 
         var ACTIVITY_TYPES = ['', 'تمرین', 'مسابقه دوستانه', 'مسابقه رسمی'];
@@ -3606,8 +3531,6 @@
                         if (cell.endTime === undefined) cell.endTime = '';
                         if (cell.activityType === undefined) cell.activityType = '';
                         if (cell.opponent === undefined) cell.opponent = '';
-
-                        // اصلاح ساعت‌های جابه‌جا شده
                         if (cell.manual && cell.startTime && cell.endTime) {
                             var m1 = persianTimeToMinutes(cell.startTime);
                             var m2 = persianTimeToMinutes(cell.endTime);
@@ -3730,8 +3653,7 @@
 
         function getCellTimeRange(cell) {
             if (!cell) return null;
-            var start = null,
-                end = null;
+            var start = null, end = null;
             if (cell.manual && cell.startTime && cell.endTime) {
                 start = persianTimeToMinutes(cell.startTime);
                 end = persianTimeToMinutes(cell.endTime);
@@ -3822,8 +3744,70 @@
         }
 
         // ============================================================
-        // ساخت جدول
+        // چک کردن سلول‌های ناقص قبل از خروجی
         // ============================================================
+        function findIncompleteCells() {
+            var incomplete = [];
+            for (var r = 0; r < tableData.length; r++) {
+                for (var c = 0; c < 7; c++) {
+                    var cell = tableData[r][c];
+                    if (!cell) continue;
+                    var hasVenue = cell.venue && cell.venue !== '';
+                    var hasActivity = cell.activityType && cell.activityType !== '';
+                    var hasTime = false;
+                    if (cell.manual && cell.startTime && cell.endTime) {
+                        hasTime = true;
+                    } else if (cell.time && cell.time !== '') {
+                        hasTime = true;
+                    }
+                    var isEmpty = !hasVenue && !hasActivity && !hasTime;
+                    if (isEmpty) continue;
+
+                    if (hasVenue && !hasTime) {
+                        var dayInfo = getDayAndDateForColumn(c);
+                        incomplete.push({
+                            team: teamNames[r],
+                            day: dayInfo.dayName,
+                            date: dayInfo.dateText,
+                            venue: cell.venue,
+                            activity: cell.activityType || '—',
+                            reason: 'ساعت وارد نشده'
+                        });
+                    } else if (hasTime && !hasVenue) {
+                        var dayInfo2 = getDayAndDateForColumn(c);
+                        incomplete.push({
+                            team: teamNames[r],
+                            day: dayInfo2.dayName,
+                            date: dayInfo2.dateText,
+                            venue: '—',
+                            activity: cell.activityType || '—',
+                            reason: 'زمین انتخاب نشده'
+                        });
+                    }
+                }
+            }
+            return incomplete;
+        }
+
+        function checkIncompleteBeforeExport() {
+            var incomplete = findIncompleteCells();
+            if (incomplete.length === 0) return true;
+
+            var msg = '⚠️ هشدار: ' + toPersianDigits(String(incomplete.length)) + ' سلول ناقص پیدا شد:\n\n';
+            var maxShow = 10;
+            for (var i = 0; i < Math.min(incomplete.length, maxShow); i++) {
+                var item = incomplete[i];
+                msg += '• ' + item.team + ' — ' + item.day + ' ' + item.date + '\n';
+                msg += '   زمین: ' + item.venue + ' | برنامه: ' + item.activity + '\n';
+                msg += '   مشکل: ' + item.reason + '\n\n';
+            }
+            if (incomplete.length > maxShow) {
+                msg += '... و ' + toPersianDigits(String(incomplete.length - maxShow)) + ' مورد دیگر\n\n';
+            }
+            msg += 'آیا می‌خواهید با این وضعیت خروجی بگیرید؟';
+
+            return confirm(msg);
+        }
 
         function buildTable() {
             var tbody = document.getElementById('table-body');
@@ -3900,10 +3884,6 @@
             var slots = document.querySelectorAll('.slot');
             for (var i = 0; i < slots.length; i++) { updateSlotDisplay(slots[i]); }
         }
-
-        // ============================================================
-        // توابع مدیریت مودال‌ها
-        // ============================================================
 
         function openSessionEditor() {
             renderSessionEditor();
@@ -4007,10 +3987,6 @@
             alert('تعداد سانس‌های زمین‌ها با موفقیت ذخیره شد.');
         }
 
-        // ============================================================
-        // مدیریت زمین‌ها
-        // ============================================================
-
         function openVenueManager() {
             renderVenueList();
             document.getElementById('venueModalOverlay').classList.add('active');
@@ -4028,7 +4004,7 @@
         }
 
         function startEditingVenue(index) {
-            var items = document.querySelectorAll('.modal-item');
+            var items = document.querySelectorAll('#venueListContainer .modal-item');
             if (index >= items.length) return;
             var item = items[index];
             var nameSpan = item.querySelector('.item-name');
@@ -4072,6 +4048,11 @@
                 return;
             }
             venues[index] = newName;
+            if (venueColors[oldName]) {
+                venueColors[newName] = venueColors[oldName];
+                delete venueColors[oldName];
+                saveVenueColors();
+            }
             saveVenues(venues);
             for (var r = 0; r < tableData.length; r++) {
                 for (var c = 0; c < tableData[r].length; c++) {
@@ -4092,36 +4073,86 @@
             if (!container) return;
             container.innerHTML = '';
             if (venues.length === 0) {
-                container.innerHTML = '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-family:Vazirmatn,Tahoma,sans-serif;font-size:12px;">هیچ زمینی تعریف نشده است.</div>';
+                container.innerHTML = '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-size:12px;">هیچ زمینی تعریف نشده است.</div>';
                 return;
             }
             for (var i = 0; i < venues.length; i++) {
                 var item = document.createElement('div');
                 item.className = 'modal-item';
+                item.style.flexWrap = 'wrap';
+                item.style.gap = '6px';
+
                 var indexSpan = document.createElement('span');
                 indexSpan.className = 'item-index';
                 indexSpan.textContent = toPersianDigits(String(i + 1)) + '.';
                 item.appendChild(indexSpan);
+
                 var nameSpan = document.createElement('span');
                 nameSpan.className = 'item-name';
                 nameSpan.textContent = venues[i];
+                nameSpan.style.flex = '1';
+                nameSpan.style.minWidth = '80px';
                 item.appendChild(nameSpan);
+
+                // رنگ‌پیکر + پیش‌نمایش
+                var colorWrap = document.createElement('div');
+                colorWrap.style.cssText = 'display:flex;align-items:center;gap:4px;';
+
+                var currentColor = venueColors[venues[i]] || '#b9dca5';
+
+                var colorInput = document.createElement('input');
+                colorInput.type = 'color';
+                colorInput.value = currentColor;
+                colorInput.style.cssText = 'width:40px;height:32px;border:2px solid #ce93d8;border-radius:6px;cursor:pointer;padding:1px;background:#fff;';
+                colorInput.title = 'انتخاب رنگ دلخواه';
+
+                var colorPreview = document.createElement('div');
+                colorPreview.style.cssText = 'width:24px;height:24px;border-radius:4px;border:1px solid #999;background:' + currentColor + ';';
+
+                colorInput.oninput = (function(venueName, preview) {
+                    return function() {
+                        var newColor = this.value;
+                        venueColors[venueName] = newColor;
+                        preview.style.background = newColor;
+                        saveVenueColors();
+                        var allCells = document.querySelectorAll('td.schedule-slot-cell');
+                        allCells.forEach(function(td) {
+                            var slotDiv = td.querySelector('.slot');
+                            if (!slotDiv) return;
+                            var r = parseInt(slotDiv.dataset.row, 10);
+                            var c = parseInt(slotDiv.dataset.col, 10);
+                            var cell = tableData[r] ? tableData[r][c] : null;
+                            if (cell && cell.venue === venueName) {
+                                applyColorByVenue(td, venueName);
+                                var actType = cell.activityType || '';
+                                if (actType === 'مسابقه رسمی') td.style.background = '#ff4d4d';
+                                else if (actType === 'مسابقه دوستانه') td.style.background = '#d3d3d3';
+                            }
+                        });
+                    };
+                })(venues[i], colorPreview);
+
+                colorWrap.appendChild(colorInput);
+                colorWrap.appendChild(colorPreview);
+                item.appendChild(colorWrap);
+
                 var actions = document.createElement('div');
                 actions.className = 'item-actions';
+
                 var editBtn = document.createElement('button');
                 editBtn.className = 'item-edit-btn venue-edit';
                 editBtn.textContent = '✏️';
                 editBtn.dataset.index = i;
-                editBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
-                    startEditingVenue(idx); };
+                editBtn.onclick = function(e) { e.stopPropagation(); startEditingVenue(parseInt(this.dataset.index, 10)); };
                 actions.appendChild(editBtn);
+
                 var removeBtn = document.createElement('button');
                 removeBtn.className = 'item-remove-btn';
                 removeBtn.textContent = '✕';
                 removeBtn.dataset.index = i;
-                removeBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
-                    removeVenue(idx); };
+                removeBtn.onclick = function(e) { e.stopPropagation(); removeVenue(parseInt(this.dataset.index, 10)); };
                 actions.appendChild(removeBtn);
+
                 item.appendChild(actions);
                 container.appendChild(item);
             }
@@ -4148,6 +4179,8 @@
                 if (!confirm('آیا از حذف زمین «' + venueName + '» مطمئن هستید؟')) return;
             }
             venues.splice(index, 1);
+            delete venueColors[venueName];
+            saveVenueColors();
             saveVenues(venues);
             sessionConfig.splice(index, 1);
             saveSessionConfigToStorage();
@@ -4179,6 +4212,8 @@
             if (!name) { alert('لطفاً نام زمین را وارد کنید.'); return; }
             if (venues.indexOf(name) !== -1) { alert('زمین «' + name + '» قبلاً در لیست وجود دارد.'); input.value = ''; return; }
             venues.push(name);
+            venueColors[name] = PALETTE[venues.length % PALETTE.length];
+            saveVenueColors();
             saveVenues(venues);
             sessionConfig.push([null, null, null, null, null, null, null]);
             saveSessionConfigToStorage();
@@ -4189,10 +4224,6 @@
             updateFloatingBadge();
             alert('زمین «' + name + '» با موفقیت اضافه شد.');
         }
-
-        // ============================================================
-        // مدیریت تیم‌ها
-        // ============================================================
 
         function openTeamManager() {
             renderTeamList();
@@ -4215,7 +4246,7 @@
             if (!container) return;
             container.innerHTML = '';
             if (teamNames.length === 0) {
-                container.innerHTML = '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-family:Vazirmatn,Tahoma,sans-serif;font-size:12px;">هیچ تیمی تعریف نشده است.</div>';
+                container.innerHTML = '<div style="padding:12px;text-align:center;color:#888;font-weight:700;font-size:12px;">هیچ تیمی تعریف نشده است.</div>';
                 return;
             }
             for (var i = 0; i < teamNames.length; i++) {
@@ -4235,15 +4266,13 @@
                 editBtn.className = 'item-edit-btn';
                 editBtn.textContent = '✏️';
                 editBtn.dataset.index = i;
-                editBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
-                    startEditingTeam(idx); };
+                editBtn.onclick = function(e) { e.stopPropagation(); startEditingTeam(parseInt(this.dataset.index, 10)); };
                 actions.appendChild(editBtn);
                 var removeBtn = document.createElement('button');
                 removeBtn.className = 'item-remove-btn';
                 removeBtn.textContent = '✕';
                 removeBtn.dataset.index = i;
-                removeBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
-                    removeTeam(idx); };
+                removeBtn.onclick = function(e) { e.stopPropagation(); removeTeam(parseInt(this.dataset.index, 10)); };
                 actions.appendChild(removeBtn);
                 item.appendChild(actions);
                 container.appendChild(item);
@@ -4251,7 +4280,7 @@
         }
 
         function startEditingTeam(index) {
-            var items = document.querySelectorAll('.modal-item');
+            var items = document.querySelectorAll('#teamListContainer .modal-item');
             if (index >= items.length) return;
             var item = items[index];
             var nameSpan = item.querySelector('.item-name');
@@ -4348,10 +4377,6 @@
             updateFloatingBadge();
             alert('تیم «' + name + '» با موفقیت اضافه شد.');
         }
-
-        // ============================================================
-        // ساخت سلول
-        // ============================================================
 
         function createSlotCell(rowIdx, colIdx) {
             var td = document.createElement('td');
@@ -4695,11 +4720,9 @@
                     }
                 }
                 var cell = tableData[rowIdx][colIdx];
-                // اطمینان از اینکه start همیشه قبل از end باشد
                 var sMin = persianTimeToMinutes(startFormatted);
                 var eMin = persianTimeToMinutes(endFormatted);
                 if (sMin !== null && eMin !== null && eMin < sMin) {
-                    // جابه‌جا کن
                     var tmp = startFormatted;
                     startFormatted = endFormatted;
                     endFormatted = tmp;
@@ -4853,10 +4876,6 @@
             return td;
         }
 
-        // ============================================================
-        // نمایش سلول
-        // ============================================================
-
         function updateSlotDisplay(slotDiv) {
             if (!slotDiv) return;
             var td = slotDiv.closest('td');
@@ -4888,8 +4907,15 @@
             if (clearBtn) clearBtn.style.display = isLocked ? 'none' : 'flex';
             if (td && !isLocked) {
                 td.classList.remove('match-official', 'match-friendly');
-                if (activityType === 'مسابقه رسمی') td.classList.add('match-official');
-                else if (activityType === 'مسابقه دوستانه') td.classList.add('match-friendly');
+                if (activityType === 'مسابقه رسمی') {
+                    td.classList.add('match-official');
+                    td.style.background = '#ff4d4d';
+                } else if (activityType === 'مسابقه دوستانه') {
+                    td.classList.add('match-friendly');
+                    td.style.background = '#d3d3d3';
+                } else {
+                    applyColorByVenue(td, venue);
+                }
             }
             if (printText) {
                 var venueText = printText.querySelector('.venue-text');
@@ -4948,7 +4974,6 @@
             slotDiv.classList.remove('locked-view');
             slotDiv.classList.remove('is-empty');
             if (venueSelect) {
-                var currentVal = venueSelect.value;
                 venueSelect.innerHTML = '';
                 var emptyVenue = document.createElement('option');
                 emptyVenue.value = '';
@@ -5029,49 +5054,17 @@
             }
         }
 
-        // ============================================================
-        // رنگ سلول
-        // ============================================================
-
         function applyColorByVenue(td, venue) {
-            td.classList.remove('green', 'blue', 'orange', 'gold', 'purple', 'pink', 'teal', 'coral', 'empty', 'match-official', 'match-friendly');
+            td.classList.remove('empty', 'match-official', 'match-friendly');
+            td.style.background = '';
             if (!venue) { td.classList.add('empty'); return; }
-            switch (venue) {
-                case 'باغ فردوس':
-                    td.classList.add('green');
-                    break;
-                case 'آب منطقه ای':
-                    td.classList.add('blue');
-                    break;
-                case 'نیروگاه':
-                    td.classList.add('orange');
-                    break;
-                case 'زمین بهارستان':
-                    td.classList.add('gold');
-                    break;
-                case 'قدس':
-                    td.classList.add('purple');
-                    break;
-                case 'کردآباد':
-                    td.classList.add('pink');
-                    break;
-                case 'نقش جهان':
-                    td.classList.add('teal');
-                    break;
-                case '۲۵ آبان':
-                    td.classList.add('coral');
-                    break;
-                case 'آبفا':
-                    td.classList.add('green');
-                    break;
-                default:
-                    td.classList.add('green');
+            var colorHex = venueColors[venue];
+            if (colorHex && typeof colorHex === 'string' && colorHex.charAt(0) === '#') {
+                td.style.background = colorHex;
+            } else {
+                td.style.background = '#b9dca5';
             }
         }
-
-        // ============================================================
-        // گزارش تیم‌ها
-        // ============================================================
 
         function openTeamReport() {
             var overlay = document.getElementById('reportModalOverlay');
@@ -5126,7 +5119,7 @@
             var headerTitle = document.querySelector('.report-modal-title');
             if (headerTitle) headerTitle.textContent = '📋 گزارش برنامه هفتگی تیم‌ها (مجموع: ' + totalPersian + ' برنامه)';
             if (totalPrograms === 0) {
-                html = '<div style="text-align:center;padding:30px 0;color:#888;font-weight:700;font-size:16px;font-family:Vazirmatn,Tahoma,sans-serif;">📭 هیچ برنامه‌ای برای هیچ تیمی ثبت نشده است.</div>';
+                html = '<div style="text-align:center;padding:30px 0;color:#888;font-weight:700;font-size:16px;">📭 هیچ برنامه‌ای برای هیچ تیمی ثبت نشده است.</div>';
             }
             content.innerHTML = html;
             overlay.classList.add('active');
@@ -5154,7 +5147,7 @@
 
             var exportDiv = document.createElement('div');
             exportDiv.className = 'report-team-export';
-            exportDiv.style.cssText = 'background:#fff;padding:6px 10px;direction:rtl;font-family:"Vazirmatn",Tahoma,"Segoe UI",Arial,sans-serif;max-width:500px;margin:0 auto;border:2px solid #ddd;border-radius:8px;';
+            exportDiv.style.cssText = 'background:#fff;padding:6px 10px;direction:rtl;max-width:500px;margin:0 auto;border:2px solid #ddd;border-radius:8px;';
 
             var header = document.createElement('div');
             header.className = 'export-header';
@@ -5162,12 +5155,12 @@
 
             var nameSpan = document.createElement('span');
             nameSpan.className = 'team-name';
-            nameSpan.style.cssText = 'font-size:14px;font-weight:900;color:#2c3e50;font-family:"Vazirmatn",Tahoma,sans-serif;';
+            nameSpan.style.cssText = 'font-size:14px;font-weight:900;color:#2c3e50;';
             nameSpan.textContent = teamName;
 
             var countSpan = document.createElement('span');
             countSpan.className = 'count-label';
-            countSpan.style.cssText = 'font-size:11px;font-weight:700;font-family:"Vazirmatn",Tahoma,sans-serif;background:#f1c40f;color:#2c3e50;padding:0 8px;border-radius:14px;';
+            countSpan.style.cssText = 'font-size:11px;font-weight:700;background:#f1c40f;color:#2c3e50;padding:0 8px;border-radius:14px;';
             countSpan.textContent = '📊 ' + toPersianDigits(String(items.length));
 
             header.appendChild(nameSpan);
@@ -5177,7 +5170,7 @@
             if (items.length === 0) {
                 var empty = document.createElement('div');
                 empty.className = 'export-empty';
-                empty.style.cssText = 'text-align:center;color:#999;padding:10px 0;font-weight:700;font-size:12px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                empty.style.cssText = 'text-align:center;color:#999;padding:10px 0;font-weight:700;font-size:12px;';
                 empty.textContent = '⚠️ برنامه‌ای برای این تیم ثبت نشده است.';
                 exportDiv.appendChild(empty);
             } else {
@@ -5185,31 +5178,31 @@
                     var item = items[i];
                     var itemDiv = document.createElement('div');
                     itemDiv.className = 'export-item';
-                    itemDiv.style.cssText = 'display:flex;align-items:center;gap:3px;padding:2px 3px;border-bottom:1px solid #f0f0f0;font-size:11px;flex-wrap:nowrap;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    itemDiv.style.cssText = 'display:flex;align-items:center;gap:3px;padding:2px 3px;border-bottom:1px solid #f0f0f0;font-size:11px;flex-wrap:nowrap;';
 
                     var daySpan = document.createElement('span');
                     daySpan.className = 'e-day';
-                    daySpan.style.cssText = 'font-weight:900;min-width:32px;color:#1a5276;font-size:11px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    daySpan.style.cssText = 'font-weight:900;min-width:32px;color:#1a5276;font-size:11px;';
                     daySpan.textContent = item.day;
 
                     var dateSpan = document.createElement('span');
                     dateSpan.className = 'e-date';
-                    dateSpan.style.cssText = 'color:#666;font-size:9px;min-width:42px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    dateSpan.style.cssText = 'color:#666;font-size:9px;min-width:42px;';
                     dateSpan.textContent = item.date;
 
                     var timeSpan = document.createElement('span');
                     timeSpan.className = 'e-time';
-                    timeSpan.style.cssText = 'font-weight:700;direction:ltr;unicode-bidi:isolate;min-width:50px;color:#222;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    timeSpan.style.cssText = 'font-weight:700;direction:ltr;min-width:50px;color:#222;font-size:10px;';
                     timeSpan.textContent = item.time;
 
                     var venueSpan = document.createElement('span');
                     venueSpan.className = 'e-venue';
-                    venueSpan.style.cssText = 'font-weight:800;color:#1a6e3a;min-width:35px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    venueSpan.style.cssText = 'font-weight:800;color:#1a6e3a;min-width:35px;font-size:10px;';
                     venueSpan.textContent = item.venue;
 
                     var typeSpan = document.createElement('span');
                     typeSpan.className = 'e-type';
-                    typeSpan.style.cssText = 'font-weight:800;color:#8b1a1a;min-width:38px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                    typeSpan.style.cssText = 'font-weight:800;color:#8b1a1a;min-width:38px;font-size:10px;';
                     typeSpan.textContent = item.type;
 
                     itemDiv.appendChild(daySpan);
@@ -5221,7 +5214,7 @@
                     if (item.opponent) {
                         var oppSpan = document.createElement('span');
                         oppSpan.className = 'e-opponent';
-                        oppSpan.style.cssText = 'font-weight:700;color:#555;white-space:pre-wrap;word-break:break-word;font-size:9px;flex:1;min-width:30px;font-family:"Vazirmatn",Tahoma,sans-serif;';
+                        oppSpan.style.cssText = 'font-weight:700;color:#555;white-space:pre-wrap;font-size:9px;flex:1;min-width:30px;';
                         oppSpan.textContent = '🆚 ' + item.opponent;
                         itemDiv.appendChild(oppSpan);
                     }
@@ -5232,7 +5225,7 @@
 
             var footer = document.createElement('div');
             footer.className = 'export-footer';
-            footer.style.cssText = 'border-top:1px solid #eee;margin-top:4px;padding-top:4px;text-align:center;font-size:9px;color:#999;font-family:"Vazirmatn",Tahoma,sans-serif;';
+            footer.style.cssText = 'border-top:1px solid #eee;margin-top:4px;padding-top:4px;text-align:center;font-size:9px;color:#999;';
             var dateDisplay = document.getElementById('dateDisplay');
             footer.textContent = '📅 ' + (dateDisplay ? dateDisplay.textContent : '');
             exportDiv.appendChild(footer);
@@ -5274,10 +5267,6 @@
         function handleReportOverlayClick(e) {
             if (e.target && e.target.id === 'reportModalOverlay') closeTeamReport();
         }
-
-        // ============================================================
-        // دکمه شناور
-        // ============================================================
 
         var hoverTimeout = null;
 
@@ -5356,10 +5345,6 @@
 
         function updateFloatingBadge() { updateHoverCardContent(); }
 
-        // ============================================================
-        // توابع خروجی و پاک کردن
-        // ============================================================
-
         function clearAllSlots() {
             if (confirm('آیا مطمئن هستید؟ تمام زمین، نوع برنامه، حریف و ساعت‌های تمرین پاک خواهند شد. (تاریخ و تنظیمات سانس‌ها حفظ می‌شوند)')) {
                 tableData = getEmptyData();
@@ -5401,11 +5386,11 @@
             var lockLabel = document.querySelector('.lock-toggle');
             if (lockLabel) {
                 var checkbox = lockLabel.querySelector('input[type="checkbox"]');
-                var isLocked = checkbox ? checkbox.checked : false;
-                lockLabel.innerHTML = '';
-                if (checkbox) lockLabel.appendChild(checkbox);
-                var textNode = document.createTextNode(isLocked ? ' 🔒 قفل' : ' 🔓 قفل');
-                lockLabel.appendChild(textNode);
+                var isLockedNow = checkbox ? checkbox.checked : false;
+                var textNode = Array.from(lockLabel.childNodes).find(function(n) { return n.nodeType === Node.TEXT_NODE; });
+                if (textNode) {
+                    textNode.textContent = isLockedNow ? ' 🔒 قفل' : ' 🔓 قفل';
+                }
             }
         }
 
@@ -5417,7 +5402,7 @@
         document.addEventListener('click', function(e) {
             var dropdown = document.getElementById('exportDropdown');
             var btn = document.querySelector('.dropbtn');
-            if (dropdown && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+            if (dropdown && btn && !dropdown.contains(e.target) && !btn.contains(e.target)) {
                 dropdown.classList.remove('show');
             }
         });
@@ -5434,6 +5419,9 @@
         }
 
         function captureAsJPG() {
+            // چک کردن سلول‌های ناقص
+            if (!checkIncompleteBeforeExport()) return;
+
             var element = document.getElementById('capture-area');
             var dateEditor = document.querySelector('.date-editor');
             var btnGroup = document.querySelector('.btn-group');
@@ -5484,6 +5472,9 @@
         }
 
         function captureAsPDF() {
+            // چک کردن سلول‌های ناقص
+            if (!checkIncompleteBeforeExport()) return;
+
             var element = document.getElementById('capture-area');
             var dateEditor = document.querySelector('.date-editor');
             var btnGroup = document.querySelector('.btn-group');
@@ -5688,50 +5679,37 @@
             });
         }
 
-        // ============================================================
-        // شروع برنامه - بارگذاری از Google Sheets
-        // ============================================================
-
         async function initFromCloud() {
             showNotification('⏳ در حال بارگذاری از Google Sheets...', false);
 
             var cloudData = await loadFromCloud();
 
             if (cloudData) {
-                // تیم‌ها
                 if (Array.isArray(cloudData.teams) && cloudData.teams.length > 0) {
                     teamNames = cloudData.teams;
                 } else {
                     teamNames = DEFAULT_TEAMS.slice();
                 }
-
-                // زمین‌ها
                 if (Array.isArray(cloudData.venues) && cloudData.venues.length > 0) {
                     venues = cloudData.venues;
                 } else {
                     venues = DEFAULT_VENUES.slice();
                 }
-
-                // تنظیمات سانس
+                loadVenueColors();
                 sessionConfig = normalizeSessionConfig(cloudData.sessionConfig);
-
-                // برنامه
                 tableData = normalizeScheduleData(cloudData.scheduleData, teamNames.length);
-
-                // تاریخ
                 if (cloudData.date) {
                     applyDateString(cloudData.date);
                 } else {
                     setDefaultDate();
                     applyDateString(document.getElementById('dateDisplay').textContent);
                 }
-
                 isCloudReady = true;
                 showNotification('✅ داده‌ها از Google Sheets بارگذاری شد', false);
             } else {
-                // اگر کلود در دسترس نبود، با پیش‌فرض شروع کن
                 teamNames = DEFAULT_TEAMS.slice();
                 venues = DEFAULT_VENUES.slice();
+                loadVenueColors();
                 sessionConfig = getDefaultSessionConfig();
                 tableData = getEmptyData();
                 setDefaultDate();
@@ -5744,7 +5722,6 @@
             updateFloatingBadge();
             dataReady = true;
 
-            // اگر کاربر با رمز مشاهده وارد شده، تصویر را بساز
             if (currentRole === 'view' || pendingViewImage) {
                 pendingViewImage = false;
                 enableViewOnlyMode();
@@ -5766,8 +5743,6 @@
                         addNewTeam(); }
                 });
             }
-
-            // شروع بارگذاری از کلود
             initFromCloud();
         });
 
