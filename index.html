@@ -803,6 +803,9 @@
             transition: background 0.2s;
             width: 100%;
             max-width: 105px;
+            -webkit-tap-highlight-color: rgba(64, 64, 64, 0.15);
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .slot .time-display:hover {
@@ -4742,13 +4745,15 @@
 
             var timeDisplay = document.createElement('div');
             timeDisplay.className = 'time-display';
-            timeDisplay.addEventListener('dblclick', function(e) {
-                e.stopPropagation();
+
+            // ===== تابع ویرایش دستی ساعت =====
+            var openManualEditor = function() {
                 var lockCheckbox = document.getElementById('lockCheckbox');
                 if (lockCheckbox && lockCheckbox.checked) return;
                 var current = tableData[rowIdx][colIdx];
                 if (!current) return;
                 if (!current.venue && !current.time && !current.activityType) return;
+                if (current.manualEditing) return;
                 if (!current.manual) {
                     current.startTime = current.time || '';
                     current.endTime = current.time ? getEndTime(current.time) : '';
@@ -4760,9 +4765,31 @@
                 updateInputStyle(startInput);
                 updateInputStyle(endInput);
                 updateSlotDisplay(slotDiv);
-                setTimeout(function() { startInput.focus();
-                    startInput.select(); }, 30);
+                setTimeout(function() {
+                    startInput.focus();
+                    try { startInput.select(); } catch (e) {}
+                }, 50);
+            };
+
+            // دسکتاپ: دوبار کلیک
+            timeDisplay.addEventListener('dblclick', function(e) {
+                e.stopPropagation();
+                openManualEditor();
             });
+
+            // موبایل: یک لمس (touchend)
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                var lastTouchTime = 0;
+                timeDisplay.addEventListener('touchend', function(e) {
+                    var now = Date.now();
+                    // فقط اگر با دبل‌کلیک تداخل نداشته باشد
+                    if (now - lastTouchTime < 300) return;
+                    lastTouchTime = now;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openManualEditor();
+                }, { passive: false });
+            }
 
             var typeDisplay = document.createElement('div');
             typeDisplay.className = 'type-display';
@@ -4848,27 +4875,28 @@
                 saveData(tableData);
             });
 
+            // دوبار کلیک روی کل سلول (دسکتاپ)
             slotDiv.addEventListener('dblclick', function(e) {
                 if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn')) return;
-                var lockCheckbox = document.getElementById('lockCheckbox');
-                if (lockCheckbox && lockCheckbox.checked) return;
-                var current = tableData[rowIdx][colIdx];
-                if (!current) return;
-                if (!current.venue && !current.time && !current.activityType) return;
-                if (!current.manual) {
-                    current.startTime = current.time || '';
-                    current.endTime = current.time ? getEndTime(current.time) : '';
-                }
-                current.manual = true;
-                current.manualEditing = true;
-                startInput.value = current.startTime || '';
-                endInput.value = current.endTime || '';
-                updateInputStyle(startInput);
-                updateInputStyle(endInput);
-                updateSlotDisplay(slotDiv);
-                setTimeout(function() { startInput.focus();
-                    startInput.select(); }, 30);
+                openManualEditor();
             });
+
+            // یک لمس روی کل سلول (موبایل) - فقط اگر روی عناصر تعاملی نباشد
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                var lastSlotTouchTime = 0;
+                slotDiv.addEventListener('touchend', function(e) {
+                    // اگر روی select، input، دکمه پاک کردن یا باکس دستی بود، کاری نکن
+                    if (e.target.closest('select') || e.target.closest('input') || e.target.closest('.cell-clear-btn') || e.target.closest('.manual-time-box') || e.target.closest('.time-display')) return;
+
+                    var now = Date.now();
+                    if (now - lastSlotTouchTime < 300) return;
+                    lastSlotTouchTime = now;
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openManualEditor();
+                }, { passive: false });
+            }
 
             timeSelect.addEventListener('dblclick', function(e) {
                 e.stopPropagation();
