@@ -75,6 +75,7 @@
             padding: 10px;
         }
 
+        /* بعد از ورود: سایز دسکتاپ ثابت + اسکرول لمسی + وسط‌چین */
         body.desktop-mode {
             min-width: 1220px;
             overflow: auto;
@@ -100,6 +101,7 @@
             margin: 0 auto;
         }
 
+        /* صفحه مشاهده‌کننده (فقط عکس + دانلود) */
         #viewer-screen {
             display: none;
             position: fixed;
@@ -663,17 +665,17 @@
             display: none !important;
         }
 
-        /* ===== دکمه ویرایش ساعت - فقط موبایل ===== */
+        /* دکمه ویرایش ساعت - فقط موبایل */
         .edit-time-btn {
             display: none;
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
             border-radius: 50%;
             background: #1a5276;
             color: #fff;
             border: 2px solid #0e3a55;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 900;
             line-height: 1;
             cursor: pointer;
@@ -688,11 +690,11 @@
             bottom: 3px;
             left: 3px;
             z-index: 8;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            opacity: 0.85;
         }
 
         .edit-time-btn:active {
-            transform: scale(0.88);
+            transform: scale(0.9);
             background: #0e3a55;
         }
 
@@ -873,30 +875,104 @@
     color: #111;
 }
 
-.green { background: #b9dca5; }
-.blue { background: #8db9df; }
-.orange { background: #f2b27b; }
-.gold { background: #ffc000; }
-.purple { background: #d4a5e6; }
-.pink { background: #f5a0b0; }
-.teal { background: #7fcdcd; }
-.coral { background: #f7a58f; }
-.lime { background: #c5df8b; }
-.sky { background: #9fd8e5; }
-.mint { background: #a8d8c0; }
-.lavender { background: #c1b5e3; }
-.peach { background: #f3c09f; }
-.yellow { background: #f3df8a; }
-.aqua { background: #8fd9d0; }
-.salmon { background: #efa69a; }
-.rose { background: #e8a8c0; }
-.indigo { background: #a5acd9; }
-.olive { background: #b8c98a; }
-.turquoise { background: #8bcfd1; }
-.lilac { background: #d0b4d9; }
-.apricot { background: #f0c08b; }
-.mauve { background: #d2a8c4; }
-.seafoam { background: #a8d5c8; }
+.green {
+    background: #b9dca5;
+}
+
+.blue {
+    background: #8db9df;
+}
+
+.orange {
+    background: #f2b27b;
+}
+
+.gold {
+    background: #ffc000;
+}
+
+.purple {
+    background: #d4a5e6;
+}
+
+.pink {
+    background: #f5a0b0;
+}
+
+.teal {
+    background: #7fcdcd;
+}
+
+.coral {
+    background: #f7a58f;
+}
+
+
+.lime {
+    background: #c5df8b;
+}
+
+.sky {
+    background: #9fd8e5;
+}
+
+.mint {
+    background: #a8d8c0;
+}
+
+.lavender {
+    background: #c1b5e3;
+}
+
+.peach {
+    background: #f3c09f;
+}
+
+.yellow {
+    background: #f3df8a;
+}
+
+.aqua {
+    background: #8fd9d0;
+}
+
+.salmon {
+    background: #efa69a;
+}
+
+.rose {
+    background: #e8a8c0;
+}
+
+.indigo {
+    background: #a5acd9;
+}
+
+.olive {
+    background: #b8c98a;
+}
+
+.turquoise {
+    background: #8bcfd1;
+}
+
+.lilac {
+    background: #d0b4d9;
+}
+
+.apricot {
+    background: #f0c08b;
+}
+
+.mauve {
+    background: #d2a8c4;
+}
+
+.seafoam {
+    background: #a8d5c8;
+}
+
+/* رنگ مسابقات */
 
 .match-official {
     background-color: #ff4d4d !important;
@@ -905,7 +981,6 @@
 .match-friendly {
     background-color: #d3d3d3 !important;
 }
-
         .bottom-note {
             display: flex;
             justify-content: center;
@@ -917,8 +992,13 @@
             flex-wrap: wrap;
         }
 
-        .bottom-note .gray-word { color: #555; }
-        .bottom-note .red-word { color: #c40000; }
+        .bottom-note .gray-word {
+            color: #555;
+        }
+
+        .bottom-note .red-word {
+            color: #c40000;
+        }
 
         .btn-group {
             display: flex;
@@ -1018,9 +1098,17 @@
             background: #f0f0f0;
         }
 
-        .btn-group .dropdown-wrapper .dropdown-content button.excel-btn { color: #1a6e3a; }
-        .btn-group .dropdown-wrapper .dropdown-content button.pdf-btn { color: #b22222; }
-        .btn-group .dropdown-wrapper .dropdown-content button.jpg-btn { color: #1a5276; }
+        .btn-group .dropdown-wrapper .dropdown-content button.excel-btn {
+            color: #1a6e3a;
+        }
+
+        .btn-group .dropdown-wrapper .dropdown-content button.pdf-btn {
+            color: #b22222;
+        }
+
+        .btn-group .dropdown-wrapper .dropdown-content button.jpg-btn {
+            color: #1a5276;
+        }
 
         .btn-group .excel-import-btn {
             background: #1a6e3a;
@@ -1141,6 +1229,10 @@
             opacity: 1;
         }
 
+        /* =========================================================
+           مودال‌ها
+        ========================================================= */
+
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1219,9 +1311,18 @@
             justify-content: center;
             font-weight: 900;
         }
-        .modal-icon.team-icon { background: #00e676; color: #004d40; }
-        .modal-icon.venue-icon { background: #ce93d8; color: #4a148c; }
-        .modal-icon.session-icon { background: #f1c40f; color: #2c3e50; }
+        .modal-icon.team-icon {
+            background: #00e676;
+            color: #004d40;
+        }
+        .modal-icon.venue-icon {
+            background: #ce93d8;
+            color: #4a148c;
+        }
+        .modal-icon.session-icon {
+            background: #f1c40f;
+            color: #2c3e50;
+        }
 
         .modal-title {
             margin: 0;
@@ -1238,9 +1339,15 @@
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
             opacity: .85;
         }
-        .modal-subtitle.team-sub { color: #00e676; }
-        .modal-subtitle.venue-sub { color: #ce93d8; }
-        .modal-subtitle.session-sub { color: #f1c40f; }
+        .modal-subtitle.team-sub {
+            color: #00e676;
+        }
+        .modal-subtitle.venue-sub {
+            color: #ce93d8;
+        }
+        .modal-subtitle.session-sub {
+            color: #f1c40f;
+        }
 
         .modal-close {
             width: 28px;
@@ -1268,9 +1375,17 @@
             max-height: calc(85vh - 130px);
             overflow: auto;
         }
-        .modal-content::-webkit-scrollbar { width: 4px; }
-        .modal-content::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
-        .modal-content::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+        .modal-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
 
         .modal-help {
             margin: 0 0 6px;
@@ -1294,8 +1409,13 @@
             max-height: 300px;
             overflow-y: auto;
         }
-        .modal-list::-webkit-scrollbar { width: 3px; }
-        .modal-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+        .modal-list::-webkit-scrollbar {
+            width: 3px;
+        }
+        .modal-list::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
 
         .modal-item {
             display: flex;
@@ -1306,8 +1426,12 @@
             background: #fafafa;
             transition: background .15s;
         }
-        .modal-item:last-child { border-bottom: none; }
-        .modal-item:hover { background: #f5f5f5; }
+        .modal-item:last-child {
+            border-bottom: none;
+        }
+        .modal-item:hover {
+            background: #f5f5f5;
+        }
 
         .modal-item .item-name {
             font-weight: 700;
@@ -1340,9 +1464,18 @@
             color: #111;
             transition: border-color .2s;
         }
-        .modal-item .item-input:focus { border-color: #555; box-shadow: 0 0 0 3px rgba(64, 64, 64, 0.1); }
-        .modal-item .item-input.team-input:focus { border-color: #00695c; box-shadow: 0 0 0 3px rgba(0, 105, 92, 0.15); }
-        .modal-item .item-input.venue-input:focus { border-color: #6a1b9a; box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.15); }
+        .modal-item .item-input:focus {
+            border-color: #555;
+            box-shadow: 0 0 0 3px rgba(64, 64, 64, 0.1);
+        }
+        .modal-item .item-input.team-input:focus {
+            border-color: #00695c;
+            box-shadow: 0 0 0 3px rgba(0, 105, 92, 0.15);
+        }
+        .modal-item .item-input.venue-input:focus {
+            border-color: #6a1b9a;
+            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.15);
+        }
 
         .item-actions {
             display: flex;
@@ -1359,14 +1492,34 @@
             cursor: pointer;
             transition: .15s;
         }
-        .item-edit-btn { background: #00695c; color: #fff; }
-        .item-edit-btn:hover { background: #004d40; }
-        .item-edit-btn.venue-edit { background: #6a1b9a; }
-        .item-edit-btn.venue-edit:hover { background: #4a148c; }
-        .item-save-btn { background: #1a6e3a; color: #fff; }
-        .item-save-btn:hover { background: #0d5a2e; }
-        .item-remove-btn { background: #c62828; color: #fff; }
-        .item-remove-btn:hover { background: #b71c1c; transform: scale(1.05); }
+        .item-edit-btn {
+            background: #00695c;
+            color: #fff;
+        }
+        .item-edit-btn:hover {
+            background: #004d40;
+        }
+        .item-edit-btn.venue-edit {
+            background: #6a1b9a;
+        }
+        .item-edit-btn.venue-edit:hover {
+            background: #4a148c;
+        }
+        .item-save-btn {
+            background: #1a6e3a;
+            color: #fff;
+        }
+        .item-save-btn:hover {
+            background: #0d5a2e;
+        }
+        .item-remove-btn {
+            background: #c62828;
+            color: #fff;
+        }
+        .item-remove-btn:hover {
+            background: #b71c1c;
+            transform: scale(1.05);
+        }
 
         .modal-add-row {
             display: flex;
@@ -1387,9 +1540,18 @@
             color: #111;
             transition: border-color .2s;
         }
-        .modal-add-row input:focus { border-color: #555; box-shadow: 0 0 0 3px rgba(64, 64, 64, 0.1); }
-        .modal-add-row input.team-add-input:focus { border-color: #00695c; box-shadow: 0 0 0 3px rgba(0, 105, 92, 0.15); }
-        .modal-add-row input.venue-add-input:focus { border-color: #6a1b9a; box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.15); }
+        .modal-add-row input:focus {
+            border-color: #555;
+            box-shadow: 0 0 0 3px rgba(64, 64, 64, 0.1);
+        }
+        .modal-add-row input.team-add-input:focus {
+            border-color: #00695c;
+            box-shadow: 0 0 0 3px rgba(0, 105, 92, 0.15);
+        }
+        .modal-add-row input.venue-add-input:focus {
+            border-color: #6a1b9a;
+            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.15);
+        }
         .modal-add-row button {
             padding: 5px 16px;
             background: #1f7a46;
@@ -1403,7 +1565,10 @@
             transition: .15s;
             white-space: nowrap;
         }
-        .modal-add-row button:hover { background: #19663a; transform: scale(1.02); }
+        .modal-add-row button:hover {
+            background: #19663a;
+            transform: scale(1.02);
+        }
 
         .modal-warning {
             font-size: 11px;
@@ -1417,7 +1582,9 @@
             border-radius: 4px;
             border-right: 3px solid #c62828;
         }
-        .modal-warning.show { display: block; }
+        .modal-warning.show {
+            display: block;
+        }
 
         .modal-note {
             font-size: 11px;
@@ -1454,8 +1621,17 @@
             align-items: center;
             gap: 4px;
         }
-        .modal-close-btn { background: #e8eaed; color: #555; }
-        .modal-close-btn:hover { background: #d5d8dd; }
+        .modal-close-btn {
+            background: #e8eaed;
+            color: #555;
+        }
+        .modal-close-btn:hover {
+            background: #d5d8dd;
+        }
+
+        /* =========================================================
+           مودال سانس
+        ========================================================= */
 
         .session-modal {
             width: min(600px, 96%);
@@ -1476,8 +1652,14 @@
             border-radius: 8px;
             background: #fff;
         }
-        .session-table-wrap::-webkit-scrollbar { width: 3px; height: 3px; }
-        .session-table-wrap::-webkit-scrollbar-thumb { background: #2c3e50; border-radius: 3px; }
+        .session-table-wrap::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+        }
+        .session-table-wrap::-webkit-scrollbar-thumb {
+            background: #2c3e50;
+            border-radius: 3px;
+        }
 
         .session-table {
             width: 100%;
@@ -1486,7 +1668,8 @@
             table-layout: fixed;
             font-size: 11px;
         }
-        .session-table th, .session-table td {
+        .session-table th,
+        .session-table td {
             text-align: center;
             vertical-align: middle;
             padding: 3px 3px;
@@ -1523,12 +1706,17 @@
             border-left: 2px solid #2c3e50;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .session-table th:not(:first-child), .session-table td:not(:first-child) {
+        .session-table th:not(:first-child),
+        .session-table td:not(:first-child) {
             min-width: 40px;
             max-width: 50px;
         }
-        .session-table tbody tr:hover td { background: #f0f4f8; }
-        .session-table tbody tr:hover td:first-child { background: #e8ecf0; }
+        .session-table tbody tr:hover td {
+            background: #f0f4f8;
+        }
+        .session-table tbody tr:hover td:first-child {
+            background: #e8ecf0;
+        }
 
         .session-count-input {
             width: 36px;
@@ -1545,11 +1733,26 @@
             transition: .2s;
             color: #111;
         }
-        .session-count-input:focus { border-color: #2c3e50; box-shadow: 0 0 0 3px rgba(44, 62, 80, .12); }
-        .session-count-input::placeholder { color: #b0b8c4; font-size: 10px; }
-        .session-count-input.valid-limit { background: #e8f5e9; border-color: #2e7d32; }
-        .session-count-input.over-limit { background: #ffebee; border-color: #c62828; }
-        .session-count-input.no-limit { background: #fff; border-color: #d0d4d8; }
+        .session-count-input:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, .12);
+        }
+        .session-count-input::placeholder {
+            color: #b0b8c4;
+            font-size: 10px;
+        }
+        .session-count-input.valid-limit {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+        .session-count-input.over-limit {
+            background: #ffebee;
+            border-color: #c62828;
+        }
+        .session-count-input.no-limit {
+            background: #fff;
+            border-color: #d0d4d8;
+        }
 
         .session-day-label {
             font-size: 9px;
@@ -1559,6 +1762,10 @@
             text-align: center;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
+
+        /* =========================================================
+           مودال گزارش - با فونت معمولی
+        ========================================================= */
 
         .report-modal-overlay {
             position: fixed;
@@ -1621,16 +1828,27 @@
             align-items: center;
             justify-content: center;
         }
-        .report-modal-close:hover { background: #e74c3c; transform: rotate(90deg); }
+        .report-modal-close:hover {
+            background: #e74c3c;
+            transform: rotate(90deg);
+        }
 
         .report-modal-content {
             padding: 6px 10px 3px;
             max-height: calc(92vh - 55px);
             overflow: auto;
         }
-        .report-modal-content::-webkit-scrollbar { width: 4px; }
-        .report-modal-content::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 4px; }
-        .report-modal-content::-webkit-scrollbar-thumb { background: #1a5276; border-radius: 4px; }
+        .report-modal-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .report-modal-content::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        .report-modal-content::-webkit-scrollbar-thumb {
+            background: #1a5276;
+            border-radius: 4px;
+        }
 
         .report-team-card {
             border: 2px solid #e0e4eb;
@@ -1640,7 +1858,9 @@
             background: #fff;
             transition: box-shadow .2s;
         }
-        .report-team-card:hover { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+        .report-team-card:hover {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
 
         .report-team-header {
             background: linear-gradient(135deg, #2c3e50, #34495e);
@@ -1683,10 +1903,16 @@
             transition: .15s;
             white-space: nowrap;
         }
-        .report-team-header .team-jpg-btn:hover { background: #0d5a2e; transform: scale(1.02); }
+        .report-team-header .team-jpg-btn:hover {
+            background: #0d5a2e;
+            transform: scale(1.02);
+        }
 
-        .report-team-body { padding: 4px 8px; }
+        .report-team-body {
+            padding: 4px 8px;
+        }
 
+        /* آیتم گزارش - فشرده بدون گپ */
         .report-item {
             display: flex;
             align-items: center;
@@ -1698,17 +1924,76 @@
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
             line-height: 1.4;
         }
-        .report-item:last-child { border-bottom: none; }
+        .report-item:last-child {
+            border-bottom: none;
+        }
 
-        .report-item .r-day { font-weight: 900; min-width: 40px; color: #1a5276; font-size: 12px; flex-shrink: 0; }
-        .report-item .r-date { color: #666; font-size: 10px; min-width: 55px; flex-shrink: 0; }
-        .report-item .r-time { font-weight: 700; direction: ltr; unicode-bidi: isolate; min-width: 65px; color: #222; font-size: 11px; flex-shrink: 0; }
-        .report-item .r-venue { font-weight: 800; color: #1a6e3a; min-width: 45px; font-size: 11px; flex-shrink: 0; }
-        .report-item .r-type { font-weight: 800; color: #8b1a1a; min-width: 50px; font-size: 11px; flex-shrink: 0; }
-        .report-item .r-opponent { font-weight: 700; color: #555; white-space: pre-wrap; word-break: break-word; font-size: 10px; flex: 1; min-width: 40px; }
+        .report-item .r-day {
+            font-weight: 900;
+            min-width: 40px;
+            color: #1a5276;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        .report-item .r-date {
+            color: #666;
+            font-size: 10px;
+            min-width: 55px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            flex-shrink: 0;
+        }
+        .report-item .r-time {
+            font-weight: 700;
+            direction: ltr;
+            unicode-bidi: isolate;
+            min-width: 65px;
+            color: #222;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+        .report-item .r-venue {
+            font-weight: 800;
+            color: #1a6e3a;
+            min-width: 45px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+        .report-item .r-type {
+            font-weight: 800;
+            color: #8b1a1a;
+            min-width: 50px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+        .report-item .r-opponent {
+            font-weight: 700;
+            color: #555;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 10px;
+            flex: 1;
+            min-width: 40px;
+        }
 
-        .report-empty { color: #999; font-size: 12px; padding: 6px 0; text-align: center; }
-        .report-team-body .report-empty { padding: 8px 0; }
+        .report-empty {
+            color: #999;
+            font-size: 12px;
+            padding: 6px 0;
+            text-align: center;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .report-team-body .report-empty {
+            padding: 8px 0;
+        }
+
+        /* =========================================================
+           خروجی JPG گزارش تیم - با فونت معمولی و بدون گپ
+        ========================================================= */
 
         .report-team-export {
             background: #fff;
@@ -1753,15 +2038,76 @@
             flex-wrap: nowrap;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .report-team-export .export-item:last-child { border-bottom: none; }
-        .report-team-export .export-item .e-day { font-weight: 900; min-width: 32px; color: #1a5276; font-size: 11px; }
-        .report-team-export .export-item .e-date { color: #666; font-size: 9px; min-width: 42px; }
-        .report-team-export .export-item .e-time { font-weight: 700; direction: ltr; unicode-bidi: isolate; min-width: 50px; color: #222; font-size: 10px; }
-        .report-team-export .export-item .e-venue { font-weight: 800; color: #1a6e3a; min-width: 35px; font-size: 10px; }
-        .report-team-export .export-item .e-type { font-weight: 800; color: #8b1a1a; min-width: 38px; font-size: 10px; }
-        .report-team-export .export-item .e-opponent { font-weight: 700; color: #555; white-space: pre-wrap; word-break: break-word; font-size: 9px; flex: 1; min-width: 30px; }
-        .report-team-export .export-empty { text-align: center; color: #999; padding: 10px 0; font-weight: 700; font-size: 12px; }
-        .report-team-export .export-footer { border-top: 1px solid #eee; margin-top: 4px; padding-top: 4px; text-align: center; font-size: 9px; color: #999; }
+        .report-team-export .export-item:last-child {
+            border-bottom: none;
+        }
+        .report-team-export .export-item .e-day {
+            font-weight: 900;
+            min-width: 32px;
+            color: #1a5276;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 11px;
+        }
+        .report-team-export .export-item .e-date {
+            color: #666;
+            font-size: 9px;
+            min-width: 42px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .report-team-export .export-item .e-time {
+            font-weight: 700;
+            direction: ltr;
+            unicode-bidi: isolate;
+            min-width: 50px;
+            color: #222;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 10px;
+        }
+        .report-team-export .export-item .e-venue {
+            font-weight: 800;
+            color: #1a6e3a;
+            min-width: 35px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 10px;
+        }
+        .report-team-export .export-item .e-type {
+            font-weight: 800;
+            color: #8b1a1a;
+            min-width: 38px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 10px;
+        }
+        .report-team-export .export-item .e-opponent {
+            font-weight: 700;
+            color: #555;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 9px;
+            flex: 1;
+            min-width: 30px;
+        }
+        .report-team-export .export-empty {
+            text-align: center;
+            color: #999;
+            padding: 10px 0;
+            font-weight: 700;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+            font-size: 12px;
+        }
+        .report-team-export .export-footer {
+            border-top: 1px solid #eee;
+            margin-top: 4px;
+            padding-top: 4px;
+            text-align: center;
+            font-size: 9px;
+            color: #999;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+
+        /* =========================================================
+           بقیه استایل‌ها
+        ========================================================= */
 
         .no-print {}
 
@@ -1786,30 +2132,116 @@
             line-height: 1.4 !important;
         }
 
-        .slot.locked-view .print-text .venue-text { font-size: 14px !important; font-weight: 800; }
-        .slot.locked-view .print-text .type-text { font-size: 12px !important; font-weight: 900; }
-        .slot.locked-view .print-text .opponent-text { font-size: 11px !important; font-weight: 800; white-space: pre-wrap; word-break: break-word; }
-        .slot.locked-view .print-text .time-text { font-size: 12px !important; font-weight: 700; direction: ltr !important; unicode-bidi: bidi-override !important; }
+        .slot.locked-view .print-text .venue-text {
+            font-size: 14px !important;
+            font-weight: 800;
+        }
 
-        .slot.locked-view .empty-label { display: none !important; }
-        .slot.locked-view.is-empty .print-text { display: none !important; }
-        .slot.locked-view.is-empty .empty-label { display: block !important; font-size: 16px !important; }
+        .slot.locked-view .print-text .type-text {
+            font-size: 12px !important;
+            font-weight: 900;
+        }
 
-        .export-mode .slot.locked-view { min-height: 65px !important; padding: 6px 3px !important; }
-        .export-mode .slot.locked-view .print-text .venue-text { font-size: 18px !important; }
-        .export-mode .slot.locked-view .print-text .type-text { font-size: 16px !important; }
-        .export-mode .slot.locked-view .print-text .opponent-text { font-size: 14px !important; white-space: pre-wrap; word-break: break-word; }
-        .export-mode .slot.locked-view .print-text .time-text { font-size: 16px !important; }
-        .export-mode .slot.locked-view.is-empty .empty-label { font-size: 20px !important; }
-        .export-mode thead th { font-size: 18px !important; height: 45px !important; padding: 5px 4px !important; }
-        .export-mode thead th .day-name { font-size: 19px !important; }
-        .export-mode thead th .day-date { font-size: 15px !important; }
-        .export-mode td.team, .export-mode th.team { font-size: 18px !important; padding: 6px 5px !important; }
-        .export-mode .header-title .title { font-size: 22px !important; }
-        .export-mode .header-title .date-wrapper { padding: 8px 24px !important; border-width: 3px !important; border-color: #f9a825 !important; background-color: #fff9c4 !important; border-radius: 10px !important; }
-        .export-mode .header-title .date-display { font-size: 20px !important; padding: 4px 8px !important; min-width: 280px !important; }
-        .export-mode .bottom-note { font-size: 18px !important; gap: 25px !important; }
-        .export-mode .header-logo { width: 70px !important; }
+        .slot.locked-view .print-text .opponent-text {
+            font-size: 11px !important;
+            font-weight: 800;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .slot.locked-view .print-text .time-text {
+            font-size: 12px !important;
+            font-weight: 700;
+            direction: ltr !important;
+            unicode-bidi: bidi-override !important;
+        }
+
+        .slot.locked-view .empty-label {
+            display: none !important;
+        }
+
+        .slot.locked-view.is-empty .print-text {
+            display: none !important;
+        }
+
+        .slot.locked-view.is-empty .empty-label {
+            display: block !important;
+            font-size: 16px !important;
+        }
+
+        .export-mode .slot.locked-view {
+            min-height: 65px !important;
+            padding: 6px 3px !important;
+        }
+
+        .export-mode .slot.locked-view .print-text .venue-text {
+            font-size: 18px !important;
+        }
+
+        .export-mode .slot.locked-view .print-text .type-text {
+            font-size: 16px !important;
+        }
+
+        .export-mode .slot.locked-view .print-text .opponent-text {
+            font-size: 14px !important;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .export-mode .slot.locked-view .print-text .time-text {
+            font-size: 16px !important;
+        }
+
+        .export-mode .slot.locked-view.is-empty .empty-label {
+            font-size: 20px !important;
+        }
+
+        .export-mode thead th {
+            font-size: 18px !important;
+            height: 45px !important;
+            padding: 5px 4px !important;
+        }
+
+        .export-mode thead th .day-name {
+            font-size: 19px !important;
+        }
+
+        .export-mode thead th .day-date {
+            font-size: 15px !important;
+        }
+
+        .export-mode td.team,
+        .export-mode th.team {
+            font-size: 18px !important;
+            padding: 6px 5px !important;
+        }
+
+        .export-mode .header-title .title {
+            font-size: 22px !important;
+        }
+
+        .export-mode .header-title .date-wrapper {
+            padding: 8px 24px !important;
+            border-width: 3px !important;
+            border-color: #f9a825 !important;
+            background-color: #fff9c4 !important;
+            border-radius: 10px !important;
+        }
+
+        .export-mode .header-title .date-display {
+            font-size: 20px !important;
+            padding: 4px 8px !important;
+            min-width: 280px !important;
+        }
+
+        .export-mode .bottom-note {
+            font-size: 18px !important;
+            gap: 25px !important;
+        }
+
+        .export-mode .header-logo {
+            width: 70px !important;
+        }
 
         .floating-session-btn {
             position: fixed;
@@ -1833,7 +2265,11 @@
             user-select: none;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .floating-session-btn:hover { transform: scale(1.08); background: #555; box-shadow: 0 8px 35px rgba(0, 0, 0, 0.45); }
+        .floating-session-btn:hover {
+            transform: scale(1.08);
+            background: #555;
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.45);
+        }
         .floating-session-btn .badge {
             position: absolute;
             top: -6px;
@@ -1851,7 +2287,9 @@
             border: 2px solid #fff;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .floating-session-btn .badge.zero { background: #2e7d32; }
+        .floating-session-btn .badge.zero {
+            background: #2e7d32;
+        }
 
         .session-hover-card {
             position: fixed;
@@ -1871,7 +2309,10 @@
             direction: rtl;
             transition: opacity 0.25s ease;
         }
-        .session-hover-card.active { display: block; animation: fadeInUp 0.2s ease-out; }
+        .session-hover-card.active {
+            display: block;
+            animation: fadeInUp 0.2s ease-out;
+        }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1888,7 +2329,14 @@
             justify-content: space-between;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .session-hover-card .card-title span { background: #404040; color: #fff900; padding: 2px 10px; border-radius: 20px; font-size: 11px; }
+        .session-hover-card .card-title span {
+            background: #404040;
+            color: #fff900;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
         .session-hover-card .card-item {
             display: flex;
             align-items: center;
@@ -1900,10 +2348,27 @@
             flex-wrap: wrap;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .session-hover-card .card-item:last-child { border-bottom: none; }
-        .session-hover-card .card-item .v-name { font-weight: 900; color: #222; min-width: 70px; }
-        .session-hover-card .card-item .day-status { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
-        .session-hover-card .card-item .day-status .d-name { color: #666; font-weight: 700; font-size: 10px; }
+        .session-hover-card .card-item:last-child {
+            border-bottom: none;
+        }
+        .session-hover-card .card-item .v-name {
+            font-weight: 900;
+            color: #222;
+            min-width: 70px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .session-hover-card .card-item .day-status {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+        .session-hover-card .card-item .day-status .d-name {
+            color: #666;
+            font-weight: 700;
+            font-size: 10px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
         .session-hover-card .card-item .day-status .d-badge {
             display: inline-block;
             min-width: 22px;
@@ -1914,11 +2379,28 @@
             font-size: 11px;
             line-height: 20px;
             margin: 0 1px;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .session-hover-card .card-item .day-status .d-badge.full { background: #ffebee; color: #c62828; }
-        .session-hover-card .card-item .day-status .d-badge.available { background: #e8f5e9; color: #2e7d32; }
-        .session-hover-card .card-item .day-status .d-badge.empty { background: #f5f5f5; color: #888; }
-        .session-hover-card .no-limit-text { text-align: center; color: #888; font-weight: 700; font-size: 13px; padding: 12px 0; }
+        .session-hover-card .card-item .day-status .d-badge.full {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .session-hover-card .card-item .day-status .d-badge.available {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .session-hover-card .card-item .day-status .d-badge.empty {
+            background: #f5f5f5;
+            color: #888;
+        }
+        .session-hover-card .no-limit-text {
+            text-align: center;
+            color: #888;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 12px 0;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
 
         .import-notification {
             position: fixed;
@@ -1938,8 +2420,12 @@
             direction: rtl;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .import-notification.show { display: block; }
-        .import-notification.error { background: #c62828; }
+        .import-notification.show {
+            display: block;
+        }
+        .import-notification.error {
+            background: #c62828;
+        }
 
         @media print {
             .floating-session-btn,
@@ -2033,24 +2519,57 @@
             .session-hover-card .card-item .day-status .d-badge { font-size: 10px; min-width: 18px; line-height: 18px; }
 
             .edit-time-btn {
-                width: 26px;
-                height: 26px;
-                min-width: 26px;
-                font-size: 14px;
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+                font-size: 11px;
                 bottom: 2px;
                 left: 2px;
             }
 
-            .report-modal { width: 98%; max-height: 95vh; border-radius: 12px; }
-            .report-modal-header { padding: 6px 10px; border-radius: 12px 12px 0 0; }
-            .report-modal-title { font-size: 12px; }
-            .report-modal-content { padding: 4px 6px 2px; max-height: calc(95vh - 50px); }
-            .report-team-card { border-radius: 6px; margin-bottom: 6px; }
-            .report-team-header { font-size: 11px; padding: 4px 8px; flex-wrap: wrap; }
-            .report-team-header .header-left { gap: 4px; }
-            .report-team-header .count-badge { font-size: 9px; padding: 0 6px; }
-            .report-team-header .team-jpg-btn { font-size: 8px; padding: 1px 6px; }
-            .report-team-body { padding: 3px 4px; }
+            .report-modal {
+                width: 98%;
+                max-height: 95vh;
+                border-radius: 12px;
+            }
+            .report-modal-header {
+                padding: 6px 10px;
+                border-radius: 12px 12px 0 0;
+            }
+            .report-modal-title {
+                font-size: 12px;
+            }
+            .report-modal-content {
+                padding: 4px 6px 2px;
+                max-height: calc(95vh - 50px);
+            }
+
+            .report-team-card {
+                border-radius: 6px;
+                margin-bottom: 6px;
+            }
+            .report-team-header {
+                font-size: 11px;
+                padding: 4px 8px;
+                flex-wrap: wrap;
+            }
+            .report-team-header .header-left {
+                gap: 4px;
+            }
+            .report-team-header .count-badge {
+                font-size: 9px;
+                padding: 0 6px;
+            }
+            .report-team-header .team-jpg-btn {
+                font-size: 8px;
+                padding: 1px 6px;
+            }
+
+            .report-team-body {
+                padding: 3px 4px;
+            }
+
+            /* آیتم گزارش در موبایل - با Grid و بدون گپ */
             .report-item {
                 display: grid;
                 grid-template-columns: auto auto 1fr;
@@ -2060,13 +2579,62 @@
                 border-bottom: 1px solid #f0f2f6;
                 align-items: center;
             }
-            .report-item .r-day { font-size: 10px; min-width: auto; grid-column: 1; grid-row: 1; color: #1a5276; font-weight: 900; }
-            .report-item .r-date { font-size: 8px; min-width: auto; grid-column: 2; grid-row: 1; color: #888; }
-            .report-item .r-time { font-size: 9px; min-width: auto; grid-column: 3; grid-row: 1; font-weight: 700; color: #222; text-align: left; direction: ltr; }
-            .report-item .r-venue { font-size: 9px; min-width: auto; grid-column: 1; grid-row: 2; color: #1a6e3a; font-weight: 800; }
-            .report-item .r-type { font-size: 9px; min-width: auto; grid-column: 2; grid-row: 2; color: #8b1a1a; font-weight: 800; }
-            .report-item .r-opponent { font-size: 8px; min-width: auto; grid-column: 3; grid-row: 2; color: #555; font-weight: 700; text-align: left; word-break: break-word; }
-            .report-empty { font-size: 10px; padding: 4px 0; }
+            .report-item .r-day {
+                font-size: 10px;
+                min-width: auto;
+                grid-column: 1;
+                grid-row: 1;
+                color: #1a5276;
+                font-weight: 900;
+            }
+            .report-item .r-date {
+                font-size: 8px;
+                min-width: auto;
+                grid-column: 2;
+                grid-row: 1;
+                color: #888;
+            }
+            .report-item .r-time {
+                font-size: 9px;
+                min-width: auto;
+                grid-column: 3;
+                grid-row: 1;
+                font-weight: 700;
+                color: #222;
+                text-align: left;
+                direction: ltr;
+            }
+            .report-item .r-venue {
+                font-size: 9px;
+                min-width: auto;
+                grid-column: 1;
+                grid-row: 2;
+                color: #1a6e3a;
+                font-weight: 800;
+            }
+            .report-item .r-type {
+                font-size: 9px;
+                min-width: auto;
+                grid-column: 2;
+                grid-row: 2;
+                color: #8b1a1a;
+                font-weight: 800;
+            }
+            .report-item .r-opponent {
+                font-size: 8px;
+                min-width: auto;
+                grid-column: 3;
+                grid-row: 2;
+                color: #555;
+                font-weight: 700;
+                text-align: left;
+                word-break: break-word;
+            }
+
+            .report-empty {
+                font-size: 10px;
+                padding: 4px 0;
+            }
 
             .modal-box { width: 98%; }
             .modal-item { padding: 4px 8px; flex-wrap: wrap; gap: 4px; }
@@ -2086,6 +2654,7 @@
             background: rgba(64, 64, 64, 0.15);
         }
 
+        /* ========== صفحه ورود ========== */
         #login-overlay {
             position: fixed;
             inset: 0;
@@ -2096,7 +2665,9 @@
             z-index: 999999;
             direction: rtl;
         }
-        #login-overlay.hidden { display: none !important; }
+        #login-overlay.hidden {
+            display: none !important;
+        }
         .login-box {
             background: #fff;
             border-radius: 16px;
@@ -2105,9 +2676,24 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.35);
             text-align: center;
         }
-        .login-box .login-logo { width: 70px; height: auto; margin-bottom: 12px; }
-        .login-box h2 { margin: 0 0 6px; font-size: 16px; font-weight: 900; color: #0e3145; font-family: "Vazirmatn", Tahoma, sans-serif !important; }
-        .login-box p { margin: 0 0 18px; font-size: 12px; color: #666; font-family: "Vazirmatn", Tahoma, sans-serif !important; }
+        .login-box .login-logo {
+            width: 70px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+        .login-box h2 {
+            margin: 0 0 6px;
+            font-size: 16px;
+            font-weight: 900;
+            color: #0e3145;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .login-box p {
+            margin: 0 0 18px;
+            font-size: 12px;
+            color: #666;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
         .login-box input {
             width: 100%;
             padding: 10px 14px;
@@ -2123,7 +2709,10 @@
             margin-bottom: 12px;
             transition: border-color 0.2s;
         }
-        .login-box input:focus { border-color: #0e3145; box-shadow: 0 0 0 3px rgba(14,49,69,0.15); }
+        .login-box input:focus {
+            border-color: #0e3145;
+            box-shadow: 0 0 0 3px rgba(14,49,69,0.15);
+        }
         .login-box button {
             width: 100%;
             padding: 10px;
@@ -2137,29 +2726,77 @@
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
             transition: all 0.2s;
         }
-        .login-box button:hover { background: #1a5276; transform: scale(1.02); }
-        .login-error { color: #c62828; font-size: 12px; font-weight: 700; margin-top: 10px; display: none; font-family: "Vazirmatn", Tahoma, sans-serif !important; }
-        .login-error.show { display: block; }
-        #app-content { display: none; width: 100%; }
-        #app-content.visible { display: block; }
-        body.desktop-mode #app-content { min-width: 1200px; }
-
-        body.view-only-mode .no-print { display: none !important; }
-        body.view-only-mode .cell-clear-btn { display: none !important; }
-        body.view-only-mode .edit-time-btn { display: none !important; }
-        body.view-only-mode .floating-session-btn,
-        body.view-only-mode .session-hover-card { display: none !important; }
-        body.view-only-mode .btn-group,
-        body.view-only-mode .date-editor { display: none !important; }
-
-        @media screen and (max-width: 600px) {
-            .login-box { padding: 28px 20px; width: min(340px, 90%); }
-            .login-box h2 { font-size: 17px; }
-            .login-box p { font-size: 13px; }
-            .login-box input { font-size: 20px; padding: 14px 12px; letter-spacing: 6px; }
-            .login-box button { font-size: 16px; padding: 14px; }
+        .login-box button:hover {
+            background: #1a5276;
+            transform: scale(1.02);
+        }
+        .login-error {
+            color: #c62828;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 10px;
+            display: none;
+            font-family: "Vazirmatn", Tahoma, sans-serif !important;
+        }
+        .login-error.show {
+            display: block;
+        }
+        #app-content {
+            display: none;
+            width: 100%;
+        }
+        #app-content.visible {
+            display: block;
+        }
+        body.desktop-mode #app-content {
+            min-width: 1200px;
         }
 
+        /* حالت فقط مشاهده (رمز 1953) */
+        body.view-only-mode .no-print {
+            display: none !important;
+        }
+        body.view-only-mode .cell-clear-btn {
+            display: none !important;
+        }
+        body.view-only-mode .edit-time-btn {
+            display: none !important;
+        }
+        body.view-only-mode .floating-session-btn,
+        body.view-only-mode .session-hover-card {
+            display: none !important;
+        }
+        body.view-only-mode .btn-group,
+        body.view-only-mode .date-editor {
+            display: none !important;
+        }
+
+        /* صفحه ورود روی موبایل خوانا و بزرگ */
+        @media screen and (max-width: 600px) {
+            .login-box {
+                padding: 28px 20px;
+                width: min(340px, 90%);
+            }
+            .login-box h2 {
+                font-size: 17px;
+            }
+            .login-box p {
+                font-size: 13px;
+            }
+            .login-box input {
+                font-size: 20px;
+                padding: 14px 12px;
+                letter-spacing: 6px;
+            }
+            .login-box button {
+                font-size: 16px;
+                padding: 14px;
+            }
+        }
+
+        /* =========================================================
+           مودال هشدار سلول‌های ناقص
+        ========================================================= */
         .incomplete-modal-overlay {
             position: fixed;
             inset: 0;
@@ -2221,10 +2858,22 @@
             align-items: center;
             justify-content: center;
         }
-        .incomplete-modal-close:hover { background: #e74c3c; transform: rotate(90deg); }
-        .incomplete-modal-body { padding: 12px 16px; overflow-y: auto; flex: 1; }
-        .incomplete-modal-body::-webkit-scrollbar { width: 5px; }
-        .incomplete-modal-body::-webkit-scrollbar-thumb { background: #d97706; border-radius: 5px; }
+        .incomplete-modal-close:hover {
+            background: #e74c3c;
+            transform: rotate(90deg);
+        }
+        .incomplete-modal-body {
+            padding: 12px 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .incomplete-modal-body::-webkit-scrollbar {
+            width: 5px;
+        }
+        .incomplete-modal-body::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 5px;
+        }
         .incomplete-intro {
             font-size: 13px;
             font-weight: 700;
@@ -2237,7 +2886,11 @@
             line-height: 1.6;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .incomplete-list { list-style: none; margin: 0; padding: 0; }
+        .incomplete-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
         .incomplete-list li {
             background: #fef2f2;
             border: 1px solid #fecaca;
@@ -2247,10 +2900,29 @@
             margin-bottom: 6px;
             font-family: "Vazirmatn", Tahoma, sans-serif !important;
         }
-        .incomplete-list li .inc-team { font-weight: 900; font-size: 13px; color: #7f1d1d; margin-bottom: 3px; display: block; }
-        .incomplete-list li .inc-loc { font-size: 11px; color: #6b7280; font-weight: 700; margin-bottom: 4px; display: block; }
-        .incomplete-list li .inc-problems { font-size: 12px; color: #b91c1c; font-weight: 800; display: block; }
-        .incomplete-list li .inc-problems::before { content: '⚠ '; }
+        .incomplete-list li .inc-team {
+            font-weight: 900;
+            font-size: 13px;
+            color: #7f1d1d;
+            margin-bottom: 3px;
+            display: block;
+        }
+        .incomplete-list li .inc-loc {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .incomplete-list li .inc-problems {
+            font-size: 12px;
+            color: #b91c1c;
+            font-weight: 800;
+            display: block;
+        }
+        .incomplete-list li .inc-problems::before {
+            content: '⚠ ';
+        }
         .incomplete-more {
             text-align: center;
             font-size: 12px;
@@ -2281,10 +2953,22 @@
             cursor: pointer;
             transition: all .2s;
         }
-        .incomplete-cancel-btn { background: #e8eaed; color: #444; border-color: #ccc !important; }
-        .incomplete-cancel-btn:hover { background: #d5d8dd; }
-        .incomplete-confirm-btn { background: #b45309; color: #fff; }
-        .incomplete-confirm-btn:hover { background: #92400e; transform: scale(1.03); }
+        .incomplete-cancel-btn {
+            background: #e8eaed;
+            color: #444;
+            border-color: #ccc !important;
+        }
+        .incomplete-cancel-btn:hover {
+            background: #d5d8dd;
+        }
+        .incomplete-confirm-btn {
+            background: #b45309;
+            color: #fff;
+        }
+        .incomplete-confirm-btn:hover {
+            background: #92400e;
+            transform: scale(1.03);
+        }
 
     </style>
 
@@ -2412,6 +3096,7 @@
             </label>
         </div>
 
+        <!-- مودال ویرایش سانس -->
         <div class="modal-overlay no-print" id="sessionModalOverlay" onclick="handleSessionOverlayClick(event)">
             <div class="session-modal">
                 <div class="modal-header session-header">
@@ -2456,6 +3141,7 @@
             </div>
         </div>
 
+        <!-- مودال مدیریت زمین‌ها -->
         <div class="modal-overlay no-print" id="venueModalOverlay" onclick="handleVenueOverlayClick(event)">
             <div class="modal-box">
                 <div class="modal-header venue-header">
@@ -2483,6 +3169,7 @@
             </div>
         </div>
 
+        <!-- مودال مدیریت تیم‌ها -->
         <div class="modal-overlay no-print" id="teamModalOverlay" onclick="handleTeamOverlayClick(event)">
             <div class="modal-box">
                 <div class="modal-header team-header">
@@ -2510,6 +3197,7 @@
             </div>
         </div>
 
+        <!-- مودال گزارش -->
         <div class="report-modal-overlay no-print" id="reportModalOverlay" onclick="handleReportOverlayClick(event)">
             <div class="report-modal">
                 <div class="report-modal-header">
@@ -2522,11 +3210,13 @@
 
     </div>
 
+    <!-- دکمه شناور -->
     <div class="floating-session-btn no-print" id="floatingBtn" onmouseenter="showSessionCard()" onmouseleave="hideSessionCard()" onclick="openSessionEditor()">
         📊
         <span class="badge" id="floatingBadge">0</span>
     </div>
 
+    <!-- کارت وضعیت سانس‌ها -->
     <div class="session-hover-card no-print" id="sessionHoverCard" onmouseenter="showSessionCard()" onmouseleave="hideSessionCard()">
         <div class="card-title">
             📊 وضعیت سانس‌ها
@@ -2535,9 +3225,11 @@
         <div id="hoverCardContent"></div>
     </div>
 
+    <!-- اعلان -->
     <div class="import-notification" id="importNotification"></div>
-    </div>
+    </div><!-- end #app-content -->
 
+    <!-- مودال هشدار سلول‌های ناقص (قبل از خروجی) -->
     <div class="incomplete-modal-overlay" id="incompleteModalOverlay">
         <div class="incomplete-modal">
             <div class="incomplete-modal-header">
@@ -2557,20 +3249,17 @@
     </div>
 
     <script>
-        const LOGIN_PASSWORD_ADMIN = '7160';
-        const LOGIN_PASSWORD_VIEW = '1953';
-        var currentRole = null;
+        // ============================================================
+        // کدهای جاوااسکریپت کامل
+        // ============================================================
+
+        // ========== سیستم ورود ==========
+        const LOGIN_PASSWORD_ADMIN = '7160';  // دسترسی کامل
+        const LOGIN_PASSWORD_VIEW = '1953';   // فقط مشاهده خروجی
+        var currentRole = null; // فقط در حافظه؛ با رفرش پاک می‌شود
         var viewerImageDataUrl = null;
         var dataReady = false;
         var pendingViewImage = false;
-
-        // ============================================================
-        // تشخیص دستگاه لمسی - در بالای فایل و به صورت سراسری
-        // ============================================================
-        var IS_TOUCH_DEVICE = ('ontouchstart' in window) ||
-                              (navigator.maxTouchPoints > 0) ||
-                              (navigator.msMaxTouchPoints > 0) ||
-                              (window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
 
         function enableDesktopMode() {
             document.body.classList.add('desktop-mode');
@@ -2616,6 +3305,7 @@
             if (dateEditor) dateEditor.style.display = 'none';
             if (btnGroup) btnGroup.style.display = 'none';
 
+            // بدون export-mode برای سرعت بیشتر روی موبایل
             var lockCheckbox = document.getElementById('lockCheckbox');
             if (lockCheckbox) {
                 lockCheckbox.checked = true;
@@ -2635,6 +3325,7 @@
             app.style.left = '0';
             app.style.opacity = '1';
 
+            // موبایل: scale خیلی سبک‌تر = خیلی سریع‌تر
             var isMobile = window.innerWidth < 900 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             var scale = isMobile ? 1 : 2;
 
@@ -2703,6 +3394,7 @@
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('app-content').classList.add('visible');
                 document.getElementById('viewer-screen').classList.remove('active');
+                // بازگرداندن app به حالت عادی
                 var app = document.getElementById('app-content');
                 app.style.position = '';
                 app.style.left = '';
@@ -2716,6 +3408,7 @@
                 enableDesktopMode();
                 error.classList.remove('show');
                 showViewerScreen();
+                // اگر داده از قبل لود شده، سریع تصویر بساز
                 if (dataReady) {
                     enableViewOnlyMode();
                 } else {
@@ -2729,6 +3422,7 @@
         }
 
         function initLogin() {
+            // همیشه با رفرش به صفحه ورود برگرد
             currentRole = null;
             try { sessionStorage.removeItem('sepahan_logged_in'); } catch (e) {}
 
@@ -2748,14 +3442,18 @@
             }
         }
 
+        // تشخیص مرورگر داخل برنامه‌ها (ایتا، تلگرام و ...)
         function isInAppBrowser() {
             var ua = navigator.userAgent || navigator.vendor || '';
+            // فقط پیام‌رسان‌ها — نه کروم معمولی
             if (/Eitaa|Telegram|Instagram|FBAN|FBAV|Line\/|MicroMessenger|Twitter|Snapchat|TikTok|WhatsApp|LinkedInApp/i.test(ua)) {
                 return true;
             }
+            // iOS WebView (بدون Safari)
             if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(ua) && !/Safari/i.test(ua)) {
                 return true;
             }
+            // Android WebView واقعی (دارای ; wv)
             if (/Android/i.test(ua) && /;\s*wv\)/i.test(ua)) {
                 return true;
             }
@@ -2766,11 +3464,13 @@
             alert('⚠️ برای گرفتن خروجی (JPG / PDF / Excel)\nلطفاً لینک را در مرورگر کروم یا سافاری باز کنید.\n\nمرورگر داخل ایتا و بعضی پیام‌رسان‌ها از خروجی پشتیبانی کامل نمی‌کنند.');
         }
 
+        // اجرای فوری ورود
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initLogin);
         } else {
             initLogin();
         }
+        // ================================
 
         const DEFAULT_START = 1;
         const DEFAULT_END = 7;
@@ -2970,6 +3670,7 @@
         }
 
         function loadDate() {
+            // تاریخ از کلود در initFromCloud اعمال می‌شه
             applyDateString(null);
         }
 
@@ -3062,6 +3763,7 @@
                 var t2 = cell.endTime;
                 var m1 = persianTimeToMinutes(t1);
                 var m2 = persianTimeToMinutes(t2);
+                // همیشه ساعت کوچکتر (زودتر) اول بیاید
                 if (m1 !== null && m2 !== null && m2 < m1) {
                     return t2 + ' - ' + t1;
                 }
@@ -3111,6 +3813,9 @@
             return formatTimePersian(hour, minute);
         }
 
+        // ============================================================
+        // تنظیمات Google Sheets به عنوان دیتابیس
+        // ============================================================
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz23FaSc84XVJkWw9mXPsWomxi8ERTIUPeHXDKXHJwmp0Z2bzL16VafYpqj3T_FNUeHuQ/exec';
         const SECRET_KEY = 'sepahan1405';
 
@@ -3141,6 +3846,7 @@
                     body: JSON.stringify(payload),
                     mode: 'no-cors'
                 });
+                // با no-cors نمی‌تونیم پاسخ رو بخونیم، اما درخواست ارسال می‌شه
                 return true;
             } catch (err) {
                 console.error('خطا در ذخیره در Google Sheets:', err);
@@ -3159,7 +3865,7 @@
                     scheduleData: tableData,
                     date: document.getElementById('dateDisplay') ? document.getElementById('dateDisplay').textContent : ''
                 });
-            }, 800);
+            }, 800); // debounce 800ms
         }
 
         var ACTIVITY_TYPES = ['', 'تمرین', 'مسابقه دوستانه', 'مسابقه رسمی'];
@@ -3219,6 +3925,7 @@
                         if (cell.activityType === undefined) cell.activityType = '';
                         if (cell.opponent === undefined) cell.opponent = '';
 
+                        // اصلاح ساعت‌های جابه‌جا شده
                         if (cell.manual && cell.startTime && cell.endTime) {
                             var m1 = persianTimeToMinutes(cell.startTime);
                             var m2 = persianTimeToMinutes(cell.endTime);
@@ -3341,7 +4048,8 @@
 
         function getCellTimeRange(cell) {
             if (!cell) return null;
-            var start = null, end = null;
+            var start = null,
+                end = null;
             if (cell.manual && cell.startTime && cell.endTime) {
                 start = persianTimeToMinutes(cell.startTime);
                 end = persianTimeToMinutes(cell.endTime);
@@ -3431,6 +4139,10 @@
             else input.classList.remove('has-value');
         }
 
+        // ============================================================
+        // ساخت جدول
+        // ============================================================
+
         function buildTable() {
             var tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
@@ -3506,6 +4218,10 @@
             var slots = document.querySelectorAll('.slot');
             for (var i = 0; i < slots.length; i++) { updateSlotDisplay(slots[i]); }
         }
+
+        // ============================================================
+        // توابع مدیریت مودال‌ها
+        // ============================================================
 
         function openSessionEditor() {
             renderSessionEditor();
@@ -3609,6 +4325,10 @@
             alert('تعداد سانس‌های زمین‌ها با موفقیت ذخیره شد.');
         }
 
+        // ============================================================
+        // مدیریت زمین‌ها
+        // ============================================================
+
         function openVenueManager() {
             renderVenueList();
             document.getElementById('venueModalOverlay').classList.add('active');
@@ -3648,8 +4368,10 @@
             input.select();
             saveBtn.onclick = function() { saveVenueName(index, input.value); };
             input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault(); saveVenueName(index, this.value); }
-                if (e.key === 'Escape') { e.preventDefault(); renderVenueList(); }
+                if (e.key === 'Enter') { e.preventDefault();
+                    saveVenueName(index, this.value); }
+                if (e.key === 'Escape') { e.preventDefault();
+                    renderVenueList(); }
             });
             input.addEventListener('blur', function() {
                 setTimeout(function() { saveVenueName(index, input.value); }, 150);
@@ -3658,7 +4380,8 @@
 
         function saveVenueName(index, newName) {
             newName = newName.trim();
-            if (!newName) { alert('لطفاً نام زمین را وارد کنید.'); renderVenueList(); return; }
+            if (!newName) { alert('لطفاً نام زمین را وارد کنید.');
+                renderVenueList(); return; }
             var oldName = venues[index];
             if (oldName === newName) { renderVenueList(); return; }
             if (venues.indexOf(newName) !== -1 && venues.indexOf(newName) !== index) {
@@ -3707,13 +4430,15 @@
                 editBtn.className = 'item-edit-btn venue-edit';
                 editBtn.textContent = '✏️';
                 editBtn.dataset.index = i;
-                editBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10); startEditingVenue(idx); };
+                editBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
+                    startEditingVenue(idx); };
                 actions.appendChild(editBtn);
                 var removeBtn = document.createElement('button');
                 removeBtn.className = 'item-remove-btn';
                 removeBtn.textContent = '✕';
                 removeBtn.dataset.index = i;
-                removeBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10); removeVenue(idx); };
+                removeBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
+                    removeVenue(idx); };
                 actions.appendChild(removeBtn);
                 item.appendChild(actions);
                 container.appendChild(item);
@@ -3783,6 +4508,10 @@
             alert('زمین «' + name + '» با موفقیت اضافه شد.');
         }
 
+        // ============================================================
+        // مدیریت تیم‌ها
+        // ============================================================
+
         function openTeamManager() {
             renderTeamList();
             document.getElementById('teamModalOverlay').classList.add('active');
@@ -3824,13 +4553,15 @@
                 editBtn.className = 'item-edit-btn';
                 editBtn.textContent = '✏️';
                 editBtn.dataset.index = i;
-                editBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10); startEditingTeam(idx); };
+                editBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
+                    startEditingTeam(idx); };
                 actions.appendChild(editBtn);
                 var removeBtn = document.createElement('button');
                 removeBtn.className = 'item-remove-btn';
                 removeBtn.textContent = '✕';
                 removeBtn.dataset.index = i;
-                removeBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10); removeTeam(idx); };
+                removeBtn.onclick = function(e) { e.stopPropagation(); var idx = parseInt(this.dataset.index, 10);
+                    removeTeam(idx); };
                 actions.appendChild(removeBtn);
                 item.appendChild(actions);
                 container.appendChild(item);
@@ -3860,8 +4591,10 @@
             input.select();
             saveBtn.onclick = function() { saveTeamName(index, input.value); };
             input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault(); saveTeamName(index, this.value); }
-                if (e.key === 'Escape') { e.preventDefault(); renderTeamList(); }
+                if (e.key === 'Enter') { e.preventDefault();
+                    saveTeamName(index, this.value); }
+                if (e.key === 'Escape') { e.preventDefault();
+                    renderTeamList(); }
             });
             input.addEventListener('blur', function() {
                 setTimeout(function() { saveTeamName(index, input.value); }, 150);
@@ -3870,7 +4603,8 @@
 
         function saveTeamName(index, newName) {
             newName = newName.trim();
-            if (!newName) { alert('نام تیم نمی‌تواند خالی باشد.'); renderTeamList(); return; }
+            if (!newName) { alert('نام تیم نمی‌تواند خالی باشد.');
+                renderTeamList(); return; }
             var oldName = teamNames[index];
             if (oldName === newName) { renderTeamList(); return; }
             if (teamNames.indexOf(newName) !== -1 && teamNames.indexOf(newName) !== index) {
@@ -3934,7 +4668,7 @@
         }
 
         // ============================================================
-        // ساخت سلول - با دکمه ویرایش فقط برای موبایل
+        // ساخت سلول
         // ============================================================
 
         function createSlotCell(rowIdx, colIdx) {
@@ -4092,13 +4826,11 @@
                 }, 50);
             };
 
-            // در دسکتاپ (غیر لمسی): دوبار کلیک روی نمایش ساعت
-            if (!IS_TOUCH_DEVICE) {
-                timeDisplay.addEventListener('dblclick', function(e) {
-                    e.stopPropagation();
-                    openManualEditor();
-                });
-            }
+            // دسکتاپ: دوبار کلیک روی نمایش ساعت
+            timeDisplay.addEventListener('dblclick', function(e) {
+                e.stopPropagation();
+                openManualEditor();
+            });
 
             // ===== دکمه ویرایش ساعت - فقط موبایل =====
             var editTimeBtn = document.createElement('button');
@@ -4106,22 +4838,15 @@
             editTimeBtn.className = 'edit-time-btn no-print';
             editTimeBtn.textContent = '✎';
             editTimeBtn.title = 'ویرایش دستی ساعت';
-            editTimeBtn.setAttribute('aria-label', 'ویرایش دستی ساعت');
-            // فقط کلیک (نه touchstart) برای جلوگیری از دوبار اجرا
             editTimeBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
                 openManualEditor();
             });
-            // جلوگیری از انتشار لمس
-            editTimeBtn.addEventListener('touchstart', function(e) {
-                e.stopPropagation();
-            }, { passive: true });
+            // جلوگیری از لمس‌های اضافی روی دکمه
             editTimeBtn.addEventListener('touchend', function(e) {
                 e.stopPropagation();
-                e.preventDefault();
-                openManualEditor();
-            }, { passive: false });
+            }, { passive: true });
 
             var typeDisplay = document.createElement('div');
             typeDisplay.className = 'type-display';
@@ -4208,17 +4933,15 @@
                 saveData(tableData);
             });
 
-            // در دسکتاپ: دوبار کلیک روی کل سلول
-            if (!IS_TOUCH_DEVICE) {
-                slotDiv.addEventListener('dblclick', function(e) {
-                    if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn') || e.target.closest('.edit-time-btn')) return;
-                    openManualEditor();
-                });
-            }
+            // دوبار کلیک روی کل سلول (دسکتاپ)
+            slotDiv.addEventListener('dblclick', function(e) {
+                if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn') || e.target.closest('.edit-time-btn')) return;
+                openManualEditor();
+            });
 
             timeSelect.addEventListener('dblclick', function(e) {
                 e.stopPropagation();
-                if (!IS_TOUCH_DEVICE) timeDisplay.dispatchEvent(new Event('dblclick', { bubbles: true }));
+                timeDisplay.dispatchEvent(new Event('dblclick', { bubbles: true }));
             });
 
             function convertManualInput(input) {
@@ -4251,7 +4974,8 @@
             });
 
             opponentInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault(); this.blur(); }
+                if (e.key === 'Enter') { e.preventDefault();
+                    this.blur(); }
             });
 
             saveButton.addEventListener('click', function() {
@@ -4265,7 +4989,8 @@
                 var endFormatted = formatSingleTime(endRaw);
                 if (!startFormatted || !endFormatted) {
                     var combined = formatManualTime(startRaw + '-' + endRaw);
-                    if (combined) { startFormatted = combined.start; endFormatted = combined.end; }
+                    if (combined) { startFormatted = combined.start;
+                        endFormatted = combined.end; }
                 }
                 if (!startFormatted || !endFormatted) {
                     alert('⛔ ساعت واردشده صحیح نیست.\n\nلطفاً به یکی از فرمت‌های زیر وارد کنید:\n• ۱۶ تا ۱۸\n• ۱۶:۰۰ تا ۱۸:۰۰\n• 16-18\n• 745-9 (برای ۰۷:۴۵ تا ۰۹:۰۰)');
@@ -4299,9 +5024,11 @@
                     }
                 }
                 var cell = tableData[rowIdx][colIdx];
+                // اطمینان از اینکه start همیشه قبل از end باشد
                 var sMin = persianTimeToMinutes(startFormatted);
                 var eMin = persianTimeToMinutes(endFormatted);
                 if (sMin !== null && eMin !== null && eMin < sMin) {
+                    // جابه‌جا کن
                     var tmp = startFormatted;
                     startFormatted = endFormatted;
                     endFormatted = tmp;
@@ -4321,7 +5048,8 @@
                 timeSelect.classList.remove('hidden');
                 var found = false;
                 for (var optIdx = 0; optIdx < timeSelect.options.length; optIdx++) {
-                    if (timeSelect.options[optIdx].value === startFormatted) { timeSelect.value = startFormatted; found = true; break; }
+                    if (timeSelect.options[optIdx].value === startFormatted) { timeSelect.value = startFormatted;
+                        found = true; break; }
                 }
                 if (!found) timeSelect.value = '';
                 updateSelectStyle(timeSelect);
@@ -4344,12 +5072,15 @@
             });
 
             startInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault(); endInput.focus(); endInput.select(); }
+                if (e.key === 'Enter') { e.preventDefault();
+                    endInput.focus();
+                    endInput.select(); }
                 if (e.key === 'Escape') cancelButton.click();
             });
 
             endInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { e.preventDefault(); saveButton.click(); }
+                if (e.key === 'Enter') { e.preventDefault();
+                    saveButton.click(); }
                 if (e.key === 'Escape') cancelButton.click();
             });
 
@@ -4362,7 +5093,9 @@
                         cell.activityType = 'تمرین';
                         typeSelect.value = 'تمرین';
                         updateSelectStyle(typeSelect);
-                        if (cell.opponent) { cell.opponent = ''; opponentInput.value = ''; updateInputStyle(opponentInput); }
+                        if (cell.opponent) { cell.opponent = '';
+                            opponentInput.value = '';
+                            updateInputStyle(opponentInput); }
                         updateSlotDisplay(slotDiv);
                     }
                 }
@@ -4502,19 +5235,29 @@
                 slotDiv.classList.add('locked-view');
                 if (isEmpty) slotDiv.classList.add('is-empty');
                 else slotDiv.classList.remove('is-empty');
-                if (venueSelect) { venueSelect.classList.add('hidden'); venueSelect.disabled = true; }
-                if (timeSelect) { timeSelect.classList.add('hidden'); timeSelect.disabled = true; }
-                if (typeSelect) { typeSelect.classList.add('hidden'); typeSelect.disabled = true; }
-                if (opponentBox) { opponentBox.classList.remove('active'); opponentBox.style.display = 'none'; }
-                if (manualBox) { manualBox.classList.remove('active'); manualBox.style.display = 'none'; }
-                if (timeDisplay) { timeDisplay.style.display = 'none'; timeDisplay.textContent = ''; }
-                if (typeDisplay) { typeDisplay.style.display = 'none'; typeDisplay.textContent = ''; }
-                if (opponentDisplay) { opponentDisplay.style.display = 'none'; opponentDisplay.textContent = ''; }
+                if (venueSelect) { venueSelect.classList.add('hidden');
+                    venueSelect.disabled = true; }
+                if (timeSelect) { timeSelect.classList.add('hidden');
+                    timeSelect.disabled = true; }
+                if (typeSelect) { typeSelect.classList.add('hidden');
+                    typeSelect.disabled = true; }
+                if (opponentBox) { opponentBox.classList.remove('active');
+                    opponentBox.style.display = 'none'; }
+                if (manualBox) { manualBox.classList.remove('active');
+                    manualBox.style.display = 'none'; }
+                if (timeDisplay) { timeDisplay.style.display = 'none';
+                    timeDisplay.textContent = ''; }
+                if (typeDisplay) { typeDisplay.style.display = 'none';
+                    typeDisplay.textContent = ''; }
+                if (opponentDisplay) { opponentDisplay.style.display = 'none';
+                    opponentDisplay.textContent = ''; }
                 if (editTimeBtn) editTimeBtn.style.display = 'none';
                 if (isEmpty) {
                     if (printText) printText.style.display = 'none';
-                    if (emptyLabel) { emptyLabel.style.display = 'block'; emptyLabel.textContent = '***'; }
-                    if (td) { td.classList.add('empty'); td.classList.remove('match-official', 'match-friendly'); }
+                    if (emptyLabel) { emptyLabel.style.display = 'block';
+                        emptyLabel.textContent = '***'; }
+                    if (td) { td.classList.add('empty');
+                        td.classList.remove('match-official', 'match-friendly'); }
                 } else {
                     if (emptyLabel) emptyLabel.style.display = 'none';
                     if (printText) printText.style.display = 'block';
@@ -4536,6 +5279,7 @@
             slotDiv.classList.remove('locked-view');
             slotDiv.classList.remove('is-empty');
             if (venueSelect) {
+                var currentVal = venueSelect.value;
                 venueSelect.innerHTML = '';
                 var emptyVenue = document.createElement('option');
                 emptyVenue.value = '';
@@ -4552,28 +5296,39 @@
                 venueSelect.classList.remove('hidden');
                 updateSelectStyle(venueSelect);
             }
-            if (timeSelect) { timeSelect.disabled = false; timeSelect.classList.remove('hidden'); updateSelectStyle(timeSelect); }
-            if (typeSelect) { typeSelect.disabled = false; typeSelect.classList.remove('hidden'); typeSelect.value = activityType; updateSelectStyle(typeSelect); }
+            if (timeSelect) { timeSelect.disabled = false;
+                timeSelect.classList.remove('hidden');
+                updateSelectStyle(timeSelect); }
+            if (typeSelect) { typeSelect.disabled = false;
+                typeSelect.classList.remove('hidden');
+                typeSelect.value = activityType;
+                updateSelectStyle(typeSelect); }
             if (printText) printText.style.display = 'none';
             if (isMatch) {
-                if (opponentBox) { opponentBox.classList.add('active'); opponentBox.style.display = 'flex'; }
-                if (opponentInput) { opponentInput.value = opponent; updateInputStyle(opponentInput); }
+                if (opponentBox) { opponentBox.classList.add('active');
+                    opponentBox.style.display = 'flex'; }
+                if (opponentInput) { opponentInput.value = opponent;
+                    updateInputStyle(opponentInput); }
             } else {
-                if (opponentBox) { opponentBox.classList.remove('active'); opponentBox.style.display = 'none'; }
+                if (opponentBox) { opponentBox.classList.remove('active');
+                    opponentBox.style.display = 'none'; }
                 if (opponentInput) opponentInput.value = '';
             }
             if (isManual) {
                 if (timeSelect) timeSelect.classList.add('hidden');
                 if (manualBox) {
-                    if (isManualEditing) { manualBox.classList.add('active'); manualBox.style.display = 'flex'; }
-                    else { manualBox.classList.remove('active'); manualBox.style.display = 'none'; }
+                    if (isManualEditing) { manualBox.classList.add('active');
+                        manualBox.style.display = 'flex'; } else { manualBox.classList.remove('active');
+                        manualBox.style.display = 'none'; }
                 }
             } else {
                 if (timeSelect) timeSelect.classList.remove('hidden');
-                if (manualBox) { manualBox.classList.remove('active'); manualBox.style.display = 'none'; }
+                if (manualBox) { manualBox.classList.remove('active');
+                    manualBox.style.display = 'none'; }
             }
             if (emptyLabel) emptyLabel.style.display = 'none';
-            if (typeDisplay) { typeDisplay.textContent = activityType || ''; typeDisplay.style.display = activityType ? 'block' : 'none'; }
+            if (typeDisplay) { typeDisplay.textContent = activityType || '';
+                typeDisplay.style.display = activityType ? 'block' : 'none'; }
             if (opponentDisplay) {
                 var displayText = (isMatch && opponent) ? 'حریف: ' + opponent : '';
                 opponentDisplay.textContent = displayText;
@@ -4581,8 +5336,10 @@
             }
             var isManualBoxOpen = isManual && isManualEditing;
             if (isEmpty) {
-                if (timeDisplay) { timeDisplay.textContent = ''; timeDisplay.style.display = 'none'; }
-                if (td) { td.classList.add('empty'); td.classList.remove('match-official', 'match-friendly'); }
+                if (timeDisplay) { timeDisplay.textContent = '';
+                    timeDisplay.style.display = 'none'; }
+                if (td) { td.classList.add('empty');
+                    td.classList.remove('match-official', 'match-friendly'); }
                 if (editTimeBtn) editTimeBtn.style.display = 'none';
             } else {
                 if (td) td.classList.remove('empty');
@@ -4590,8 +5347,10 @@
                     timeDisplay.textContent = time;
                     timeDisplay.style.display = (time && !isManualBoxOpen) ? 'block' : 'none';
                 }
+                // دکمه ویرایش فقط وقتی ساعت ثبت شده و فرم باز نیست
                 if (editTimeBtn) {
                     if (time && !isManualBoxOpen) {
+                        // در موبایل CSS خودش نمایش میده، اینجا فقط استایل inline رو پاک میکنیم
                         editTimeBtn.style.display = '';
                     } else {
                         editTimeBtn.style.display = 'none';
@@ -4611,24 +5370,55 @@
             }
         }
 
+        // ============================================================
+        // رنگ سلول
+        // ============================================================
+
         function applyColorByVenue(td, venue) {
             td.classList.remove('green', 'blue', 'orange', 'gold', 'purple', 'pink', 'teal', 'coral', 'empty', 'match-official', 'match-friendly');
             if (!venue) { td.classList.add('empty'); return; }
             switch (venue) {
-                case 'باغ فردوس': td.classList.add('green'); break;
-                case 'آب منطقه ای': td.classList.add('blue'); break;
-                case 'نیروگاه': td.classList.add('orange'); break;
-                case 'زمین بهارستان': td.classList.add('gold'); break;
-                case 'قدس': td.classList.add('purple'); break;
-                case 'کردآباد': td.classList.add('pink'); break;
-                case 'نقش جهان': td.classList.add('teal'); break;
-                case '۲۵ آبان': td.classList.add('coral'); break;
-                case 'آبفا': td.classList.add('mint'); break;
-                case 'جروکان': td.classList.add('turquoise'); break;
-                case 'طالقانی رهنان': td.classList.add('indigo'); break;
-                default: td.classList.add('seafoam');
+                case 'باغ فردوس':
+                    td.classList.add('green');
+                    break;
+                case 'آب منطقه ای':
+                    td.classList.add('blue');
+                    break;
+                case 'نیروگاه':
+                    td.classList.add('orange');
+                    break;
+                case 'زمین بهارستان':
+                    td.classList.add('gold');
+                    break;
+                case 'قدس':
+                    td.classList.add('purple');
+                    break;
+                case 'کردآباد':
+                    td.classList.add('pink');
+                    break;
+                case 'نقش جهان':
+                    td.classList.add('teal');
+                    break;
+                case '۲۵ آبان':
+                    td.classList.add('coral');
+                    break;
+                case 'آبفا':
+                    td.classList.add('mint');
+                    break;
+					case 'جروکان':
+                    td.classList.add('turquoise');
+                    break;
+					case 'طالقانی رهنان':
+                    td.classList.add('indigo');
+                    break;
+                default:
+                    td.classList.add('seafoam');
             }
         }
+
+        // ============================================================
+        // گزارش تیم‌ها
+        // ============================================================
 
         function openTeamReport() {
             var overlay = document.getElementById('reportModalOverlay');
@@ -4691,7 +5481,10 @@
         }
 
         function exportTeamJPG(rowIndex) {
-            if (isInAppBrowser()) { showInAppExportWarning(); return; }
+            if (isInAppBrowser()) {
+                showInAppExportWarning();
+                return;
+            }
             var teamName = teamNames[rowIndex];
             var items = [];
             for (var col = 0; col < 7; col++) {
@@ -4705,23 +5498,29 @@
                 var dayInfo = getDayAndDateForColumn(col);
                 items.push({ day: dayInfo.dayName, date: dayInfo.dateText, time: time || 'نامشخص', venue: venue || 'نامشخص', type: type || 'نامشخص', opponent: (type === 'مسابقه دوستانه' || type === 'مسابقه رسمی') ? opponent : '' });
             }
+
             var exportDiv = document.createElement('div');
             exportDiv.className = 'report-team-export';
             exportDiv.style.cssText = 'background:#fff;padding:6px 10px;direction:rtl;font-family:"Vazirmatn",Tahoma,"Segoe UI",Arial,sans-serif;max-width:500px;margin:0 auto;border:2px solid #ddd;border-radius:8px;';
+
             var header = document.createElement('div');
             header.className = 'export-header';
             header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #2c3e50;padding-bottom:4px;margin-bottom:4px;';
+
             var nameSpan = document.createElement('span');
             nameSpan.className = 'team-name';
             nameSpan.style.cssText = 'font-size:14px;font-weight:900;color:#2c3e50;font-family:"Vazirmatn",Tahoma,sans-serif;';
             nameSpan.textContent = teamName;
+
             var countSpan = document.createElement('span');
             countSpan.className = 'count-label';
             countSpan.style.cssText = 'font-size:11px;font-weight:700;font-family:"Vazirmatn",Tahoma,sans-serif;background:#f1c40f;color:#2c3e50;padding:0 8px;border-radius:14px;';
             countSpan.textContent = '📊 ' + toPersianDigits(String(items.length));
+
             header.appendChild(nameSpan);
             header.appendChild(countSpan);
             exportDiv.appendChild(header);
+
             if (items.length === 0) {
                 var empty = document.createElement('div');
                 empty.className = 'export-empty';
@@ -4734,31 +5533,38 @@
                     var itemDiv = document.createElement('div');
                     itemDiv.className = 'export-item';
                     itemDiv.style.cssText = 'display:flex;align-items:center;gap:3px;padding:2px 3px;border-bottom:1px solid #f0f0f0;font-size:11px;flex-wrap:nowrap;font-family:"Vazirmatn",Tahoma,sans-serif;';
+
                     var daySpan = document.createElement('span');
                     daySpan.className = 'e-day';
                     daySpan.style.cssText = 'font-weight:900;min-width:32px;color:#1a5276;font-size:11px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     daySpan.textContent = item.day;
+
                     var dateSpan = document.createElement('span');
                     dateSpan.className = 'e-date';
                     dateSpan.style.cssText = 'color:#666;font-size:9px;min-width:42px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     dateSpan.textContent = item.date;
+
                     var timeSpan = document.createElement('span');
                     timeSpan.className = 'e-time';
                     timeSpan.style.cssText = 'font-weight:700;direction:ltr;unicode-bidi:isolate;min-width:50px;color:#222;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     timeSpan.textContent = item.time;
+
                     var venueSpan = document.createElement('span');
                     venueSpan.className = 'e-venue';
                     venueSpan.style.cssText = 'font-weight:800;color:#1a6e3a;min-width:35px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     venueSpan.textContent = item.venue;
+
                     var typeSpan = document.createElement('span');
                     typeSpan.className = 'e-type';
                     typeSpan.style.cssText = 'font-weight:800;color:#8b1a1a;min-width:38px;font-size:10px;font-family:"Vazirmatn",Tahoma,sans-serif;';
                     typeSpan.textContent = item.type;
+
                     itemDiv.appendChild(daySpan);
                     itemDiv.appendChild(dateSpan);
                     itemDiv.appendChild(timeSpan);
                     itemDiv.appendChild(venueSpan);
                     itemDiv.appendChild(typeSpan);
+
                     if (item.opponent) {
                         var oppSpan = document.createElement('span');
                         oppSpan.className = 'e-opponent';
@@ -4766,15 +5572,18 @@
                         oppSpan.textContent = '🆚 ' + item.opponent;
                         itemDiv.appendChild(oppSpan);
                     }
+
                     exportDiv.appendChild(itemDiv);
                 }
             }
+
             var footer = document.createElement('div');
             footer.className = 'export-footer';
             footer.style.cssText = 'border-top:1px solid #eee;margin-top:4px;padding-top:4px;text-align:center;font-size:9px;color:#999;font-family:"Vazirmatn",Tahoma,sans-serif;';
             var dateDisplay = document.getElementById('dateDisplay');
             footer.textContent = '📅 ' + (dateDisplay ? dateDisplay.textContent : '');
             exportDiv.appendChild(footer);
+
             document.body.appendChild(exportDiv);
             exportDiv.style.position = 'absolute';
             exportDiv.style.left = '-9999px';
@@ -4783,6 +5592,7 @@
             exportDiv.style.background = '#fff';
             exportDiv.style.padding = '8px';
             exportDiv.style.direction = 'rtl';
+
             html2canvas(exportDiv, {
                 scale: 2.5,
                 useCORS: true,
@@ -4812,12 +5622,18 @@
             if (e.target && e.target.id === 'reportModalOverlay') closeTeamReport();
         }
 
+        // ============================================================
+        // دکمه شناور
+        // ============================================================
+
         var hoverTimeout = null;
 
         function showSessionCard() {
-            if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+            if (hoverTimeout) { clearTimeout(hoverTimeout);
+                hoverTimeout = null; }
             var card = document.getElementById('sessionHoverCard');
-            if (card) { updateHoverCardContent(); card.classList.add('active'); }
+            if (card) { updateHoverCardContent();
+                card.classList.add('active'); }
         }
 
         function hideSessionCard() {
@@ -4865,9 +5681,10 @@
                     totalRemaining += remaining;
                     var statusText = '';
                     var statusClass = '';
-                    if (limit === 0) { statusText = '۰'; statusClass = 'empty'; }
-                    else if (remaining === 0) { statusText = '۰'; statusClass = 'full'; }
-                    else { statusText = toPersianDigits(String(remaining)); statusClass = 'available'; }
+                    if (limit === 0) { statusText = '۰';
+                        statusClass = 'empty'; } else if (remaining === 0) { statusText = '۰';
+                        statusClass = 'full'; } else { statusText = toPersianDigits(String(remaining));
+                        statusClass = 'available'; }
                     var dayShort = orderedDays[di];
                     statusParts.push('<span class="d-name">' + dayShort + '</span><span class="d-badge ' + statusClass + '">' + statusText + '</span>');
                 }
@@ -4876,14 +5693,19 @@
             }
             var badge = document.getElementById('floatingBadge');
             if (badge) {
-                if (totalRemaining > 0) { badge.textContent = toPersianDigits(String(totalRemaining)); badge.className = 'badge'; }
-                else { badge.textContent = '✓'; badge.className = 'badge zero'; }
+                if (totalRemaining > 0) { badge.textContent = toPersianDigits(String(totalRemaining));
+                    badge.className = 'badge'; } else { badge.textContent = '✓';
+                    badge.className = 'badge zero'; }
             }
             if (html === '') container.innerHTML = '<div class="no-limit-text">هیچ محدودیت سانسی تعریف نشده است.</div>';
             else container.innerHTML = html;
         }
 
         function updateFloatingBadge() { updateHoverCardContent(); }
+
+        // ============================================================
+        // توابع خروجی و پاک کردن
+        // ============================================================
 
         function clearAllSlots() {
             if (confirm('آیا مطمئن هستید؟ تمام زمین، نوع برنامه، حریف و ساعت‌های تمرین پاک خواهند شد. (تاریخ و تنظیمات سانس‌ها حفظ می‌شوند)')) {
@@ -4911,12 +5733,14 @@
                         if (cell.manual === true) {
                             if (timeSelect) timeSelect.classList.add('hidden');
                             if (manualBox) {
-                                if (cell.manualEditing === true) { manualBox.classList.add('active'); manualBox.style.display = 'flex'; }
-                                else { manualBox.classList.remove('active'); manualBox.style.display = 'none'; }
+                                if (cell.manualEditing === true) { manualBox.classList.add('active');
+                                    manualBox.style.display = 'flex'; } else { manualBox.classList.remove('active');
+                                    manualBox.style.display = 'none'; }
                             }
                         } else {
                             if (timeSelect) timeSelect.classList.remove('hidden');
-                            if (manualBox) { manualBox.classList.remove('active'); manualBox.style.display = 'none'; }
+                            if (manualBox) { manualBox.classList.remove('active');
+                                manualBox.style.display = 'none'; }
                         }
                     }
                 }
@@ -4947,11 +5771,18 @@
 
         function handleExport(type) {
             document.getElementById('exportDropdown').classList.remove('show');
-            if (isInAppBrowser()) { showInAppExportWarning(); return; }
+            if (isInAppBrowser()) {
+                showInAppExportWarning();
+                return;
+            }
             if (type === 'jpg') captureAsJPG();
             else if (type === 'pdf') captureAsPDF();
             else if (type === 'excel') exportAsExcel();
         }
+
+        // ============================================================
+        // بررسی کامل بودن سلول‌ها قبل از خروجی (نسخه اصلاح‌شده)
+        // ============================================================
 
         function checkIncompleteCells() {
             var incompleteList = [];
@@ -4959,32 +5790,61 @@
                 for (var col = 0; col < 7; col++) {
                     var cell = tableData[row][col];
                     if (!cell) continue;
+
                     var venue = (cell.venue || '').trim();
                     var activityType = (cell.activityType || '').trim();
                     var opponent = (cell.opponent || '').trim();
+
                     var hasStart = !!(cell.startTime && String(cell.startTime).trim());
                     var hasEnd = !!(cell.endTime && String(cell.endTime).trim());
                     var hasSimpleTime = !!(cell.time && String(cell.time).trim());
-                    var hasCompleteTime = (cell.manual === true && hasStart && hasEnd) || (cell.manual !== true && hasSimpleTime);
+
+                    var hasCompleteTime = (cell.manual === true && hasStart && hasEnd) ||
+                                          (cell.manual !== true && hasSimpleTime);
+
                     var hasAnyTime = hasStart || hasEnd || hasSimpleTime;
+
                     var hasAnyData = venue || hasAnyTime || activityType || opponent;
                     if (!hasAnyData) continue;
+
                     var problems = [];
+
                     if (venue && !hasCompleteTime) {
-                        if (hasAnyTime) { problems.push('ساعت ناقص است'); }
-                        else { problems.push('ساعت ثبت نشده'); }
+                        if (hasAnyTime) {
+                            problems.push('ساعت ناقص است');
+                        } else {
+                            problems.push('ساعت ثبت نشده');
+                        }
                     }
-                    if (hasAnyTime && !venue) { problems.push('زمین انتخاب نشده'); }
-                    if ((activityType === 'مسابقه دوستانه' || activityType === 'مسابقه رسمی') && !opponent) { problems.push('نام حریف ثبت نشده'); }
+
+                    if (hasAnyTime && !venue) {
+                        problems.push('زمین انتخاب نشده');
+                    }
+
+                    if ((activityType === 'مسابقه دوستانه' || activityType === 'مسابقه رسمی') && !opponent) {
+                        problems.push('نام حریف ثبت نشده');
+                    }
+
                     if (activityType && !venue && !hasAnyTime) {
-                        if (problems.indexOf('زمین انتخاب نشده') === -1 && problems.indexOf('ساعت ثبت نشده') === -1 && problems.indexOf('ساعت ناقص است') === -1) {
+                        if (problems.indexOf('زمین انتخاب نشده') === -1 &&
+                            problems.indexOf('ساعت ثبت نشده') === -1 &&
+                            problems.indexOf('ساعت ناقص است') === -1) {
                             problems.push('زمین و ساعت ثبت نشده');
                         }
                     }
-                    if (venue && hasCompleteTime && !activityType) { problems.push('نوع برنامه انتخاب نشده'); }
+
+                    if (venue && hasCompleteTime && !activityType) {
+                        problems.push('نوع برنامه انتخاب نشده');
+                    }
+
                     if (problems.length > 0) {
                         var dayInfo = getDayAndDateForColumn(col);
-                        incompleteList.push({ team: teamNames[row], day: dayInfo.dayName, date: dayInfo.dateText, problems: problems });
+                        incompleteList.push({
+                            team: teamNames[row],
+                            day: dayInfo.dayName,
+                            date: dayInfo.dateText,
+                            problems: problems
+                        });
                     }
                 }
             }
@@ -5003,8 +5863,10 @@
                 if (onConfirm) onConfirm();
                 return;
             }
+
             var total = incompleteList.length;
             intro.textContent = '⚠️ ' + toPersianDigits(String(total)) + ' سلول ناقص پیدا شد. ادامه خروجی با اطلاعات ناقص ممکن است باعث اشتباه در برنامه شود. لطفاً بررسی کنید.';
+
             var maxShow = 20;
             var showCount = Math.min(total, maxShow);
             var html = '';
@@ -5017,6 +5879,7 @@
                 html += '</li>';
             }
             listEl.innerHTML = html;
+
             if (total > maxShow) {
                 moreEl.style.display = 'block';
                 moreEl.textContent = '... و ' + toPersianDigits(String(total - maxShow)) + ' مورد دیگر';
@@ -5024,10 +5887,12 @@
                 moreEl.style.display = 'none';
                 moreEl.textContent = '';
             }
+
             confirmBtn.onclick = function() {
                 closeIncompleteModal();
                 if (onConfirm) onConfirm();
             };
+
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -5041,7 +5906,9 @@
         function captureAsJPG() {
             var incompleteList = checkIncompleteCells();
             if (incompleteList.length > 0) {
-                openIncompleteModal(incompleteList, function() { doCaptureAsJPG(); });
+                openIncompleteModal(incompleteList, function() {
+                    doCaptureAsJPG();
+                });
                 return;
             }
             doCaptureAsJPG();
@@ -5058,7 +5925,8 @@
             element.classList.add('export-mode');
             var lockCheckbox = document.getElementById('lockCheckbox');
             var wasLocked = lockCheckbox.checked;
-            if (!wasLocked) { lockCheckbox.checked = true; toggleLock(); }
+            if (!wasLocked) { lockCheckbox.checked = true;
+                toggleLock(); }
             var slots = document.querySelectorAll('.slot');
             for (var i = 0; i < slots.length; i++) { updateSlotDisplay(slots[i]); }
             var clearBtns = element.querySelectorAll('.cell-clear-btn');
@@ -5077,7 +5945,8 @@
                 windowHeight: element.scrollHeight
             }).then(function(canvas) {
                 element.classList.remove('export-mode');
-                if (!wasLocked) { lockCheckbox.checked = false; toggleLock(); }
+                if (!wasLocked) { lockCheckbox.checked = false;
+                    toggleLock(); }
                 clearBtns.forEach(function(btn) { btn.style.display = ''; });
                 dateEditor.style.display = oldDateDisplay || 'flex';
                 btnGroup.style.display = oldBtnDisplay || 'flex';
@@ -5088,7 +5957,8 @@
             }).catch(function(err) {
                 console.error(err);
                 element.classList.remove('export-mode');
-                if (!wasLocked) { lockCheckbox.checked = false; toggleLock(); }
+                if (!wasLocked) { lockCheckbox.checked = false;
+                    toggleLock(); }
                 clearBtns.forEach(function(btn) { btn.style.display = ''; });
                 dateEditor.style.display = oldDateDisplay || 'flex';
                 btnGroup.style.display = oldBtnDisplay || 'flex';
@@ -5099,7 +5969,9 @@
         function captureAsPDF() {
             var incompleteList = checkIncompleteCells();
             if (incompleteList.length > 0) {
-                openIncompleteModal(incompleteList, function() { doCaptureAsPDF(); });
+                openIncompleteModal(incompleteList, function() {
+                    doCaptureAsPDF();
+                });
                 return;
             }
             doCaptureAsPDF();
@@ -5116,7 +5988,8 @@
             element.classList.add('export-mode');
             var lockCheckbox = document.getElementById('lockCheckbox');
             var wasLocked = lockCheckbox.checked;
-            if (!wasLocked) { lockCheckbox.checked = true; toggleLock(); }
+            if (!wasLocked) { lockCheckbox.checked = true;
+                toggleLock(); }
             var slots = document.querySelectorAll('.slot');
             for (var i = 0; i < slots.length; i++) { updateSlotDisplay(slots[i]); }
             var clearBtns = element.querySelectorAll('.cell-clear-btn');
@@ -5135,7 +6008,8 @@
                 windowHeight: element.scrollHeight
             }).then(function(canvas) {
                 element.classList.remove('export-mode');
-                if (!wasLocked) { lockCheckbox.checked = false; toggleLock(); }
+                if (!wasLocked) { lockCheckbox.checked = false;
+                    toggleLock(); }
                 clearBtns.forEach(function(btn) { btn.style.display = ''; });
                 dateEditor.style.display = oldDateDisplay || 'flex';
                 btnGroup.style.display = oldBtnDisplay || 'flex';
@@ -5156,7 +6030,8 @@
             }).catch(function(err) {
                 console.error(err);
                 element.classList.remove('export-mode');
-                if (!wasLocked) { lockCheckbox.checked = false; toggleLock(); }
+                if (!wasLocked) { lockCheckbox.checked = false;
+                    toggleLock(); }
                 clearBtns.forEach(function(btn) { btn.style.display = ''; });
                 dateEditor.style.display = oldDateDisplay || 'flex';
                 btnGroup.style.display = oldBtnDisplay || 'flex';
@@ -5167,7 +6042,9 @@
         function exportAsExcel() {
             var incompleteList = checkIncompleteCells();
             if (incompleteList.length > 0) {
-                openIncompleteModal(incompleteList, function() { doExportAsExcel(); });
+                openIncompleteModal(incompleteList, function() {
+                    doExportAsExcel();
+                });
                 return;
             }
             doExportAsExcel();
@@ -5204,7 +6081,8 @@
                 XLSX.utils.book_append_sheet(wb, ws, 'برنامه');
                 XLSX.writeFile(wb, 'برنامه تمرینات آکادمی سپاهان.xlsx');
                 showNotification('📊 فایل Excel با موفقیت ذخیره شد!', false);
-            } catch (e) { console.error(e); alert('خطا در ساخت فایل Excel: ' + e.message); }
+            } catch (e) { console.error(e);
+                alert('خطا در ساخت فایل Excel: ' + e.message); }
         }
 
         function importExcelFile(event) {
@@ -5255,7 +6133,8 @@
                     buildTable();
                     updateFloatingBadge();
                     showNotification('✅ فایل Excel با موفقیت وارد شد! (' + importedTeams.length + ' تیم)', false);
-                } catch (err) { console.error(err); showNotification('⛔ خطا در خواندن فایل Excel: ' + err.message, true); }
+                } catch (err) { console.error(err);
+                    showNotification('⛔ خطا در خواندن فایل Excel: ' + err.message, true); }
             };
             reader.readAsArrayBuffer(file);
             event.target.value = '';
@@ -5273,8 +6152,10 @@
                 else if (line.startsWith('ساعت:')) {
                     var timeStr = line.replace('ساعت:', '').trim();
                     var timeParts = timeStr.split(' - ');
-                    if (timeParts.length === 2) { result.manual = true; result.startTime = timeParts[0].trim(); result.endTime = timeParts[1].trim(); result.time = result.startTime; }
-                    else { result.time = timeStr; }
+                    if (timeParts.length === 2) { result.manual = true;
+                        result.startTime = timeParts[0].trim();
+                        result.endTime = timeParts[1].trim();
+                        result.time = result.startTime; } else { result.time = timeStr; }
                 }
             }
             if (!result.venue && !result.activityType && !result.opponent && !result.time) return null;
@@ -5314,28 +6195,39 @@
             });
         }
 
+        // ============================================================
+        // شروع برنامه - بارگذاری از Google Sheets
+        // ============================================================
+
         async function initFromCloud() {
             showNotification('⏳ در حال بارگذاری از Google Sheets...', false);
+
             var cloudData = await loadFromCloud();
+
             if (cloudData) {
                 if (Array.isArray(cloudData.teams) && cloudData.teams.length > 0) {
                     teamNames = cloudData.teams;
                 } else {
                     teamNames = DEFAULT_TEAMS.slice();
                 }
+
                 if (Array.isArray(cloudData.venues) && cloudData.venues.length > 0) {
                     venues = cloudData.venues;
                 } else {
                     venues = DEFAULT_VENUES.slice();
                 }
+
                 sessionConfig = normalizeSessionConfig(cloudData.sessionConfig);
+
                 tableData = normalizeScheduleData(cloudData.scheduleData, teamNames.length);
+
                 if (cloudData.date) {
                     applyDateString(cloudData.date);
                 } else {
                     setDefaultDate();
                     applyDateString(document.getElementById('dateDisplay').textContent);
                 }
+
                 isCloudReady = true;
                 showNotification('✅ داده‌ها از Google Sheets بارگذاری شد', false);
             } else {
@@ -5347,10 +6239,12 @@
                 applyDateString(document.getElementById('dateDisplay').textContent);
                 showNotification('⚠️ اتصال به Google Sheets برقرار نشد. با داده پیش‌فرض شروع شد.', true);
             }
+
             buildTable();
             setupPersianNumberInputs();
             updateFloatingBadge();
             dataReady = true;
+
             if (currentRole === 'view' || pendingViewImage) {
                 pendingViewImage = false;
                 enableViewOnlyMode();
@@ -5361,15 +6255,18 @@
             var newVenueInput = document.getElementById('newVenueInput');
             if (newVenueInput) {
                 newVenueInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') { e.preventDefault(); addNewVenue(); }
+                    if (e.key === 'Enter') { e.preventDefault();
+                        addNewVenue(); }
                 });
             }
             var newTeamInput = document.getElementById('newTeamInput');
             if (newTeamInput) {
                 newTeamInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') { e.preventDefault(); addNewTeam(); }
+                    if (e.key === 'Enter') { e.preventDefault();
+                        addNewTeam(); }
                 });
             }
+
             initFromCloud();
         });
 
