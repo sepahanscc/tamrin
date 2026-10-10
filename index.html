@@ -665,6 +665,46 @@
             display: none !important;
         }
 
+        /* دکمه ویرایش ساعت - فقط موبایل */
+        .edit-time-btn {
+            display: none;
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            border-radius: 50%;
+            background: #1a5276;
+            color: #fff;
+            border: 2px solid #0e3a55;
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+            font-family: Tahoma, Arial, sans-serif;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            position: absolute;
+            bottom: 3px;
+            left: 3px;
+            z-index: 8;
+            opacity: 0.85;
+        }
+
+        .edit-time-btn:active {
+            transform: scale(0.9);
+            background: #0e3a55;
+        }
+
+        /* فقط در دستگاه‌های لمسی نمایش داده میشه */
+        @media (hover: none) and (pointer: coarse) {
+            .edit-time-btn {
+                display: flex;
+            }
+        }
+
         .opponent-box {
             display: none;
             width: 100%;
@@ -803,7 +843,6 @@
             transition: background 0.2s;
             width: 100%;
             max-width: 105px;
-            -webkit-tap-highlight-color: rgba(64, 64, 64, 0.15);
             user-select: none;
             -webkit-user-select: none;
         }
@@ -2083,7 +2122,8 @@
         .slot.locked-view .manual-time-box,
         .slot.locked-view .time-display,
         .slot.locked-view .type-display,
-        .slot.locked-view .opponent-display {
+        .slot.locked-view .opponent-display,
+        .slot.locked-view .edit-time-btn {
             display: none !important;
         }
 
@@ -2392,7 +2432,8 @@
             .session-hover-card,
             .report-modal-overlay,
             .modal-overlay,
-            .cell-clear-btn {
+            .cell-clear-btn,
+            .edit-time-btn {
                 display: none !important;
             }
         }
@@ -2476,6 +2517,15 @@
             .session-hover-card .card-item { font-size: 11px; }
             .session-hover-card .card-item .v-name { min-width: 55px; }
             .session-hover-card .card-item .day-status .d-badge { font-size: 10px; min-width: 18px; line-height: 18px; }
+
+            .edit-time-btn {
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+                font-size: 11px;
+                bottom: 2px;
+                left: 2px;
+            }
 
             .report-modal {
                 width: 98%;
@@ -2707,6 +2757,9 @@
             display: none !important;
         }
         body.view-only-mode .cell-clear-btn {
+            display: none !important;
+        }
+        body.view-only-mode .edit-time-btn {
             display: none !important;
         }
         body.view-only-mode .floating-session-btn,
@@ -3265,6 +3318,8 @@
             }
             var clearBtns = element.querySelectorAll('.cell-clear-btn');
             clearBtns.forEach(function(btn2) { btn2.style.display = 'none'; });
+            var editBtns = element.querySelectorAll('.edit-time-btn');
+            editBtns.forEach(function(btn2) { btn2.style.display = 'none'; });
 
             var app = document.getElementById('app-content');
             app.style.left = '0';
@@ -4771,25 +4826,27 @@
                 }, 50);
             };
 
-            // دسکتاپ: دوبار کلیک
+            // دسکتاپ: دوبار کلیک روی نمایش ساعت
             timeDisplay.addEventListener('dblclick', function(e) {
                 e.stopPropagation();
                 openManualEditor();
             });
 
-            // موبایل: یک لمس (touchend)
-            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-                var lastTouchTime = 0;
-                timeDisplay.addEventListener('touchend', function(e) {
-                    var now = Date.now();
-                    // فقط اگر با دبل‌کلیک تداخل نداشته باشد
-                    if (now - lastTouchTime < 300) return;
-                    lastTouchTime = now;
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openManualEditor();
-                }, { passive: false });
-            }
+            // ===== دکمه ویرایش ساعت - فقط موبایل =====
+            var editTimeBtn = document.createElement('button');
+            editTimeBtn.type = 'button';
+            editTimeBtn.className = 'edit-time-btn no-print';
+            editTimeBtn.textContent = '✎';
+            editTimeBtn.title = 'ویرایش دستی ساعت';
+            editTimeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                openManualEditor();
+            });
+            // جلوگیری از لمس‌های اضافی روی دکمه
+            editTimeBtn.addEventListener('touchend', function(e) {
+                e.stopPropagation();
+            }, { passive: true });
 
             var typeDisplay = document.createElement('div');
             typeDisplay.className = 'type-display';
@@ -4828,6 +4885,7 @@
             slotDiv.appendChild(typeDisplay);
             slotDiv.appendChild(opponentDisplay);
             slotDiv.appendChild(timeDisplay);
+            slotDiv.appendChild(editTimeBtn);
             slotDiv.appendChild(emptyLabel);
             slotDiv.appendChild(printDiv);
             td.appendChild(slotDiv);
@@ -4877,26 +4935,9 @@
 
             // دوبار کلیک روی کل سلول (دسکتاپ)
             slotDiv.addEventListener('dblclick', function(e) {
-                if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn')) return;
+                if (e.target.closest('.time-display') || e.target.closest('.manual-time-box') || e.target.closest('select') || e.target.closest('.cell-clear-btn') || e.target.closest('.edit-time-btn')) return;
                 openManualEditor();
             });
-
-            // یک لمس روی کل سلول (موبایل) - فقط اگر روی عناصر تعاملی نباشد
-            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-                var lastSlotTouchTime = 0;
-                slotDiv.addEventListener('touchend', function(e) {
-                    // اگر روی select، input، دکمه پاک کردن یا باکس دستی بود، کاری نکن
-                    if (e.target.closest('select') || e.target.closest('input') || e.target.closest('.cell-clear-btn') || e.target.closest('.manual-time-box') || e.target.closest('.time-display')) return;
-
-                    var now = Date.now();
-                    if (now - lastSlotTouchTime < 300) return;
-                    lastSlotTouchTime = now;
-
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openManualEditor();
-                }, { passive: false });
-            }
 
             timeSelect.addEventListener('dblclick', function(e) {
                 e.stopPropagation();
@@ -5159,6 +5200,7 @@
             var timeDisplay = slotDiv.querySelector('.time-display');
             var typeDisplay = slotDiv.querySelector('.type-display');
             var opponentDisplay = slotDiv.querySelector('.opponent-display');
+            var editTimeBtn = slotDiv.querySelector('.edit-time-btn');
             var clearBtn = slotDiv.querySelector('.cell-clear-btn') || (slotDiv.closest('td') ? slotDiv.closest('td').querySelector('.cell-clear-btn') : null);
             var row = parseInt(slotDiv.dataset.row, 10);
             var col = parseInt(slotDiv.dataset.col, 10);
@@ -5209,6 +5251,7 @@
                     typeDisplay.textContent = ''; }
                 if (opponentDisplay) { opponentDisplay.style.display = 'none';
                     opponentDisplay.textContent = ''; }
+                if (editTimeBtn) editTimeBtn.style.display = 'none';
                 if (isEmpty) {
                     if (printText) printText.style.display = 'none';
                     if (emptyLabel) { emptyLabel.style.display = 'block';
@@ -5297,11 +5340,21 @@
                     timeDisplay.style.display = 'none'; }
                 if (td) { td.classList.add('empty');
                     td.classList.remove('match-official', 'match-friendly'); }
+                if (editTimeBtn) editTimeBtn.style.display = 'none';
             } else {
                 if (td) td.classList.remove('empty');
                 if (timeDisplay) {
                     timeDisplay.textContent = time;
                     timeDisplay.style.display = (time && !isManualBoxOpen) ? 'block' : 'none';
+                }
+                // دکمه ویرایش فقط وقتی ساعت ثبت شده و فرم باز نیست
+                if (editTimeBtn) {
+                    if (time && !isManualBoxOpen) {
+                        // در موبایل CSS خودش نمایش میده، اینجا فقط استایل inline رو پاک میکنیم
+                        editTimeBtn.style.display = '';
+                    } else {
+                        editTimeBtn.style.display = 'none';
+                    }
                 }
             }
             var wrapper = td ? td.querySelector('.slot-cell-tooltip') : null;
@@ -5695,10 +5748,10 @@
             var lockLabel = document.querySelector('.lock-toggle');
             if (lockLabel) {
                 var checkbox = lockLabel.querySelector('input[type="checkbox"]');
-                var isLocked = checkbox ? checkbox.checked : false;
+                var isLocked2 = checkbox ? checkbox.checked : false;
                 lockLabel.innerHTML = '';
                 if (checkbox) lockLabel.appendChild(checkbox);
-                var textNode = document.createTextNode(isLocked ? ' 🔒 قفل' : ' 🔓 قفل');
+                var textNode = document.createTextNode(isLocked2 ? ' 🔒 قفل' : ' 🔓 قفل');
                 lockLabel.appendChild(textNode);
             }
         }
@@ -5742,25 +5795,20 @@
                     var activityType = (cell.activityType || '').trim();
                     var opponent = (cell.opponent || '').trim();
 
-                    // ===== بررسی دقیق‌تر ساعت =====
                     var hasStart = !!(cell.startTime && String(cell.startTime).trim());
                     var hasEnd = !!(cell.endTime && String(cell.endTime).trim());
                     var hasSimpleTime = !!(cell.time && String(cell.time).trim());
 
-                    // ساعت کامل = یا manual با start و end، یا ساده با time
                     var hasCompleteTime = (cell.manual === true && hasStart && hasEnd) ||
                                           (cell.manual !== true && hasSimpleTime);
 
-                    // هر نوع ساعتی وارد شده باشد (کامل یا ناقص)
                     var hasAnyTime = hasStart || hasEnd || hasSimpleTime;
 
-                    // ===== آیا اصلاً داده‌ای در این سلول هست؟ =====
                     var hasAnyData = venue || hasAnyTime || activityType || opponent;
                     if (!hasAnyData) continue;
 
                     var problems = [];
 
-                    // ۱) زمین دارد ولی ساعت کامل ندارد
                     if (venue && !hasCompleteTime) {
                         if (hasAnyTime) {
                             problems.push('ساعت ناقص است');
@@ -5769,17 +5817,14 @@
                         }
                     }
 
-                    // ۲) ساعت دارد ولی زمین ندارد
                     if (hasAnyTime && !venue) {
                         problems.push('زمین انتخاب نشده');
                     }
 
-                    // ۳) نوع مسابقه است ولی حریف ثبت نشده
                     if ((activityType === 'مسابقه دوستانه' || activityType === 'مسابقه رسمی') && !opponent) {
                         problems.push('نام حریف ثبت نشده');
                     }
 
-                    // ۴) فقط نوع برنامه دارد بدون زمین و ساعت
                     if (activityType && !venue && !hasAnyTime) {
                         if (problems.indexOf('زمین انتخاب نشده') === -1 &&
                             problems.indexOf('ساعت ثبت نشده') === -1 &&
@@ -5788,7 +5833,6 @@
                         }
                     }
 
-                    // ۵) زمین و ساعت دارد ولی نوع برنامه انتخاب نشده
                     if (venue && hasCompleteTime && !activityType) {
                         problems.push('نوع برنامه انتخاب نشده');
                     }
@@ -5816,7 +5860,6 @@
             var moreEl = document.getElementById('incompleteMore');
             var confirmBtn = document.getElementById('incompleteConfirmBtn');
             if (!overlay || !intro || !listEl || !moreEl || !confirmBtn) {
-                // fallback: از confirm استفاده کن
                 if (onConfirm) onConfirm();
                 return;
             }
@@ -5845,7 +5888,6 @@
                 moreEl.textContent = '';
             }
 
-            // دکمه تأیید
             confirmBtn.onclick = function() {
                 closeIncompleteModal();
                 if (onConfirm) onConfirm();
@@ -5862,7 +5904,6 @@
         }
 
         function captureAsJPG() {
-            // بررسی سلول‌های ناقص قبل از خروجی
             var incompleteList = checkIncompleteCells();
             if (incompleteList.length > 0) {
                 openIncompleteModal(incompleteList, function() {
@@ -5890,6 +5931,8 @@
             for (var i = 0; i < slots.length; i++) { updateSlotDisplay(slots[i]); }
             var clearBtns = element.querySelectorAll('.cell-clear-btn');
             clearBtns.forEach(function(btn) { btn.style.display = 'none'; });
+            var editBtns = element.querySelectorAll('.edit-time-btn');
+            editBtns.forEach(function(btn) { btn.style.display = 'none'; });
             html2canvas(element, {
                 scale: 3.5,
                 useCORS: true,
@@ -5924,7 +5967,6 @@
         }
 
         function captureAsPDF() {
-            // بررسی سلول‌های ناقص قبل از خروجی
             var incompleteList = checkIncompleteCells();
             if (incompleteList.length > 0) {
                 openIncompleteModal(incompleteList, function() {
@@ -5952,6 +5994,8 @@
             for (var i = 0; i < slots.length; i++) { updateSlotDisplay(slots[i]); }
             var clearBtns = element.querySelectorAll('.cell-clear-btn');
             clearBtns.forEach(function(btn) { btn.style.display = 'none'; });
+            var editBtns = element.querySelectorAll('.edit-time-btn');
+            editBtns.forEach(function(btn) { btn.style.display = 'none'; });
             html2canvas(element, {
                 scale: 3.0,
                 useCORS: true,
@@ -5996,7 +6040,6 @@
         }
 
         function exportAsExcel() {
-            // بررسی سلول‌های ناقص قبل از خروجی
             var incompleteList = checkIncompleteCells();
             if (incompleteList.length > 0) {
                 openIncompleteModal(incompleteList, function() {
@@ -6162,27 +6205,22 @@
             var cloudData = await loadFromCloud();
 
             if (cloudData) {
-                // تیم‌ها
                 if (Array.isArray(cloudData.teams) && cloudData.teams.length > 0) {
                     teamNames = cloudData.teams;
                 } else {
                     teamNames = DEFAULT_TEAMS.slice();
                 }
 
-                // زمین‌ها
                 if (Array.isArray(cloudData.venues) && cloudData.venues.length > 0) {
                     venues = cloudData.venues;
                 } else {
                     venues = DEFAULT_VENUES.slice();
                 }
 
-                // تنظیمات سانس
                 sessionConfig = normalizeSessionConfig(cloudData.sessionConfig);
 
-                // برنامه
                 tableData = normalizeScheduleData(cloudData.scheduleData, teamNames.length);
 
-                // تاریخ
                 if (cloudData.date) {
                     applyDateString(cloudData.date);
                 } else {
@@ -6193,7 +6231,6 @@
                 isCloudReady = true;
                 showNotification('✅ داده‌ها از Google Sheets بارگذاری شد', false);
             } else {
-                // اگر کلود در دسترس نبود، با پیش‌فرض شروع کن
                 teamNames = DEFAULT_TEAMS.slice();
                 venues = DEFAULT_VENUES.slice();
                 sessionConfig = getDefaultSessionConfig();
@@ -6208,7 +6245,6 @@
             updateFloatingBadge();
             dataReady = true;
 
-            // اگر کاربر با رمز مشاهده وارد شده، تصویر را بساز
             if (currentRole === 'view' || pendingViewImage) {
                 pendingViewImage = false;
                 enableViewOnlyMode();
@@ -6231,7 +6267,6 @@
                 });
             }
 
-            // شروع بارگذاری از کلود
             initFromCloud();
         });
 
